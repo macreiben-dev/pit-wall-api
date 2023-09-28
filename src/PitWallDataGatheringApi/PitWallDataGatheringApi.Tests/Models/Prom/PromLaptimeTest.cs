@@ -35,5 +35,15 @@ namespace PitWallDataGatheringApi.Tests.Models.Prom
 
             Check.That(target.Pilots.Pilot1.LaptimeMilliseconds).IsEqualTo(0);
         }
+
+        [Fact]
+        public void GIVEN_pilot_is_Pilot2_and_lapTime_is_120_THEN_laptime_is_120()
+        {
+            PromLapData target = new PromLapData();
+
+            target.WithPilotLaptime("Pilot2", 120);
+
+            Check.That(target.LaptimeMilliseconds).IsEqualTo(120);
+        }
     }
 }

@@ -23,24 +23,28 @@
 
         public void WithPilotLaptime(string pilotName, int laptimeMilliseconds)
         {
-            if(pilotName == "Pilot2")
+            var pilot = BuildPilot(laptimeMilliseconds);
+
+            switch (pilotName)
             {
-                PromPilot pilot2 = new PromPilot()
-                {
-                    LaptimeMilliseconds = laptimeMilliseconds
-                };
+                case "Pilot1": 
+                    _promPilots.Pilot1 = pilot;
+                    break;
+                case "Pilot2":
+                    _promPilots.Pilot2 = pilot;
+                    break;
 
-                _promPilots.Pilot2 = pilot2;
-
-                return;
             }
 
-            PromPilot pilot = new PromPilot()
+            _laptimeMilliseconds = laptimeMilliseconds;
+        }
+
+        private PromPilot BuildPilot(double laptimeMilliseconds)
+        {
+            return new PromPilot()
             {
                 LaptimeMilliseconds = laptimeMilliseconds
             };
-
-            _promPilots.Pilot1 = pilot;
         }
     }
 }
