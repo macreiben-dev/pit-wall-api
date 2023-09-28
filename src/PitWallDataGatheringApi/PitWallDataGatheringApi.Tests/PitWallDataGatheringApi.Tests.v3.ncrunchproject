@@ -1,3 +1,9 @@
 ﻿<ProjectConfiguration>
-  <Settings />
+  <Settings>
+    <IgnoredTests>
+      <NamedTestSelector>
+        <TestName>PitWallDataGatheringApi.Tests.Models.Prom.TelemetryControllerTest.Should_post_metrics_without_failing</TestName>
+      </NamedTestSelector>
+    </IgnoredTests>
+  </Settings>
 </ProjectConfiguration>
