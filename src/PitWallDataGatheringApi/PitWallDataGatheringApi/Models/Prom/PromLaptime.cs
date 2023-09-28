@@ -23,6 +23,18 @@
 
         public void WithPilotLaptime(string pilotName, int laptimeMilliseconds)
         {
+            if(pilotName == "Pilot2")
+            {
+                PromPilot pilot2 = new PromPilot()
+                {
+                    LaptimeMilliseconds = laptimeMilliseconds
+                };
+
+                _promPilots.Pilot2 = pilot2;
+
+                return;
+            }
+
             PromPilot pilot = new PromPilot()
             {
                 LaptimeMilliseconds = laptimeMilliseconds
