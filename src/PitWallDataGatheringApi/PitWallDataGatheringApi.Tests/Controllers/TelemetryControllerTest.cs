@@ -2,7 +2,7 @@
 using PitWallDataGatheringApi.Controllers;
 using PitWallDataGatheringApi.Models.Apis;
 
-namespace PitWallDataGatheringApi.Tests.Models.Prom
+namespace PitWallDataGatheringApi.Tests.Controllers
 {
     public class TelemetryControllerTest
     {
