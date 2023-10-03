@@ -43,9 +43,9 @@ namespace PitWallDataGatheringApi.Controllers
                 var tyresWears = telemetry.Tyres;
 
                 UpdateGauge(tyresWears.FrontLeftWear, "FrontLeft", _gaugeTyre);
-                UpdateGauge(tyresWears.FrontLeftWear, "FrontRight", _gaugeTyre);
-                UpdateGauge(tyresWears.FrontLeftWear, "RearLeft", _gaugeTyre);
-                UpdateGauge(tyresWears.FrontLeftWear, "RearRight", _gaugeTyre);
+                UpdateGauge(tyresWears.FrontRightWear, "FrontRight", _gaugeTyre);
+                UpdateGauge(tyresWears.ReartLeftWear, "RearLeft", _gaugeTyre);
+                UpdateGauge(tyresWears.RearRightWear, "RearRight", _gaugeTyre);
             }
             // ------
 
