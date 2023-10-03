@@ -33,7 +33,6 @@ namespace PitWallDataGatheringApi.Controllers
         {
             /**
              * Move all this to a repository because it's only technical stuff.
-             * 
              * */
 
             // ------
