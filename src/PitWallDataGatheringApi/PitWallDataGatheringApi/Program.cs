@@ -1,3 +1,5 @@
+using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Services;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,11 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ITyreWearRepository, TyreWearRepository>();
+builder.Services.AddScoped<ILaptimeRepository, LaptimeRepository>();
+
+builder.Services.AddScoped<IPitwallTelemetryService, PitwallTelemetryService>();
 
 var app = builder.Build();
 

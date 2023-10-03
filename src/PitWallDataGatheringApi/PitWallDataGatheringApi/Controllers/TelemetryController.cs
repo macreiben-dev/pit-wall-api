@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitWallDataGatheringApi.Models.Apis;
+using PitWallDataGatheringApi.Services;
 using Prometheus;
 
 namespace PitWallDataGatheringApi.Controllers
@@ -8,57 +9,22 @@ namespace PitWallDataGatheringApi.Controllers
     [ApiController]
     public class TelemetryController : ControllerBase
     {
-        private readonly Gauge _gaugeLapTimes;
-        private readonly Gauge _gaugeTyre;
-        readonly string[] tyreLabels = new[] { "TyreWear" };
-        readonly string[] pilotLabels = new[] { "Pilot" };
+        private readonly IPitwallTelemetryService pitwallTelemetryService;
 
-        public TelemetryController()
+        public TelemetryController(IPitwallTelemetryService pitwallTelemetryService)
         {
-            // ---
-
-            var configTyres = new GaugeConfiguration();
-            configTyres.LabelNames = tyreLabels;
-            _gaugeTyre = Metrics.CreateGauge("FuelAssistant_tyres_percent", "Tyres information.", configTyres);
-
-            // ---
-
-            var config = new GaugeConfiguration();
-            config.LabelNames = pilotLabels;
-            _gaugeLapTimes = Metrics.CreateGauge("FuelAssistant_laptimes_seconds", "Car laptimes in seconds.", config);
+            this.pitwallTelemetryService = pitwallTelemetryService;
         }
 
         [HttpPost]
         public void Post(TelemetryModel telemetry)
         {
-            /**
-             * Move all this to a repository because it's only technical stuff.
-             * */
-
-            // ------
-
-            if (telemetry != null && telemetry.Tyres != null)
-            {
-                var tyresWears = telemetry.Tyres;
-
-                UpdateGauge(tyresWears.FrontLeftWear, "FrontLeft", _gaugeTyre);
-                UpdateGauge(tyresWears.FrontRightWear, "FrontRight", _gaugeTyre);
-                UpdateGauge(tyresWears.ReartLeftWear, "RearLeft", _gaugeTyre);
-                UpdateGauge(tyresWears.RearRightWear, "RearRight", _gaugeTyre);
-            }
-            // ------
-
-            UpdateGauge(telemetry.LaptimeSeconds, telemetry.PilotName, _gaugeLapTimes);
-            UpdateGauge(telemetry.LaptimeSeconds, "All", _gaugeLapTimes);
+            Update(telemetry);
         }
 
-        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
+        private void Update(TelemetryModel telemetry)
         {
-            if (!data.HasValue) {
-                return;
-            }
-
-            gauge.WithLabels(gaugeLabel).Set(data.Value);
+            pitwallTelemetryService.Update(telemetry);
         }
     }
 }
