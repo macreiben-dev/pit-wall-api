@@ -14,7 +14,7 @@ namespace PitWallDataGatheringApi.Tests.Models.Prom
             var original = new TelemetryModel();
 
             original.PilotName = "Pilot1";
-            original.LaptimeMilliseconds = 122;
+            original.LaptimeSeconds = 122.500;
 
             Check.ThatCode(() => target.Post(original)).DoesNotThrow();
         }

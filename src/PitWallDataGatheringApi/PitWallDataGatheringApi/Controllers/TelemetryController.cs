@@ -19,32 +19,47 @@ namespace PitWallDataGatheringApi.Controllers
 
             var configTyres = new GaugeConfiguration();
             configTyres.LabelNames = tyreLabels;
-            _gaugeTyre = Metrics.CreateGauge("FuelAssistant_tyres", "Tyres information.", configTyres);
+            _gaugeTyre = Metrics.CreateGauge("FuelAssistant_tyres_percent", "Tyres information.", configTyres);
 
             // ---
 
             var config = new GaugeConfiguration();
             config.LabelNames = pilotLabels;
-            _gaugeLapTimes = Metrics.CreateGauge("FuelAssistant_laptimes", "Car laptimes in milliseconds.", config);
+            _gaugeLapTimes = Metrics.CreateGauge("FuelAssistant_laptimes_seconds", "Car laptimes in seconds.", config);
         }
 
         [HttpPost]
         public void Post(TelemetryModel telemetry)
         {
-            // ------
-
-            _gaugeTyre.WithLabels("FrontLeft").Set(telemetry.Tyres.FrontLeftWear);
-
-            _gaugeTyre.WithLabels("FrontRight").Set(telemetry.Tyres.FrontRightWear);
-
-            _gaugeTyre.WithLabels("RearLeft").Set(telemetry.Tyres.ReartLeftWear);
-
-            _gaugeTyre.WithLabels("RearRight").Set(telemetry.Tyres.RearRightWear);
+            /**
+             * Move all this to a repository because it's only technical stuff.
+             * 
+             * */
 
             // ------
 
-            _gaugeLapTimes.WithLabels(telemetry.PilotName).Set(telemetry.LaptimeMilliseconds);
-            _gaugeLapTimes.WithLabels("All").Set(telemetry.LaptimeMilliseconds);
+            if (telemetry != null && telemetry.Tyres != null)
+            {
+                var tyresWears = telemetry.Tyres;
+
+                UpdateGauge(tyresWears.FrontLeftWear, "FrontLeft", _gaugeTyre);
+                UpdateGauge(tyresWears.FrontLeftWear, "FrontRight", _gaugeTyre);
+                UpdateGauge(tyresWears.FrontLeftWear, "RearLeft", _gaugeTyre);
+                UpdateGauge(tyresWears.FrontLeftWear, "RearRight", _gaugeTyre);
+            }
+            // ------
+
+            UpdateGauge(telemetry.LaptimeSeconds, telemetry.PilotName, _gaugeLapTimes);
+            UpdateGauge(telemetry.LaptimeSeconds, "All", _gaugeLapTimes);
+        }
+
+        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
+        {
+            if (!data.HasValue) {
+                return;
+            }
+
+            gauge.WithLabels(gaugeLabel).Set(data.Value);
         }
     }
 }
