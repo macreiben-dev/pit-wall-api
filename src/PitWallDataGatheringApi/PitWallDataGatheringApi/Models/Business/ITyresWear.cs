@@ -1,6 +1,6 @@
-﻿namespace PitWallDataGatheringApi.Models.Apis
+﻿namespace PitWallDataGatheringApi.Models.Business
 {
-    public interface ITyres
+    public interface ITyresWear
     {
         double? FrontLeftWear { get; }
         double? FrontRightWear { get; }

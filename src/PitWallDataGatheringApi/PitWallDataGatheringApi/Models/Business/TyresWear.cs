@@ -1,6 +1,6 @@
-﻿namespace PitWallDataGatheringApi.Models.Apis
+﻿namespace PitWallDataGatheringApi.Models.Business
 {
-    public sealed class Tyres : ITyres
+    public sealed class TyresWear : ITyresWear
     {
         public double? FrontLeftWear { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models.Apis;
+using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
-using Prometheus;
 
 namespace PitWallDataGatheringApi.Services
 {
@@ -17,16 +17,16 @@ namespace PitWallDataGatheringApi.Services
             this.laptimeRepository = laptimeRepository;
         }
 
-        public void Update(TelemetryModel telemetry)
+        public void Update(ITelemetryModel telemetry)
         {
             if (telemetry == null)
             {
                 return;
             }
 
-            if (telemetry.Tyres != null)
+            if (telemetry.TyresWear != null)
             {
-                var tyresWears = telemetry.Tyres;
+                var tyresWears = telemetry.TyresWear;
 
                 pitwallTyresPercentRepository.UpdateFrontLeft(tyresWears);
                 pitwallTyresPercentRepository.UpdateFrontRight(tyresWears);

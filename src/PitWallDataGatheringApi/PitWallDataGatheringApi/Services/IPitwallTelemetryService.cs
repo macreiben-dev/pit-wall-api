@@ -1,4 +1,5 @@
 ﻿using PitWallDataGatheringApi.Models.Apis;
+using PitWallDataGatheringApi.Models.Business;
 
 namespace PitWallDataGatheringApi.Services
 {
@@ -8,6 +9,6 @@ namespace PitWallDataGatheringApi.Services
         /// Orchestrater the metric update
         /// </summary>
         /// <param name="telemetry"></param>
-        void Update(TelemetryModel telemetry);
+        void Update(ITelemetryModel telemetry);
     }
 }
