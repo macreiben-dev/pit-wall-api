@@ -15,6 +15,7 @@ builder.Services.AddSingleton<ITyreWearRepository, TyreWearRepository>();
 builder.Services.AddSingleton<ILaptimeRepository, LaptimeRepository>();
 
 builder.Services.AddScoped<IPitwallTelemetryService, PitwallTelemetryService>();
+builder.Services.AddScoped<ITelemetryModelMapper, TelemetryModelMapper>();
 
 var app = builder.Build();
 

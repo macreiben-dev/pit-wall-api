@@ -1,4 +1,4 @@
-﻿using PitWallDataGatheringApi.Models.Apis;
+﻿using PitWallDataGatheringApi.Models.Business;
 using Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories
@@ -22,22 +22,22 @@ namespace PitWallDataGatheringApi.Repositories
             _gaugeTyre = Metrics.CreateGauge(GaugeNamePitwallTyreWearPercent, "Tyres information.", configTyres);
         }
 
-        public void UpdateFrontLeft(ITyres? tyresWears)
+        public void UpdateFrontLeft(ITyresWear? tyresWears)
         {
             UpdateGauge(tyresWears.FrontLeftWear, GaugeLabelFrontLeft, _gaugeTyre);
         }
 
-        public void UpdateFrontRight(ITyres? tyresWears)
+        public void UpdateFrontRight(ITyresWear? tyresWears)
         {
             UpdateGauge(tyresWears.FrontRightWear, GaugeLabelFrontRight, _gaugeTyre);
         }
 
-        public void UpdateRearLeft(ITyres? tyresWears)
+        public void UpdateRearLeft(ITyresWear? tyresWears)
         {
             UpdateGauge(tyresWears.ReartLeftWear, GaugeLabelRearLeft, _gaugeTyre);
         }
 
-        public void UpdateRearRight(ITyres? tyresWears)
+        public void UpdateRearRight(ITyresWear? tyresWears)
         {
             UpdateGauge(tyresWears.RearRightWear, GaugeLabelRearRight, _gaugeTyre);
         }

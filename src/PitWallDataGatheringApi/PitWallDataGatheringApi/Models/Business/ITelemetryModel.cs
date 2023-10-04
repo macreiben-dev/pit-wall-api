@@ -1,9 +1,9 @@
-﻿namespace PitWallDataGatheringApi.Models.Apis
+﻿namespace PitWallDataGatheringApi.Models.Business
 {
     public interface ITelemetryModel
     {
         double? LaptimeSeconds { get; }
         string PilotName { get; }
-        ITyres? Tyres { get; }
+        ITyresWear? TyresWear { get; }
     }
 }

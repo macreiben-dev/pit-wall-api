@@ -1,12 +1,12 @@
-﻿using PitWallDataGatheringApi.Models.Apis;
+﻿using PitWallDataGatheringApi.Models.Business;
 
 namespace PitWallDataGatheringApi.Repositories
 {
     public interface ITyreWearRepository
     {
-        void UpdateFrontLeft(ITyres? tyresWears);
-        void UpdateFrontRight(ITyres? tyresWears);
-        void UpdateRearLeft(ITyres? tyresWears);
-        void UpdateRearRight(ITyres? tyresWears);
+        void UpdateFrontLeft(ITyresWear? tyresWears);
+        void UpdateFrontRight(ITyresWear? tyresWears);
+        void UpdateRearLeft(ITyresWear? tyresWears);
+        void UpdateRearRight(ITyresWear? tyresWears);
     }
 }
