@@ -72,8 +72,12 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             // ARRANGE
             var original = new TelemetryModel();
+            var tyres = new Tyres()
+            {
+                FrontLeftWear = 50.0
+            };
 
-            original.Tyres.FrontLeftWear = 50.0;
+            original.Tyres = tyres;
 
             // ACT
             var target = GetTarget();
@@ -90,8 +94,12 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             // ARRANGE
             var original = new TelemetryModel();
+            var tyres = new Tyres()
+            {
+                FrontRightWear = 51.0
+            };
 
-            original.Tyres.FrontRightWear = 51.0;
+            original.Tyres = tyres;
 
             // ACT
             var target = GetTarget();
@@ -109,7 +117,12 @@ namespace PitWallDataGatheringApi.Tests.Services
             // ARRANGE
             var original = new TelemetryModel();
 
-            original.Tyres.ReartLeftWear = 52.0;
+            var tyres = new Tyres()
+            {
+                ReartLeftWear = 52.0
+            };
+
+            original.Tyres = tyres;
 
             // ACT
             var target = GetTarget();
@@ -127,7 +140,12 @@ namespace PitWallDataGatheringApi.Tests.Services
             // ARRANGE
             var original = new TelemetryModel();
 
-            original.Tyres.RearRightWear = 53.0;
+            var tyres = new Tyres()
+            {
+                RearRightWear = 53.0
+            };
+
+            original.Tyres = tyres;
 
             // ACT
             var target = GetTarget();

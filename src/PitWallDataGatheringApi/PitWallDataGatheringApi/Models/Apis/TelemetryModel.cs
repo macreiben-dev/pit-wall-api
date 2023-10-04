@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Models.Apis
 {
-    public sealed class TelemetryModel
+    public sealed class TelemetryModel : ITelemetryModel
     {
         public TelemetryModel()
         {
@@ -9,6 +9,6 @@
         public string PilotName { get; set; }
         public double? LaptimeSeconds { get; set; }
 
-        public Tyres Tyres { get; set; }
+        public ITyres? Tyres { get; set; }
     }
 }

@@ -15,22 +15,22 @@ namespace PitWallDataGatheringApi.Repositories
             _gaugeTyre = Metrics.CreateGauge("pitwall_tyres_percent", "Tyres information.", configTyres);
         }
 
-        public void UpdateFrontLeft(Tyres? tyresWears)
+        public void UpdateFrontLeft(ITyres? tyresWears)
         {
             UpdateGauge(tyresWears.FrontLeftWear, "FrontLeft", _gaugeTyre);
         }
 
-        public void UpdateFrontRight(Tyres? tyresWears)
+        public void UpdateFrontRight(ITyres? tyresWears)
         {
             UpdateGauge(tyresWears.FrontRightWear, "FrontRight", _gaugeTyre);
         }
 
-        public void UpdateRearLeft(Tyres? tyresWears)
+        public void UpdateRearLeft(ITyres? tyresWears)
         {
             UpdateGauge(tyresWears.ReartLeftWear, "RearLeft", _gaugeTyre);
         }
 
-        public void UpdateRearRight(Tyres? tyresWears)
+        public void UpdateRearRight(ITyres? tyresWears)
         {
             UpdateGauge(tyresWears.RearRightWear, "RearRight", _gaugeTyre);
         }

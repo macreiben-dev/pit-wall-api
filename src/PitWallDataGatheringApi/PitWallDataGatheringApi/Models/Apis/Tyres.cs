@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Models.Apis
 {
-    public sealed class Tyres
+    public sealed class Tyres : ITyres
     {
         public double? FrontLeftWear { get; set; }
 

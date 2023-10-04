@@ -4,9 +4,9 @@ namespace PitWallDataGatheringApi.Repositories
 {
     public interface ITyreWearRepository
     {
-        void UpdateFrontLeft(Tyres? tyresWears);
-        void UpdateFrontRight(Tyres? tyresWears);
-        void UpdateRearLeft(Tyres? tyresWears);
-        void UpdateRearRight(Tyres? tyresWears);
+        void UpdateFrontLeft(ITyres? tyresWears);
+        void UpdateFrontRight(ITyres? tyresWears);
+        void UpdateRearLeft(ITyres? tyresWears);
+        void UpdateRearRight(ITyres? tyresWears);
     }
 }
