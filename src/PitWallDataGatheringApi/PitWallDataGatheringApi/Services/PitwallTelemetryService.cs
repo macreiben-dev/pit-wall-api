@@ -19,13 +19,12 @@ namespace PitWallDataGatheringApi.Services
 
         public void Update(TelemetryModel telemetry)
         {
-            /**
-             * Move all this to a repository because it's only technical stuff.
-             * */
+            if (telemetry == null)
+            {
+                return;
+            }
 
-            // ------
-
-            if (telemetry != null && telemetry.Tyres != null)
+            if (telemetry.Tyres != null)
             {
                 var tyresWears = telemetry.Tyres;
 
