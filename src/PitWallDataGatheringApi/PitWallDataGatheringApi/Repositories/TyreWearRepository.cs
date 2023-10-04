@@ -5,34 +5,41 @@ namespace PitWallDataGatheringApi.Repositories
 {
     public sealed class TyreWearRepository : ITyreWearRepository
     {
-        private readonly Gauge _gaugeTyre;
+        private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
+        private const string GaugeLabelFrontLeft = "FrontLeft";
+        private const string GaugeLabelFrontRight = "FrontRight";
+        private const string GaugeLabelRearLeft = "RearLeft";
+        private const string GaugeLabelRearRight = "RearRight";
+        
         readonly string[] tyreLabels = new[] { "TyreWear" };
+
+        private readonly Gauge _gaugeTyre;
 
         public TyreWearRepository()
         {
             var configTyres = new GaugeConfiguration();
             configTyres.LabelNames = tyreLabels;
-            _gaugeTyre = Metrics.CreateGauge("pitwall_tyres_percent", "Tyres information.", configTyres);
+            _gaugeTyre = Metrics.CreateGauge(GaugeNamePitwallTyreWearPercent, "Tyres information.", configTyres);
         }
 
         public void UpdateFrontLeft(ITyres? tyresWears)
         {
-            UpdateGauge(tyresWears.FrontLeftWear, "FrontLeft", _gaugeTyre);
+            UpdateGauge(tyresWears.FrontLeftWear, GaugeLabelFrontLeft, _gaugeTyre);
         }
 
         public void UpdateFrontRight(ITyres? tyresWears)
         {
-            UpdateGauge(tyresWears.FrontRightWear, "FrontRight", _gaugeTyre);
+            UpdateGauge(tyresWears.FrontRightWear, GaugeLabelFrontRight, _gaugeTyre);
         }
 
         public void UpdateRearLeft(ITyres? tyresWears)
         {
-            UpdateGauge(tyresWears.ReartLeftWear, "RearLeft", _gaugeTyre);
+            UpdateGauge(tyresWears.ReartLeftWear, GaugeLabelRearLeft, _gaugeTyre);
         }
 
         public void UpdateRearRight(ITyres? tyresWears)
         {
-            UpdateGauge(tyresWears.RearRightWear, "RearRight", _gaugeTyre);
+            UpdateGauge(tyresWears.RearRightWear, GaugeLabelRearRight, _gaugeTyre);
         }
 
         private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
