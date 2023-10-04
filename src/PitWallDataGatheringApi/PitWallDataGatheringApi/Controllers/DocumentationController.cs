@@ -12,13 +12,16 @@ namespace PitWallDataGatheringApi.Controllers
     {
         private IDocumentationLaptimeSerie _laptimeSerie;
         private IDocumentationTyresWearSerie _tyresWearSerie;
+        private IDocumentationTyresTemperaturesSerie _temperatureSerie;
 
         public SeriesDocumentationController(
             IDocumentationLaptimeSerie laptimeSerie,
-            IDocumentationTyresWearSerie tyresWearSerie)
+            IDocumentationTyresWearSerie tyresWearSerie,
+            IDocumentationTyresTemperaturesSerie tyresTemperaturesSerie)
         {
             _laptimeSerie = laptimeSerie;
             _tyresWearSerie = tyresWearSerie;
+            _temperatureSerie = tyresTemperaturesSerie;
         }
 
         [HttpGet]
@@ -39,6 +42,13 @@ namespace PitWallDataGatheringApi.Controllers
                     Name = _tyresWearSerie.SerieName,
                     Description = _tyresWearSerie.Description,
                     Labels = _tyresWearSerie.Labels,
+                },
+
+                TyresTemperatures = new OneSerieDocumentation()
+                {
+                    Name = _temperatureSerie.SerieName,
+                    Description = _temperatureSerie.Description,
+                    Labels = _temperatureSerie.Labels,
                 }
             };
 
