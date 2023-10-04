@@ -11,8 +11,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ITyreWearRepository, TyreWearRepository>();
-builder.Services.AddScoped<ILaptimeRepository, LaptimeRepository>();
+builder.Services.AddSingleton<ITyreWearRepository, TyreWearRepository>();
+builder.Services.AddSingleton<ILaptimeRepository, LaptimeRepository>();
 
 builder.Services.AddScoped<IPitwallTelemetryService, PitwallTelemetryService>();
 
