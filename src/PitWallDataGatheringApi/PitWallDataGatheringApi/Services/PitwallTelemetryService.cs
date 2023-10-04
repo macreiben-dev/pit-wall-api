@@ -38,15 +38,5 @@ namespace PitWallDataGatheringApi.Services
 
             laptimeRepository.Update(telemetry.LaptimeSeconds, telemetry.PilotName);
         }
-
-        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
-        {
-            if (!data.HasValue)
-            {
-                return;
-            }
-
-            gauge.WithLabels(gaugeLabel).Set(data.Value);
-        }
     }
 }
