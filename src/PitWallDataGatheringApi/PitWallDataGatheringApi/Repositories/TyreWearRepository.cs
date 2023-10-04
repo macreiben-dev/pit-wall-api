@@ -3,7 +3,7 @@ using Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories
 {
-    public sealed class TyreWearRepository : ITyreWearRepository
+    public sealed class TyreWearRepository : ITyreWearRepository, IDocumentationTyresWearSerie
     {
         private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
         private const string GaugeLabelFrontLeft = "FrontLeft";
@@ -21,6 +21,12 @@ namespace PitWallDataGatheringApi.Repositories
             configTyres.LabelNames = tyreLabels;
             _gaugeTyre = Metrics.CreateGauge(GaugeNamePitwallTyreWearPercent, "Tyres information.", configTyres);
         }
+
+        public string SerieName => GaugeNamePitwallTyreWearPercent;
+
+        public string[] Labels => tyreLabels;
+
+        public string Description => "Current tyre wear as percent.";
 
         public void UpdateFrontLeft(ITyresWear? tyresWears)
         {

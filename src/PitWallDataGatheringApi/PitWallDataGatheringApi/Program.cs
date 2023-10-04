@@ -14,6 +14,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ITyreWearRepository, TyreWearRepository>();
 builder.Services.AddSingleton<ILaptimeRepository, LaptimeRepository>();
 
+builder.Services.AddScoped<IDocumentationLaptimeSerie, LaptimeRepository>();
+builder.Services.AddScoped<IDocumentationTyresWearSerie, TyreWearRepository>();
+
 builder.Services.AddScoped<IPitwallTelemetryService, PitwallTelemetryService>();
 builder.Services.AddScoped<ITelemetryModelMapper, TelemetryModelMapper>();
 
