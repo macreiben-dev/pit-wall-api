@@ -22,7 +22,7 @@ namespace PitWallDataGatheringApi.Repositories
 
         public void UpdateFrontRight(Tyres? tyresWears)
         {
-            UpdateGauge(tyresWears.FrontLeftWear, "FrontRight", _gaugeTyre);
+            UpdateGauge(tyresWears.FrontRightWear, "FrontRight", _gaugeTyre);
         }
 
         public void UpdateRearLeft(Tyres? tyresWears)
