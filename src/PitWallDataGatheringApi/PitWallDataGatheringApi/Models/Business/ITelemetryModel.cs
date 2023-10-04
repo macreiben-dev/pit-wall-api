@@ -3,7 +3,11 @@
     public interface ITelemetryModel
     {
         double? LaptimeSeconds { get; }
+
         string PilotName { get; }
+
         ITyresWear? TyresWear { get; }
+
+        ITyresTemperatures TyresTemperatures { get; }
     }
 }
