@@ -1,5 +1,4 @@
-﻿using PitWallDataGatheringApi.Models.Apis;
-using PitWallDataGatheringApi.Models.Business;
+﻿using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
 
@@ -9,13 +8,16 @@ namespace PitWallDataGatheringApi.Services
     {
         private readonly ITyreWearRepository pitwallTyresPercentRepository;
         private readonly ILaptimeRepository laptimeRepository;
+        private readonly ITyresTemperaturesRepository tyresTemperatures;
 
         public PitwallTelemetryService(
             ITyreWearRepository pitwallTyresPercentRepository,
-            ILaptimeRepository laptimeRepository)
+            ILaptimeRepository laptimeRepository,
+            ITyresTemperaturesRepository tyresTemperatures)
         {
             this.pitwallTyresPercentRepository = pitwallTyresPercentRepository;
             this.laptimeRepository = laptimeRepository;
+            this.tyresTemperatures = tyresTemperatures;
         }
 
         public void Update(ITelemetryModel telemetry)
@@ -33,6 +35,14 @@ namespace PitWallDataGatheringApi.Services
                 pitwallTyresPercentRepository.UpdateFrontRight(tyresWears);
                 pitwallTyresPercentRepository.UpdateRearLeft(tyresWears);
                 pitwallTyresPercentRepository.UpdateRearRight(tyresWears);
+            }
+
+            if (telemetry.TyresTemperatures != null)
+            {
+                tyresTemperatures.UpdateFrontLeft(telemetry.TyresTemperatures);
+                tyresTemperatures.UpdateFrontRight(telemetry.TyresTemperatures);
+                tyresTemperatures.UpdateRearLeft(telemetry.TyresTemperatures);
+                tyresTemperatures.UpdateRearRight(telemetry.TyresTemperatures);
             }
 
             // ------
