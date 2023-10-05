@@ -1,7 +1,7 @@
 ﻿using PitWallDataGatheringApi.Models.Business;
 using Prometheus;
 
-namespace PitWallDataGatheringApi.Repositories
+namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public sealed class TyreWearRepository : ITyreWearRepository, IDocumentationTyresWearSerie
     {
@@ -10,7 +10,7 @@ namespace PitWallDataGatheringApi.Repositories
         private const string GaugeLabelFrontRight = "FrontRight";
         private const string GaugeLabelRearLeft = "RearLeft";
         private const string GaugeLabelRearRight = "RearRight";
-        
+
         readonly string[] tyreLabels = new[] { "TyreWear" };
 
         private readonly Gauge _gaugeTyre;

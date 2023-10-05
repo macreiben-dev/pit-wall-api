@@ -1,6 +1,7 @@
 ﻿using PitWallDataGatheringApi.Models.Apis;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Tyres;
 
 namespace PitWallDataGatheringApi.Services
 {

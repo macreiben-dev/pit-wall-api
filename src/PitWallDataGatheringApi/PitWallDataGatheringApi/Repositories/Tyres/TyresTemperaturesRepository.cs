@@ -1,9 +1,9 @@
 ﻿using PitWallDataGatheringApi.Models.Business;
 using Prometheus;
 
-namespace PitWallDataGatheringApi.Repositories
+namespace PitWallDataGatheringApi.Repositories.Tyres
 {
-    public sealed class TyresTemperaturesRepository 
+    public sealed class TyresTemperaturesRepository
         : ITyresTemperaturesRepository, IDocumentationTyresTemperaturesSerie
     {
         private const string GaugeName = "pitwall_tyres_temperatures_celsius";

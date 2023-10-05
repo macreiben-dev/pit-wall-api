@@ -1,6 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models.Business;
 
-namespace PitWallDataGatheringApi.Repositories
+namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public interface ITyreWearRepository
     {

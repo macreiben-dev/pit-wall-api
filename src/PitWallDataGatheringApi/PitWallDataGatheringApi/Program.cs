@@ -1,4 +1,5 @@
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Services;
 using Prometheus;
 

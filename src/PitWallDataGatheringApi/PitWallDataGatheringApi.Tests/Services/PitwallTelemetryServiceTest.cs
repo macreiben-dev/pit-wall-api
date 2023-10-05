@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Services;
 
 namespace PitWallDataGatheringApi.Tests.Services
