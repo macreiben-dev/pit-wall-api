@@ -1,4 +1,5 @@
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Services;
 using Prometheus;
 
@@ -13,12 +14,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ITyreWearRepository, TyreWearRepository>();
 builder.Services.AddSingleton<ILaptimeRepository, LaptimeRepository>();
+builder.Services.AddSingleton<ITyresTemperaturesRepository, TyresTemperaturesRepository>();
 
 builder.Services.AddScoped<IDocumentationLaptimeSerie, LaptimeRepository>();
 builder.Services.AddScoped<IDocumentationTyresWearSerie, TyreWearRepository>();
+builder.Services.AddScoped<IDocumentationTyresTemperaturesSerie, TyresTemperaturesRepository>();
 
-builder.Services.AddScoped<IPitwallTelemetryService, PitwallTelemetryService>();
-builder.Services.AddScoped<ITelemetryModelMapper, TelemetryModelMapper>();
+builder.Services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
+builder.Services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
 
 var app = builder.Build();
 

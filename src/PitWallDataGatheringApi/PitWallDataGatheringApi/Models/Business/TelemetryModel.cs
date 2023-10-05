@@ -10,5 +10,7 @@
         public double? LaptimeSeconds { get; set; }
 
         public ITyresWear? TyresWear { get; set; }
+
+        public ITyresTemperatures TyresTemperatures { get; set; }
     }
 }

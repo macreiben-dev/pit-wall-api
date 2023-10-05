@@ -10,5 +10,8 @@ namespace PitWallDataGatheringApi.Models.Apis
 
         [DataMember]
         public OneSerieDocumentation Laptimes { get; set; }
+
+        [DataMember]
+        public OneSerieDocumentation TyresTemperatures { get; internal set; }
     }
 }
