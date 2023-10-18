@@ -20,6 +20,11 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    - task: PowerShell@2
+      name: diagnostic
+      inputs:
+        targetType: inline
+        script: 'pwd'
     - task: Docker@2
       displayName: Build an image
       inputs:
