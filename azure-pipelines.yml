@@ -10,6 +10,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  imageName: 'pitwall-api'
 
 stages:
 - stage: Build
@@ -31,6 +32,11 @@ stages:
         buildContext: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi'
         tags: |
           $(tag)
+
+    - task: PowerShell@2
+      inputs:
+        targetType: inline
+        script: cp $(Build.SourcesDirectory)/$(imageName) $(Build.ArtifactStagingDirectory)
 
     - task: PowerShell@2
       inputs:
