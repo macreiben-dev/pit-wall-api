@@ -26,7 +26,7 @@ stages:
         targetType: inline
         script: 'pwd'
     - task: PowerShell@2
-      name: diagnostic
+      name: diagnostic2
       inputs:
         targetType: inline
         script: 'ls'
