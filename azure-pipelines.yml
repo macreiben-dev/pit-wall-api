@@ -22,16 +22,23 @@ stages:
     steps:
 
     - task: Docker@2
+      name: BuildApiImage
       displayName: Build an image
       inputs:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
-        buildContext: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi'
+        buildContext: '$(Build.SourcesDirectory)/src'
         tags: |
           $(tag)
 
-    - task: PowerShell@2
-      displayName: Listing file in source dir
+    - task: CopyFiles@2
       inputs:
-        targetType: inline
-        script: ls $(Build.SourcesDirectory)
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: '$(DockerOutput)'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
