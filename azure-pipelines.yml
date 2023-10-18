@@ -26,14 +26,15 @@ stages:
         targetType: inline
         script: 'pwd'
     - task: PowerShell@2
-      name: diagnostic2
+      displayName: 'Move to src folder'
       inputs:
         targetType: inline
-        script: 'ls'
+        script: 'cd $(Build.SourcesDirectory)/src'
+
     - task: Docker@2
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
+        dockerfile: 'PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
         tags: |
           $(tag)
