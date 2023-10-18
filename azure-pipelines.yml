@@ -25,6 +25,7 @@ stages:
       inputs:
         targetType: inline
         script: 'pwd'
+
     - task: PowerShell@2
       displayName: 'Move to src folder'
       inputs:
@@ -35,6 +36,6 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        dockerfile: 'PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
         tags: |
           $(tag)
