@@ -20,6 +20,17 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
+    - task: PowerShell@2
+      displayName: Listing file in source dir
+      inputs:
+        targetType: inline
+        script: ls $(Build.SourcesDirectory)
+
+    - task: PowerShell@2
+      displayName: Listing file in source dir SRC folder
+      inputs:
+        targetType: inline
+        script: ls $(Build.SourcesDirectory)/src
 
     - task: Docker@2
       displayName: Build an image
