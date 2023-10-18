@@ -27,5 +27,6 @@ stages:
         command: build
         dockerfile: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)'
+        arguments: --progress=plain
         tags: |
           $(tag)
