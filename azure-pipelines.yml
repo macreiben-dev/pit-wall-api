@@ -32,16 +32,10 @@ stages:
         tags: |
           $(tag)
 
-    - task: CopyFiles@2
-      inputs:
-        SourceFolder: '$(Build.SourcesDirectory)'
-        Contents: '$(DockerOutput)'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
     - task: PowerShell@2
       inputs:
         targetType: inline
-        script: ls
+        script: ls $(Build.ArtifactStagingDirectory)
 
     - task: PublishBuildArtifacts@1
       inputs:
