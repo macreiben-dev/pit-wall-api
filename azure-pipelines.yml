@@ -26,6 +26,7 @@ stages:
       displayName: Build an image
       inputs:
         command: build
+        repository: '$(Build.ArtifactStagingDirectory)/pitwall-api'
         dockerfile: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
         buildContext: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi'
         tags: |
