@@ -33,6 +33,12 @@ stages:
         tags: |
           $(tag)
 
+
+    - task: PowerShell@2
+      inputs:
+        targetType: inline
+        script: ls $(Build.SourcesDirectory)/src
+
     - task: PowerShell@2
       inputs:
         targetType: inline
