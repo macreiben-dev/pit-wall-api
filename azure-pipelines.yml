@@ -13,28 +13,27 @@ variables:
   imageName: 'pitwall-api'
 
 stages:
-- stage: BuildAndTest
-  displayName: Build and run tests
+- stage: ContinuousIntegration
+  displayName: Local Build and Tests
   jobs:
-  - job: BuildAndTest
-    pool:
-      vmImage: ubuntu-latest
+  - job: BuildAndRunTests
+    displayName: Build solution and run tests
     steps:
-    - task: NuGetCommand@2
+    - task: DotNetCoreCLI@2
+      displayName: Restore package
       inputs:
         command: 'restore'
-        restoreSolution: '**/*.sln'
-        feedsToUse: 'select'
+        projects: 'src/fuel-assistant-api.sln'
+        workingDirectory: 'src'
     - task: DotNetCoreCLI@2
+      displayName: Build solution
       inputs:
         command: 'build'
-        projects: '**/*.sln'
+        projects: 'src/fuel-assistant-api.sln'
+        workingDirectory: 'src'
     - task: DotNetCoreCLI@2
+      displayName: Run tests
       inputs:
         command: 'test'
-        projects: '**/*.sln'
-    - task: PublishBuildArtifacts@1
-      inputs:
-        PathtoPublish: '$(Build.SourcesDirectory)'
-        ArtifactName: 'drop'
-        publishLocation: 'Container'
+        projects: 'src/fuel-assistant-api.sln'
+        workingDirectory: 'src'
