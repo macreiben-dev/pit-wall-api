@@ -33,23 +33,6 @@ stages:
         tags: |
           $(tag)
 
-
-    - task: PowerShell@2
-      inputs:
-        targetType: inline
-        script: ls $(Build.SourcesDirectory)/src
-
-    - task: PowerShell@2
-      inputs:
-        targetType: inline
-        script: ls $(Build.SourcesDirectory)/src/PitWallDataGatheringApi
-
-
-    - task: PowerShell@2
-      inputs:
-        targetType: inline
-        script: ls $(Build.ArtifactStagingDirectory)
-
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
