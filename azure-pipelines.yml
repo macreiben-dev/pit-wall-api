@@ -33,27 +33,6 @@ stages:
       inputs:
         command: 'test'
         projects: '**/*.sln'
-
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-
-    - task: Docker@2
-      name: BuildApiImage
-      displayName: Build an image
-      inputs:
-        command: build
-        repository: pitwall-api
-        dockerfile: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile'
-        buildContext: '$(Build.SourcesDirectory)/src/PitWallDataGatheringApi'
-        tags: |
-          $(tag)
-
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.SourcesDirectory)'
