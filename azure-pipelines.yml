@@ -37,3 +37,9 @@ stages:
         command: 'test'
         projects: 'src/fuel-assistant-api.sln'
         workingDirectory: 'src'
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.SourcesDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
