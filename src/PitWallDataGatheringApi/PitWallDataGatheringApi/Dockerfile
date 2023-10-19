@@ -7,8 +7,6 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
-RUN pwd
-
 WORKDIR /src
 COPY ["PitWallDataGatheringApi/PitWallDataGatheringApi.csproj", "PitWallDataGatheringApi/"]
 RUN dotnet restore "PitWallDataGatheringApi/PitWallDataGatheringApi.csproj"
