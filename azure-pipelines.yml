@@ -23,20 +23,20 @@ stages:
       displayName: Restore package
       inputs:
         command: 'restore'
-        projects: 'src/fuel-assistant-api.sln'
-        workingDirectory: 'src'
+        projects: '**/*.sln'
+        workingDirectory: 'src/PitWallDataGatheringApi'
     - task: DotNetCoreCLI@2
       displayName: Build solution
       inputs:
         command: 'build'
-        projects: 'src/fuel-assistant-api.sln'
-        workingDirectory: 'src'
+        projects: '**/*.sln'
+        workingDirectory: 'src/PitWallDataGatheringApi'
     - task: DotNetCoreCLI@2
       displayName: Run tests
       inputs:
         command: 'test'
-        projects: 'src/fuel-assistant-api.sln'
-        workingDirectory: 'src'
+        projects: '**/*.sln'
+        workingDirectory: 'src/PitWallDataGatheringApi'
 
     - task: PublishBuildArtifacts@1
       inputs:
