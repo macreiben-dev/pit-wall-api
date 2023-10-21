@@ -24,6 +24,8 @@ services:
   vortex:
     image: pitwalldatagatheringapi:latest
     container_name: pitwalldatagatheringapi
+    environment:
+      - VortexSimerKey=some_key
     ports:
       - 32772:443
       - 32773:80

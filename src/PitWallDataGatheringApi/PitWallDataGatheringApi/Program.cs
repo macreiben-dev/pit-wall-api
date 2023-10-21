@@ -5,6 +5,9 @@ using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -23,7 +26,21 @@ builder.Services.AddScoped<IDocumentationTyresTemperaturesSerie, TyresTemperatur
 builder.Services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
 builder.Services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
 
+builder.Services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
+
 var app = builder.Build();
+
+var simerKey = app.Services.GetService<ISimerKeyRepository>()
+    .Key;
+
+if (string.IsNullOrEmpty(simerKey))
+{
+    app.Logger.Log(LogLevel.Error, $"Simer key loaded: [{simerKey}]");
+}
+else
+{
+    app.Logger.Log(LogLevel.Information, $"Simer key loaded: [{simerKey}]");
+}
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
