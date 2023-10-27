@@ -24,9 +24,27 @@ namespace PitWallDataGatheringApi.Tests.Services
         private PitwallTelemetryService GetTarget()
         {
             return new PitwallTelemetryService(
-                _tyreWearRepository, 
+                _tyreWearRepository,
                 _laptimeRepository,
                 _tyreTemperature);
+        }
+
+
+        public static TestContextPitwallTelemetryService GetTargetTestContext()
+        {
+            var tyreWearRepository = Substitute.For<ITyreWearRepository>();
+
+            var laptimeRepository = Substitute.For<ILaptimeRepository>();
+
+            var tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
+
+            var target = new PitwallTelemetryService(
+                tyreWearRepository,
+                laptimeRepository,
+                tyreTemperature);
+
+            return new TestContextPitwallTelemetryService(
+                target, tyreWearRepository, tyreTemperature, laptimeRepository);
         }
 
         [Fact]
@@ -57,228 +75,246 @@ namespace PitWallDataGatheringApi.Tests.Services
         }
 
 
-        #region tyre wear
-
-        [Fact]
-        public void GIVEN_telemetry_with_TyresWear_isNull_THEN_should_not_updateTyres()
+        public class TyreWearTest
         {
-            var original = new TelemetryModel();
+            private TestContextPitwallTelemetryService _context;
 
-            original.TyresWear = null;
-
-            // ACT
-            var target = GetTarget();
-
-            target.Update(original);
-
-            // ASSERT
-            _tyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<ITyresWear>());
-            _tyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<ITyresWear>());
-            _tyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<ITyresWear>());
-            _tyreWearRepository.Received(0).UpdateRearRight(Arg.Any<ITyresWear>());
-        }
-
-        [Fact]
-        public void GIVEN_telemetry_with_tyreWear_THEN_updateFrontLeft()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-            var tyres = new TyresWear()
+            public TyreWearTest()
             {
-                FrontLeftWear = 50.0
-            };
+                _context = GetTargetTestContext();
+            }
 
-            original.TyresWear = tyres;
-
-            // ACT
-            var target = GetTarget();
-
-            target.Update(original);
-
-            // ASSERT
-            _tyreWearRepository.Received(1).UpdateFrontLeft(
-                Arg.Is<TyresWear>(c => c.FrontLeftWear == 50.0));
-        }
-
-        [Fact]
-        public void GIVEN_telemetry_with_tyreWear_THEN_updateFrontRight()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-            var tyres = new TyresWear()
+            [Fact]
+            public void GIVEN_telemetry_with_TyresWear_isNull_THEN_should_not_updateTyres()
             {
-                FrontRightWear = 51.0
-            };
+                var original = new TelemetryModel();
 
-            original.TyresWear = tyres;
+                original.TyresWear = null;
 
-            // ACT
-            var target = GetTarget();
+                // ACT
+                var target = _context.Target;
 
-            target.Update(original);
+                target.Update(original);
 
-            // ASSERT
-            _tyreWearRepository.Received(1).UpdateFrontRight(
-                Arg.Is<TyresWear>(c => c.FrontRightWear == 51.0));
-        }
+                // ASSERT
+                _context.TyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<ITyresWear>());
+                _context.TyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<ITyresWear>());
+                _context.TyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<ITyresWear>());
+                _context.TyreWearRepository.Received(0).UpdateRearRight(Arg.Any<ITyresWear>());
+            }
 
-        [Fact]
-        public void GIVEN_telemetry_with_tyreWear_THEN_updateRearLeft()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-
-            var tyres = new TyresWear()
+            [Fact]
+            public void GIVEN_telemetry_with_tyreWear_THEN_updateFrontLeft()
             {
-                ReartLeftWear = 52.0
-            };
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresWear()
+                {
+                    FrontLeftWear = 50.0
+                };
 
-            original.TyresWear = tyres;
+                original.TyresWear = tyres;
 
-            // ACT
-            var target = GetTarget();
+                // ACT
+                var target = _context.Target;
 
-            target.Update(original);
+                target.Update(original);
 
-            // ASSERT
-            _tyreWearRepository.Received(1).UpdateRearLeft(
-                Arg.Is<TyresWear>(c => c.ReartLeftWear == 52.0));
-        }
+                // ASSERT
+                _context.TyreWearRepository.Received(1).UpdateFrontLeft(
+                    Arg.Is<TyresWear>(c => c.FrontLeftWear == 50.0));
+            }
 
-        [Fact]
-        public void GIVEN_telemetry_with_tyreWear_THEN_updateRearRight()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-
-            var tyres = new TyresWear()
+            [Fact]
+            public void GIVEN_telemetry_with_tyreWear_THEN_updateFrontRight()
             {
-                RearRightWear = 53.0
-            };
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresWear()
+                {
+                    FrontRightWear = 51.0
+                };
 
-            original.TyresWear = tyres;
+                original.TyresWear = tyres;
 
-            // ACT
-            var target = GetTarget();
+                // ACT
+                var target = _context.Target;
 
-            target.Update(original);
+                target.Update(original);
 
-            // ASSERT
-            _tyreWearRepository.Received(1).UpdateRearRight(
-                Arg.Is<TyresWear>(c => c.RearRightWear == 53.0));
-        }
+                // ASSERT
+                _context.TyreWearRepository.Received(1).UpdateFrontRight(
+                    Arg.Is<TyresWear>(c => c.FrontRightWear == 51.0));
+            }
 
-        #endregion tyre wear
-
-        #region tyre temperature
-
-        [Fact]
-        public void GIVEN_telemetry_with_TyresTemperatyres_isNull_THEN_should_not_updateTyres()
-        {
-            var original = new TelemetryModel();
-
-            original.TyresWear = null;
-
-            // ACT
-            var target = GetTarget();
-
-            target.Update(original);
-
-            // ASSERT
-            _tyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<ITyresTemperatures>());
-            _tyreTemperature.Received(0).UpdateFrontRight(Arg.Any<ITyresTemperatures>());
-            _tyreTemperature.Received(0).UpdateRearLeft(Arg.Any<ITyresTemperatures>());
-            _tyreTemperature.Received(0).UpdateRearRight(Arg.Any<ITyresTemperatures>());
-        }
-
-        [Fact]
-        public void GIVEN_telemetry_with_tyreTemperature_THEN_updateFrontLeft()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-            var tyres = new TyresTemperatures()
+            [Fact]
+            public void GIVEN_telemetry_with_tyreWear_THEN_updateRearLeft()
             {
-                FrontLeftTemp = 50.0
-            };
+                // ARRANGE
+                var original = new TelemetryModel();
 
-            original.TyresTemperatures = tyres;
+                var tyres = new TyresWear()
+                {
+                    ReartLeftWear = 52.0
+                };
 
-            // ACT
-            var target = GetTarget();
+                original.TyresWear = tyres;
 
-            target.Update(original);
+                // ACT
+                var target = _context.Target;
 
-            // ASSERT
-            _tyreTemperature.Received(1).UpdateFrontLeft(
-                Arg.Is<TyresTemperatures>(c => c.FrontLeftTemp == 50.0));
-        }
+                target.Update(original);
 
-        [Fact]
-        public void GIVEN_telemetry_with_tyreTemperature_THEN_updateFrontRight()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-            var tyres = new TyresTemperatures()
+                // ASSERT
+                _context.TyreWearRepository.Received(1).UpdateRearLeft(
+                    Arg.Is<TyresWear>(c => c.ReartLeftWear == 52.0));
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_tyreWear_THEN_updateRearRight()
             {
-                FrontRightTemp = 50.0
-            };
+                // ARRANGE
+                var original = new TelemetryModel();
 
-            original.TyresTemperatures = tyres;
+                var tyres = new TyresWear()
+                {
+                    RearRightWear = 53.0
+                };
 
-            // ACT
-            var target = GetTarget();
+                original.TyresWear = tyres;
 
-            target.Update(original);
+                // ACT
+                var target = _context.Target;
 
-            // ASSERT
-            _tyreTemperature.Received(1).UpdateFrontRight(
-                Arg.Is<TyresTemperatures>(c => c.FrontRightTemp == 50.0));
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreWearRepository.Received(1).UpdateRearRight(
+                    Arg.Is<TyresWear>(c => c.RearRightWear == 53.0));
+            }
         }
 
-        [Fact]
-        public void GIVEN_telemetry_with_tyreTemperature_THEN_updateRearLeft()
+        public class TyresTemperaturesTest
         {
-            // ARRANGE
-            var original = new TelemetryModel();
-            var tyres = new TyresTemperatures()
+            private TestContextPitwallTelemetryService _context;
+
+            public TyresTemperaturesTest()
             {
-                RearLeftTemp = 50.0
-            };
+                _context = GetTargetTestContext();
+            }
 
-            original.TyresTemperatures = tyres;
+            [Fact]
+            public void GIVEN_telemetry_with_TyresTemperatyres_isNull_THEN_should_not_updateTyres()
+            {
+                var original = new TelemetryModel();
 
-            // ACT
-            var target = GetTarget();
+                original.TyresWear = null;
 
-            target.Update(original);
+                // ACT
+                var target = _context.Target;
 
-            // ASSERT
-            _tyreTemperature.Received(1).UpdateRearLeft(
-                Arg.Is<TyresTemperatures>(c => c.RearLeftTemp == 50.0));
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<ITyresTemperatures>());
+                _context.TyreTemperature.Received(0).UpdateFrontRight(Arg.Any<ITyresTemperatures>());
+                _context.TyreTemperature.Received(0).UpdateRearLeft(Arg.Any<ITyresTemperatures>());
+                _context.TyreTemperature.Received(0).UpdateRearRight(Arg.Any<ITyresTemperatures>());
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateFrontLeft()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    FrontLeftTemp = 50.0
+                };
+
+                original.TyresTemperatures = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(1).UpdateFrontLeft(
+                    Arg.Is<TyresTemperatures>(c => c.FrontLeftTemp == 50.0));
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateFrontRight()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    FrontRightTemp = 50.0
+                };
+
+                original.TyresTemperatures = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(1).UpdateFrontRight(
+                    Arg.Is<TyresTemperatures>(c => c.FrontRightTemp == 50.0));
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateRearLeft()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    RearLeftTemp = 50.0
+                };
+
+                original.TyresTemperatures = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(1).UpdateRearLeft(
+                    Arg.Is<TyresTemperatures>(c => c.RearLeftTemp == 50.0));
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateRearRight()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    RearRightTemp = 50.0
+                };
+
+                original.TyresTemperatures = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(1).UpdateRearRight(
+                    Arg.Is<TyresTemperatures>(c => c.RearRightTemp == 50.0));
+            }
         }
 
-        [Fact]
-        public void GIVEN_telemetry_with_tyreTemperature_THEN_updateRearRight()
-        {
-            // ARRANGE
-            var original = new TelemetryModel();
-            var tyres = new TyresTemperatures()
-            {
-                RearRightTemp = 50.0
-            };
+        #region Weather conditions
 
-            original.TyresTemperatures = tyres;
 
-            // ACT
-            var target = GetTarget();
 
-            target.Update(original);
-
-            // ASSERT
-            _tyreTemperature.Received(1).UpdateRearRight(
-                Arg.Is<TyresTemperatures>(c => c.RearRightTemp == 50.0));
-        }
-
-        #endregion tyre temperature
+        #endregion Weather conditions
     }
 }
