@@ -1,6 +1,8 @@
 ﻿using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
+using PitWallDataGatheringApi.Repositories.WeatherConditions;
+using System.Runtime.InteropServices;
 
 namespace PitWallDataGatheringApi.Services
 {
@@ -9,15 +11,21 @@ namespace PitWallDataGatheringApi.Services
         private readonly ITyreWearRepository pitwallTyresPercentRepository;
         private readonly ILaptimeRepository laptimeRepository;
         private readonly ITyresTemperaturesRepository tyresTemperatures;
+        private readonly IAvgWetnessRepository avgWetnessRepository;
+        private readonly IAirTemperatureRepository airTemperatureRepository;
 
         public PitwallTelemetryService(
             ITyreWearRepository pitwallTyresPercentRepository,
             ILaptimeRepository laptimeRepository,
-            ITyresTemperaturesRepository tyresTemperatures)
+            ITyresTemperaturesRepository tyresTemperatures,
+            IAvgWetnessRepository avgWetnessRepository,
+            IAirTemperatureRepository airTemperatureRepository)
         {
             this.pitwallTyresPercentRepository = pitwallTyresPercentRepository;
             this.laptimeRepository = laptimeRepository;
             this.tyresTemperatures = tyresTemperatures;
+            this.avgWetnessRepository = avgWetnessRepository;
+            this.airTemperatureRepository = airTemperatureRepository;
         }
 
         public void Update(ITelemetryModel telemetry)
@@ -47,7 +55,23 @@ namespace PitWallDataGatheringApi.Services
 
             // ------
 
-            laptimeRepository.Update(telemetry.LaptimeSeconds, telemetry.PilotName);
+            laptimeRepository.Update(
+                telemetry.LaptimeSeconds,
+                telemetry.PilotName);
+
+            if (telemetry.AvgWetness != null)
+            {
+                avgWetnessRepository.Update(
+                    telemetry.AvgWetness,
+                    telemetry.PilotName);
+            }
+
+            if (telemetry.AirTemperature != null)
+            {
+                airTemperatureRepository.Update(
+                    telemetry.AirTemperature,
+                    telemetry.PilotName);
+            }
         }
     }
 }

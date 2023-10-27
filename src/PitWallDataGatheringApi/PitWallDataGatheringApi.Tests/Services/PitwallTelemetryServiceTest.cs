@@ -2,6 +2,7 @@
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
+using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Services;
 
 namespace PitWallDataGatheringApi.Tests.Services
@@ -26,9 +27,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             return new PitwallTelemetryService(
                 _tyreWearRepository,
                 _laptimeRepository,
-                _tyreTemperature);
+                _tyreTemperature,
+                Substitute.For<IAvgWetnessRepository>(), 
+                Substitute.For<IAirTemperatureRepository>());
         }
-
 
         public static TestContextPitwallTelemetryService GetTargetTestContext()
         {
@@ -38,13 +40,24 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             var tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
 
+            var avgWetnessRepository = Substitute.For<IAvgWetnessRepository>();
+
+            var airTemperature = Substitute.For<IAirTemperatureRepository>();
+
             var target = new PitwallTelemetryService(
                 tyreWearRepository,
                 laptimeRepository,
-                tyreTemperature);
+                tyreTemperature,
+                avgWetnessRepository, 
+                airTemperature);
 
             return new TestContextPitwallTelemetryService(
-                target, tyreWearRepository, tyreTemperature, laptimeRepository);
+                target, 
+                tyreWearRepository, 
+                tyreTemperature, 
+                laptimeRepository, 
+                avgWetnessRepository,
+                airTemperature);
         }
 
         [Fact]
@@ -73,7 +86,6 @@ namespace PitWallDataGatheringApi.Tests.Services
             // ASSERT
             _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
         }
-
 
         public class TyreWearTest
         {
@@ -311,10 +323,89 @@ namespace PitWallDataGatheringApi.Tests.Services
             }
         }
 
-        #region Weather conditions
+        public class WeatherConditionsTest
+        {
+            private TestContextPitwallTelemetryService _context;
 
+            public WeatherConditionsTest()
+            {
+                _context = GetTargetTestContext();
+            }
 
+            [Fact]
+            public void GIVEN_telemetry_with_nullAvgWetness_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
 
-        #endregion Weather conditions
+                original.AvgWetness = null;
+                original.PilotName = "Pilot1";
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.AvgWetnessRepository.Received(0)
+                    .Update(Arg.Any<double?>(), Arg.Any<string>());
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_avgWetness_THEN_update_data_AND_set_pilotName()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                
+                original.AvgWetness= 5.0;
+                original.PilotName = "Pilot1";
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.AvgWetnessRepository.Received(1).Update(5.0, "Pilot1");
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_nullAirTemperature_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.AirTemperature = null;
+                original.PilotName = "Pilot1";
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.AirTemperature.Received(0)
+                    .Update(Arg.Any<double?>(), Arg.Any<string>());
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_airTemperatyre_THEN_update_data_AND_set_pilotName()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.AirTemperature = 5.0;
+                original.PilotName = "Pilot1";
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.AirTemperature.Received(1).Update(5.0, "Pilot1");
+            }
+
+        }
     }
 }
