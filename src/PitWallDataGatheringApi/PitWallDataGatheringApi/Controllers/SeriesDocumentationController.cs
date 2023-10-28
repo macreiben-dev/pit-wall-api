@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using PitWallDataGatheringApi.Models.Apis;
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Tyres;
+using PitWallDataGatheringApi.Repositories.WeatherConditions;
 
 namespace PitWallDataGatheringApi.Controllers
 {
@@ -12,15 +14,21 @@ namespace PitWallDataGatheringApi.Controllers
         private IDocumentationLaptimeSerie _laptimeSerie;
         private IDocumentationTyresWearSerie _tyresWearSerie;
         private IDocumentationTyresTemperaturesSerie _temperatureSerie;
+        private IDocumentationAvgWetnessSerie _avgRoadWetnessSerie;
+        private IDocumentationAirTemperatureSerie _airTempSerie;
 
         public SeriesDocumentationController(
             IDocumentationLaptimeSerie laptimeSerie,
             IDocumentationTyresWearSerie tyresWearSerie,
-            IDocumentationTyresTemperaturesSerie tyresTemperaturesSerie)
+            IDocumentationTyresTemperaturesSerie tyresTemperaturesSerie,
+            IDocumentationAvgWetnessSerie avgWetnessSerie,
+            IDocumentationAirTemperatureSerie airTempSerie)
         {
             _laptimeSerie = laptimeSerie;
             _tyresWearSerie = tyresWearSerie;
             _temperatureSerie = tyresTemperaturesSerie;
+            _avgRoadWetnessSerie = avgWetnessSerie;
+            _airTempSerie = airTempSerie;
         }
 
         [HttpGet]
@@ -48,6 +56,20 @@ namespace PitWallDataGatheringApi.Controllers
                     Name = _temperatureSerie.SerieName,
                     Description = _temperatureSerie.Description,
                     Labels = _temperatureSerie.Labels,
+                },
+
+                AvgRoadWetness = new OneSerieDocumentation()
+                {
+                    Name = _avgRoadWetnessSerie.SerieName,
+                    Description = _avgRoadWetnessSerie.Description,
+                    Labels = _avgRoadWetnessSerie.Labels
+                },
+
+                AirTemperature = new OneSerieDocumentation()
+                {
+                    Name = _airTempSerie.SerieName,
+                    Description = _airTempSerie.Description,
+                    Labels = _airTempSerie.Labels
                 }
             };
 

@@ -13,5 +13,7 @@ namespace PitWallDataGatheringApi.Models.Apis
 
         [DataMember]
         public OneSerieDocumentation TyresTemperatures { get; internal set; }
+        public OneSerieDocumentation AvgRoadWetness { get; internal set; }
+        public OneSerieDocumentation AirTemperature { get; internal set; }
     }
 }

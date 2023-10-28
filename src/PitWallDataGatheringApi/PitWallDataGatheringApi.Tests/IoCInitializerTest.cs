@@ -1,24 +1,41 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using NFluent;
+using PitWallDataGatheringApi.Controllers;
 
 namespace PitWallDataGatheringApi.Tests
 {
     public class IoCInitializerTest
     {
-        [Fact]
-        public void WHEN_iocPart_defined_THEN_doNot_fail()
+        private IServiceCollection _services;
+        private WebApplication _app;
+
+        public IoCInitializerTest()
         {
             var builder = WebApplication.CreateBuilder();
 
+            builder.Services.AddSingleton<SeriesDocumentationController>();
+            builder.Services.AddSingleton<TelemetryController>();
+            builder.Services.AddSingleton<HealthCheckController>();
+
             IoCInitializer.Initialize(builder.Services);
 
-            var app = builder.Build();
+            _services = builder.Services;
 
-            var services = builder.Services
+            _app = builder.Build();
+        }
+
+        [Fact]
+        public void WHEN_iocPart_defined_THEN_doNot_fail()
+        {
+            var services = _services
                 .Where(c => c.ServiceType.AssemblyQualifiedName.StartsWith("PitWallDataGatheringApi"));
 
             foreach (var service in services)
             {
-                var current = app.Services.GetService(service.ServiceType);
+                Check.ThatCode(() => 
+                    _app.Services.GetService(service.ServiceType))
+                    .DoesNotThrow();
             }
         }
     }

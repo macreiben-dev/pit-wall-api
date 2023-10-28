@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public sealed class AirTemperatureRepository : IDocumentationLaptimeSerie, IAirTemperatureRepository
+    public sealed class AirTemperatureRepository : IDocumentationAirTemperatureSerie, IAirTemperatureRepository
     {
         private const string LocalSerieName = "air_temperature_celsius";
         private readonly Gauge _gauge;
