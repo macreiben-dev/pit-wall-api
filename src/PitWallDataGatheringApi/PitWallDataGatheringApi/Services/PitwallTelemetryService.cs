@@ -2,7 +2,6 @@
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
-using System.Runtime.InteropServices;
 
 namespace PitWallDataGatheringApi.Services
 {

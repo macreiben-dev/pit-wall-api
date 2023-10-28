@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using PitWallDataGatheringApi.Models.Apis;
 using PitWallDataGatheringApi.Repositories;
-using System.Text.Json.Serialization;
 
 namespace PitWallDataGatheringApi.Controllers
 {
