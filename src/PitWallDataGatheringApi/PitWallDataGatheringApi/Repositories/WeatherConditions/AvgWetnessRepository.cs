@@ -4,7 +4,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
     public sealed class AvgWetnessRepository : IDocumentationAvgWetnessSerie, IAvgWetnessRepository
     {
-        private const string LocalSerieName = "road_wetness_avg_percent";
+        private const string LocalSerieName = "pitwall_road_wetness_avg_percent";
         private readonly Gauge _gauge;
         readonly string[] _labels = new[] { "Pilot" };
 
