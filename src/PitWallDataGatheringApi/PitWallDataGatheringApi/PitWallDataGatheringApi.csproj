@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>4f171a1c-95f8-45b4-bae5-1578d1855275</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	<DockerfileRunEnvironmentFiles>settings.env</DockerfileRunEnvironmentFiles>
+	<DockerfileRunEnvironmentFiles>settings.env</DockerfileRunEnvironmentFiles>
   </PropertyGroup>
 
   <ItemGroup>
