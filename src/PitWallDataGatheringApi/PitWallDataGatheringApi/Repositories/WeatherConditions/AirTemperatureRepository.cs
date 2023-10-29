@@ -26,15 +26,15 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
                 config);
         }
 
-        public void Update(double? laptime, string pilotName)
+        public void Update(double? data, string pilotName)
         {
             UpdateGauge(
-               laptime,
+               data,
                pilotName,
                _gauge);
 
             UpdateGauge(
-                laptime,
+                data,
                 "All",
                 _gauge);
         }
