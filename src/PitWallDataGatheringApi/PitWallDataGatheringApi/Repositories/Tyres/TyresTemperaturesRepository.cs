@@ -45,36 +45,36 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateFrontLeft(ITyresTemperatures? data, string pilotName)
         {
-            UpdateGauge(data.FrontLeftTemp, GaugeLabelFrontLeft, _gaugeFrontLeftTyre, pilotName);
-            UpdateGauge(data.FrontLeftTemp, GaugeLabelFrontLeft, _gaugeFrontLeftTyre, "All");
+            UpdateGauge(data.FrontLeftTemp, pilotName, _gaugeFrontLeftTyre);
+            UpdateGauge(data.FrontLeftTemp, "All", _gaugeFrontLeftTyre);
         }
 
         public void UpdateFrontRight(ITyresTemperatures? data, string pilotName)
         {
-            UpdateGauge(data.FrontRightTemp, GaugeLabelFrontRight, _gaugeFrontRightTyre, pilotName);
-            UpdateGauge(data.FrontRightTemp, GaugeLabelFrontRight, _gaugeFrontRightTyre, "All");
+            UpdateGauge(data.FrontRightTemp, pilotName, _gaugeFrontRightTyre);
+            UpdateGauge(data.FrontRightTemp, "All", _gaugeFrontRightTyre);
         }
 
         public void UpdateRearLeft(ITyresTemperatures? data, string pilotName)
         {
-            UpdateGauge(data.RearLeftTemp, GaugeLabelRearLeft, _gaugeRearLeftTyre, pilotName);
-            UpdateGauge(data.RearLeftTemp, GaugeLabelRearLeft, _gaugeRearLeftTyre, "All");
+            UpdateGauge(data.RearLeftTemp, pilotName, _gaugeRearLeftTyre);
+            UpdateGauge(data.RearLeftTemp, "All", _gaugeRearLeftTyre);
         }
 
         public void UpdateRearRight(ITyresTemperatures? data, string pilotName)
         {
-            UpdateGauge(data.RearRightTemp, GaugeLabelRearRight, _gaugeRearRightTyre, pilotName);
-            UpdateGauge(data.RearRightTemp, GaugeLabelRearRight, _gaugeRearRightTyre, "All");
+            UpdateGauge(data.RearRightTemp, pilotName, _gaugeRearRightTyre);
+            UpdateGauge(data.RearRightTemp, "All", _gaugeRearRightTyre);
         }
 
-        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge, string pilotName)
+        private void UpdateGauge(double? data, string pilotName, Gauge gauge)
         {
             if (!data.HasValue)
             {
                 return;
             }
 
-            gauge.WithLabels(gaugeLabel).Set(data.Value);
+            gauge.WithLabels(pilotName).Set(data.Value);
         }
     }
 }
