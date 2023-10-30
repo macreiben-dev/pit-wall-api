@@ -210,6 +210,8 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             private TestContextPitwallTelemetryService _context;
 
+            private const string PilotName = "pilot01";
+
             public TyresTemperaturesTest()
             {
                 _context = GetTargetTestContext();
@@ -219,7 +221,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             public void GIVEN_telemetry_with_TyresTemperatyres_isNull_THEN_should_not_updateTyres()
             {
                 var original = new TelemetryModel();
-
+                original.PilotName = PilotName;
                 original.TyresWear = null;
 
                 // ACT
@@ -228,10 +230,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<ITyresTemperatures>());
-                _context.TyreTemperature.Received(0).UpdateFrontRight(Arg.Any<ITyresTemperatures>());
-                _context.TyreTemperature.Received(0).UpdateRearLeft(Arg.Any<ITyresTemperatures>());
-                _context.TyreTemperature.Received(0).UpdateRearRight(Arg.Any<ITyresTemperatures>());
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<ITyresTemperatures>(), PilotName);
+                _context.TyreTemperature.Received(0).UpdateFrontRight(Arg.Any<ITyresTemperatures>(), PilotName);
+                _context.TyreTemperature.Received(0).UpdateRearLeft(Arg.Any<ITyresTemperatures>(), PilotName);
+                _context.TyreTemperature.Received(0).UpdateRearRight(Arg.Any<ITyresTemperatures>(), PilotName);
             }
 
             [Fact]
@@ -245,6 +247,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 original.TyresTemperatures = tyres;
+                original.PilotName = PilotName;
 
                 // ACT
                 var target = _context.Target;
@@ -253,7 +256,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontLeft(
-                    Arg.Is<TyresTemperatures>(c => c.FrontLeftTemp == 50.0));
+                    Arg.Is<TyresTemperatures>(c => c.FrontLeftTemp == 50.0), PilotName);
             }
 
             [Fact]
@@ -265,7 +268,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 {
                     FrontRightTemp = 50.0
                 };
-
+                original.PilotName = PilotName;
                 original.TyresTemperatures = tyres;
 
                 // ACT
@@ -275,7 +278,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontRight(
-                    Arg.Is<TyresTemperatures>(c => c.FrontRightTemp == 50.0));
+                    Arg.Is<TyresTemperatures>(c => c.FrontRightTemp == 50.0),
+                    PilotName);
             }
 
             [Fact]
@@ -287,7 +291,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 {
                     RearLeftTemp = 50.0
                 };
-
+                original.PilotName = PilotName;
                 original.TyresTemperatures = tyres;
 
                 // ACT
@@ -297,7 +301,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearLeft(
-                    Arg.Is<TyresTemperatures>(c => c.RearLeftTemp == 50.0));
+                    Arg.Is<TyresTemperatures>(c => c.RearLeftTemp == 50.0),
+                    PilotName);
             }
 
             [Fact]
@@ -309,7 +314,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 {
                     RearRightTemp = 50.0
                 };
-
+                original.PilotName = PilotName;
                 original.TyresTemperatures = tyres;
 
                 // ACT
@@ -319,7 +324,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearRight(
-                    Arg.Is<TyresTemperatures>(c => c.RearRightTemp == 50.0));
+                    Arg.Is<TyresTemperatures>(c => c.RearRightTemp == 50.0),
+                    PilotName);
             }
         }
 

@@ -4,9 +4,9 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public interface ITyresTemperaturesRepository
     {
-        void UpdateFrontLeft(ITyresTemperatures? data);
-        void UpdateFrontRight(ITyresTemperatures? data);
-        void UpdateRearLeft(ITyresTemperatures? data);
-        void UpdateRearRight(ITyresTemperatures? data);
+        void UpdateFrontLeft(ITyresTemperatures? data, string pilotName);
+        void UpdateFrontRight(ITyresTemperatures? data, string pilotName);
+        void UpdateRearLeft(ITyresTemperatures? data, string pilotName);
+        void UpdateRearRight(ITyresTemperatures? data, string pilotName);
     }
 }

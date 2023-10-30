@@ -46,10 +46,10 @@ namespace PitWallDataGatheringApi.Services
 
             if (telemetry.TyresTemperatures != null)
             {
-                tyresTemperatures.UpdateFrontLeft(telemetry.TyresTemperatures);
-                tyresTemperatures.UpdateFrontRight(telemetry.TyresTemperatures);
-                tyresTemperatures.UpdateRearLeft(telemetry.TyresTemperatures);
-                tyresTemperatures.UpdateRearRight(telemetry.TyresTemperatures);
+                tyresTemperatures.UpdateFrontLeft(telemetry.TyresTemperatures, telemetry.PilotName);
+                tyresTemperatures.UpdateFrontRight(telemetry.TyresTemperatures, telemetry.PilotName);
+                tyresTemperatures.UpdateRearLeft(telemetry.TyresTemperatures, telemetry.PilotName);
+                tyresTemperatures.UpdateRearRight(telemetry.TyresTemperatures, telemetry.PilotName);
             }
 
             // ------
