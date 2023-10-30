@@ -1,6 +1,5 @@
+using PitWallDataGatheringApi;
 using PitWallDataGatheringApi.Repositories;
-using PitWallDataGatheringApi.Repositories.Tyres;
-using PitWallDataGatheringApi.Services;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,18 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<ITyreWearRepository, TyreWearRepository>();
-builder.Services.AddSingleton<ILaptimeRepository, LaptimeRepository>();
-builder.Services.AddSingleton<ITyresTemperaturesRepository, TyresTemperaturesRepository>();
-
-builder.Services.AddScoped<IDocumentationLaptimeSerie, LaptimeRepository>();
-builder.Services.AddScoped<IDocumentationTyresWearSerie, TyreWearRepository>();
-builder.Services.AddScoped<IDocumentationTyresTemperaturesSerie, TyresTemperaturesRepository>();
-
-builder.Services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
-builder.Services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
-
-builder.Services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
+IoCInitializer.Initialize(builder.Services);
 
 var app = builder.Build();
 

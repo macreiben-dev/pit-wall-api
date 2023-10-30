@@ -132,5 +132,34 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(_actual.RearRightTemp).IsEqualTo(RearRightTemp);
             }
         }
+
+        public class WeatherTest
+        {
+            private const double AvgWetness = 10.0;
+            private const double AirTemperature = 11.0;
+            private ITelemetryModel? _actual;
+
+            public WeatherTest()
+            {
+                ApiTelemetryModel source = new ApiTelemetryModel();
+
+                source.AirTemperature = AirTemperature;
+                source.AvgWetness = AvgWetness;
+
+                _actual = GetTarget().Map(source);
+            }
+
+            private TelemetryModelMapper GetTarget()
+            {
+                return new TelemetryModelMapper();
+            }
+
+
+            [Fact]
+            public void Should_map_rearRightTemp()
+            {
+                Check.That(_actual.AvgWetness).IsEqualTo(AvgWetness);
+            }
+        }
     }
 }

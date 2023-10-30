@@ -6,7 +6,6 @@ using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemet
 using ApiTelemetryModel = PitWallDataGatheringApi.Models.Apis.TelemetryModel;
 using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.TelemetryModel;
 using NFluent;
-using AutoMapper;
 using PitWallDataGatheringApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 

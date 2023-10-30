@@ -1,5 +1,4 @@
-﻿using PitWallDataGatheringApi.Models.Apis;
-using PitWallDataGatheringApi.Models.Business;
+﻿using PitWallDataGatheringApi.Models.Business;
 
 namespace PitWallDataGatheringApi.Services
 {
