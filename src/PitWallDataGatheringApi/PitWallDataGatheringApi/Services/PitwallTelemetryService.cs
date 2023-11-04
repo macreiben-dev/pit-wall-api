@@ -38,10 +38,10 @@ namespace PitWallDataGatheringApi.Services
             {
                 var tyresWears = telemetry.TyresWear;
 
-                pitwallTyresPercentRepository.UpdateFrontLeft(tyresWears);
-                pitwallTyresPercentRepository.UpdateFrontRight(tyresWears);
-                pitwallTyresPercentRepository.UpdateRearLeft(tyresWears);
-                pitwallTyresPercentRepository.UpdateRearRight(tyresWears);
+                pitwallTyresPercentRepository.UpdateFrontLeft(tyresWears, telemetry.PilotName);
+                pitwallTyresPercentRepository.UpdateFrontRight(tyresWears, telemetry.PilotName);
+                pitwallTyresPercentRepository.UpdateRearLeft(tyresWears, telemetry.PilotName);
+                pitwallTyresPercentRepository.UpdateRearRight(tyresWears, telemetry.PilotName);
             }
 
             if (telemetry.TyresTemperatures != null)

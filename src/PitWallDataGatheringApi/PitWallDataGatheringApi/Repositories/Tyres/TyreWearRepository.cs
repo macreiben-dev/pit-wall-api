@@ -6,20 +6,28 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
     public sealed class TyreWearRepository : ITyreWearRepository, IDocumentationTyresWearSerie
     {
         private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
-        private const string GaugeLabelFrontLeft = "FrontLeft";
-        private const string GaugeLabelFrontRight = "FrontRight";
-        private const string GaugeLabelRearLeft = "RearLeft";
-        private const string GaugeLabelRearRight = "RearRight";
 
-        readonly string[] tyreLabels = new[] { "TyreWear" };
+        private const string GaugeNameFrontLeft = "pitwall_tyres_wear_frontleft_percent";
+        private const string GaugeNameRearLeft = "pitwall_tyres_wear_rearleft_percent";
+        private const string GaugeNameFrontRight = "pitwall_tyres_wear_frontright_percent";
+        private const string GaugeNameRearRight = "pitwall_tyres_wear_rearright_percent";
 
-        private readonly Gauge _gaugeTyre;
+        readonly string[] tyreLabels = new[] { "Pilot" };
+
+        private readonly Gauge _gaugeFrontLeft;
+        private readonly Gauge _gaugeRearLeft;
+        private readonly Gauge _gaugeFrontRight;
+        private readonly Gauge _gaugeRearRight;
 
         public TyreWearRepository()
         {
             var configTyres = new GaugeConfiguration();
             configTyres.LabelNames = tyreLabels;
-            _gaugeTyre = Metrics.CreateGauge(GaugeNamePitwallTyreWearPercent, "Tyres information.", configTyres);
+
+            _gaugeFrontLeft = Metrics.CreateGauge(GaugeNameFrontLeft, "Tyres wear front left in percent.", configTyres);
+            _gaugeRearLeft = Metrics.CreateGauge(GaugeNameRearLeft, "Tyres wear front left in percent.", configTyres);
+            _gaugeFrontRight = Metrics.CreateGauge(GaugeNameFrontRight, "Tyres wear front left in percent.", configTyres);
+            _gaugeRearRight = Metrics.CreateGauge(GaugeNameRearRight, "Tyres wear front left in percent.", configTyres);
         }
 
         public string SerieName => GaugeNamePitwallTyreWearPercent;
@@ -28,24 +36,24 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public string Description => "Current tyre wear as percent.";
 
-        public void UpdateFrontLeft(ITyresWear? tyresWears)
+        public void UpdateFrontLeft(ITyresWear? tyresWears, string pilotName)
         {
-            UpdateGauge(tyresWears.FrontLeftWear, GaugeLabelFrontLeft, _gaugeTyre);
+            UpdateGauge(tyresWears.FrontLeftWear, pilotName, _gaugeFrontLeft);
         }
 
-        public void UpdateFrontRight(ITyresWear? tyresWears)
+        public void UpdateFrontRight(ITyresWear? tyresWears, string pilotName)
         {
-            UpdateGauge(tyresWears.FrontRightWear, GaugeLabelFrontRight, _gaugeTyre);
+            UpdateGauge(tyresWears.FrontRightWear, pilotName, _gaugeFrontRight);
         }
 
-        public void UpdateRearLeft(ITyresWear? tyresWears)
+        public void UpdateRearLeft(ITyresWear? tyresWears, string pilotName)
         {
-            UpdateGauge(tyresWears.ReartLeftWear, GaugeLabelRearLeft, _gaugeTyre);
+            UpdateGauge(tyresWears.ReartLeftWear, pilotName, _gaugeRearLeft);
         }
 
-        public void UpdateRearRight(ITyresWear? tyresWears)
+        public void UpdateRearRight(ITyresWear? tyresWears, string pilotName)
         {
-            UpdateGauge(tyresWears.RearRightWear, GaugeLabelRearRight, _gaugeTyre);
+            UpdateGauge(tyresWears.RearRightWear, pilotName, _gaugeRearRight);
         }
 
         private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
