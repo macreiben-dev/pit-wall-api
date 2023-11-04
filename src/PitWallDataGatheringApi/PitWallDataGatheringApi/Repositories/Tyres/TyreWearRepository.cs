@@ -36,24 +36,24 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public string Description => "Current tyre wear as percent.";
 
-        public void UpdateFrontLeft(ITyresWear? tyresWears, string pilotName)
+        public void UpdateFrontLeft(string pilotName, double? frontLeftWear)
         {
-            UpdateGauge(tyresWears.FrontLeftWear, pilotName, _gaugeFrontLeft);
+            UpdateGauge(frontLeftWear, pilotName, _gaugeFrontLeft);
         }
 
-        public void UpdateFrontRight(ITyresWear? tyresWears, string pilotName)
+        public void UpdateFrontRight(string pilotName, double? frontRightWear)
         {
-            UpdateGauge(tyresWears.FrontRightWear, pilotName, _gaugeFrontRight);
+            UpdateGauge(frontRightWear, pilotName, _gaugeFrontRight);
         }
 
-        public void UpdateRearLeft(ITyresWear? tyresWears, string pilotName)
+        public void UpdateRearLeft(string pilotName, double? reartLeftWear)
         {
-            UpdateGauge(tyresWears.ReartLeftWear, pilotName, _gaugeRearLeft);
+            UpdateGauge(reartLeftWear, pilotName, _gaugeRearLeft);
         }
 
-        public void UpdateRearRight(ITyresWear? tyresWears, string pilotName)
+        public void UpdateRearRight(string pilotName, double? rearRightWear)
         {
-            UpdateGauge(tyresWears.RearRightWear, pilotName, _gaugeRearRight);
+            UpdateGauge(rearRightWear, pilotName, _gaugeRearRight);
         }
 
         private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)

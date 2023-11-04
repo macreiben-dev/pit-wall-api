@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using PitWallDataGatheringApi.Models.Apis;
+﻿using PitWallDataGatheringApi.Models.Apis;
 
 using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.TelemetryModel;
 using BusinessTyresWear = PitWallDataGatheringApi.Models.Business.TyresWear;
@@ -12,42 +11,70 @@ namespace PitWallDataGatheringApi.Services
 {
     public sealed class TelemetryModelMapper : ITelemetryModelMapper
     {
-        private readonly IMapper _mapper;
-
-        public TelemetryModelMapper()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<TelemetryModel, BusinessTelemetryModel>();
-
-                cfg.CreateMap<TyresWear, IBusinessTyresWear>()
-                    .ConstructUsing(source =>
-                        new BusinessTyresWear()
-                        {
-                            FrontLeftWear = source.FrontLeftWear,
-                            FrontRightWear = source.FrontRightWear,
-                            ReartLeftWear = source.ReartLeftWear,
-                            RearRightWear = source.RearRightWear,
-                        }
-                    );
-                cfg.CreateMap<TyresTemperatures, IBusinessTyresTemperatures>()
-                    .ConstructUsing(source => new BusinessTyresTemperatures()
-                    {
-                        FrontLeftTemp = source.FrontLeftTemp,
-                        FrontRightTemp = source.FrontRightTemp,
-                        RearLeftTemp = source.RearLeftTemp,
-                        RearRightTemp = source.RearRightTemp,
-                    });
-            });
-
-            config.AssertConfigurationIsValid();
-
-            _mapper = config.CreateMapper();
-        }
-
         public IBusinessTelemetryModel Map(TelemetryModel apiModel)
         {
-            return _mapper.Map<BusinessTelemetryModel>(apiModel);
+            BusinessTelemetryModel model = new BusinessTelemetryModel();
+
+            model.AirTemperature = apiModel.AirTemperature;
+            model.AvgWetness = apiModel.AvgWetness;
+            model.LaptimeSeconds = apiModel.LaptimeSeconds;
+            model.PilotName = apiModel.PilotName;
+
+            model.TyresWear = Map(apiModel.TyresWear);
+            model.TyresTemperatures = Map(apiModel.TyresTemperatures);
+
+            return model;
         }
+
+        private IBusinessTyresTemperatures Map(TyresTemperatures? source)
+        {
+            if (AnyTemperatureIsProvided(source))
+            {
+                return new BusinessTyresTemperatures()
+                {
+                    FrontLeftTemp = source.FrontLeftTemp,
+                    FrontRightTemp = source.FrontRightTemp,
+                    RearLeftTemp = source.RearLeftTemp,
+                    RearRightTemp = source.RearRightTemp,
+                };
+            }
+
+            return new BusinessTyresTemperatures();
+        }
+
+        private IBusinessTyresWear Map(TyresWear? source)
+        {
+            if (AnyTyreWearIsProvided(source))
+            {
+                return new BusinessTyresWear()
+                {
+                    FrontLeftWear = source.FrontLeftWear,
+                    FrontRightWear = source.FrontRightWear,
+                    ReartLeftWear = source.ReartLeftWear,
+                    RearRightWear = source.RearRightWear,
+                };
+            }
+
+            return new BusinessTyresWear();
+        }
+
+        private static bool AnyTyreWearIsProvided(TyresWear source)
+        {
+            return source != null && (
+                source.FrontLeftWear.HasValue
+                || source.FrontRightWear.HasValue
+                || source.ReartLeftWear.HasValue
+                || source.RearRightWear.HasValue);
+        }
+
+        private static bool AnyTemperatureIsProvided(TyresTemperatures source)
+        {
+            return source != null && (
+                source.FrontLeftTemp.HasValue
+                || source.FrontRightTemp.HasValue
+                || source.RearLeftTemp.HasValue
+                || source.RearRightTemp.HasValue);
+        }
+
     }
 }

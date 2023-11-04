@@ -2,6 +2,9 @@
 {
     public sealed class TelemetryModel : ITelemetryModel
     {
+        private ITyresWear _tyreWear;
+        private ITyresTemperatures _tyresTemperatures;
+
         public TelemetryModel()
         {
             TyresWear = new TyresWear();
@@ -14,8 +17,31 @@
 
         public double? AvgWetness { get; set; }
 
-        public ITyresWear TyresWear { get; set; }
+        public ITyresWear TyresWear {
+            get => _tyreWear;
+            set
+            {
+                if(value == null)
+                {
+                    throw new ArgumentNullException("Tyre wears");
+                }
 
-        public ITyresTemperatures TyresTemperatures { get; set; }
+                _tyreWear = value;
+            }
+        }
+
+        public ITyresTemperatures TyresTemperatures 
+        {
+            get => _tyresTemperatures;
+            set
+            {
+                if(value == null)
+                {
+                    throw new ArgumentNullException("Tyres temperatures");
+                }
+
+                _tyresTemperatures = value;
+            }
+        }
     }
 }

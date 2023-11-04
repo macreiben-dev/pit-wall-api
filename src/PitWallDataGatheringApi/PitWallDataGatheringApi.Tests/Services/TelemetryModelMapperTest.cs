@@ -156,7 +156,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
 
             [Fact]
-            public void Should_map_rearRightTemp()
+            public void Should_map_avgWetness()
             {
                 Check.That(_actual.AvgWetness).IsEqualTo(AvgWetness);
             }
