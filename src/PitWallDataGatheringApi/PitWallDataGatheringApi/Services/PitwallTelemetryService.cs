@@ -9,7 +9,7 @@ namespace PitWallDataGatheringApi.Services
     {
         private readonly ITyreWearRepository pitwallTyresPercentRepository;
         private readonly ILaptimeRepository laptimeRepository;
-        private readonly ITyresTemperaturesRepository tyresTemperatures;
+        private readonly ITyresTemperaturesRepository tyresTemperaturesRepository;
         private readonly IAvgWetnessRepository avgWetnessRepository;
         private readonly IAirTemperatureRepository airTemperatureRepository;
 
@@ -22,7 +22,7 @@ namespace PitWallDataGatheringApi.Services
         {
             this.pitwallTyresPercentRepository = pitwallTyresPercentRepository;
             this.laptimeRepository = laptimeRepository;
-            this.tyresTemperatures = tyresTemperatures;
+            this.tyresTemperaturesRepository = tyresTemperatures;
             this.avgWetnessRepository = avgWetnessRepository;
             this.airTemperatureRepository = airTemperatureRepository;
         }
@@ -34,43 +34,48 @@ namespace PitWallDataGatheringApi.Services
                 return;
             }
 
-            if (telemetry.TyresWear != null)
-            {
-                var tyresWears = telemetry.TyresWear;
+            /**
+             * Possible design issue here, tyres wear can be null, and tyre temp cannot.
+             * 
+             * Maybe uniformize all this.
+             * */
 
-                pitwallTyresPercentRepository.UpdateFrontLeft(tyresWears, telemetry.PilotName);
-                pitwallTyresPercentRepository.UpdateFrontRight(tyresWears, telemetry.PilotName);
-                pitwallTyresPercentRepository.UpdateRearLeft(tyresWears, telemetry.PilotName);
-                pitwallTyresPercentRepository.UpdateRearRight(tyresWears, telemetry.PilotName);
-            }
+            telemetry.TyresWear.WhenHasValue(() => UpdateTyreWear(telemetry.TyresWear, telemetry.PilotName));
 
-            if (telemetry.TyresTemperatures != null)
-            {
-                tyresTemperatures.UpdateFrontLeft(telemetry.TyresTemperatures, telemetry.PilotName);
-                tyresTemperatures.UpdateFrontRight(telemetry.TyresTemperatures, telemetry.PilotName);
-                tyresTemperatures.UpdateRearLeft(telemetry.TyresTemperatures, telemetry.PilotName);
-                tyresTemperatures.UpdateRearRight(telemetry.TyresTemperatures, telemetry.PilotName);
-            }
-
-            // ------
+            telemetry.TyresTemperatures.WhenHasValue(() => UpdateTyresTemperatures(telemetry.TyresTemperatures, telemetry.PilotName));
 
             laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
                 telemetry.PilotName);
 
-            if (telemetry.AvgWetness != null)
-            {
-                avgWetnessRepository.Update(
+            telemetry.AvgWetness.WhenHasValue(
+                () => avgWetnessRepository.Update(
                     telemetry.AvgWetness,
-                    telemetry.PilotName);
-            }
+                    telemetry.PilotName)
+                );
 
-            if (telemetry.AirTemperature != null)
-            {
+            telemetry.AirTemperature.WhenHasValue(
+                () =>
                 airTemperatureRepository.Update(
                     telemetry.AirTemperature,
-                    telemetry.PilotName);
-            }
+                    telemetry.PilotName)
+                );
+        }
+
+        private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName)
+        {
+            tyresTemperaturesRepository.UpdateFrontLeft(tyresTemperatures, pilotName);
+            tyresTemperaturesRepository.UpdateFrontRight(tyresTemperatures, pilotName);
+            tyresTemperaturesRepository.UpdateRearLeft(tyresTemperatures, pilotName);
+            tyresTemperaturesRepository.UpdateRearRight(tyresTemperatures, pilotName);
+        }
+
+        private void UpdateTyreWear(ITyresWear? tyresWears, string pilotName)
+        {
+            pitwallTyresPercentRepository.UpdateFrontLeft(tyresWears, pilotName);
+            pitwallTyresPercentRepository.UpdateFrontRight(tyresWears, pilotName);
+            pitwallTyresPercentRepository.UpdateRearLeft(tyresWears, pilotName);
+            pitwallTyresPercentRepository.UpdateRearRight(tyresWears, pilotName);
         }
     }
 }
