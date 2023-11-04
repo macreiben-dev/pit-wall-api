@@ -77,7 +77,8 @@ namespace PitWallDataGatheringApi.Services
             tyresTemperatures.RearLeftTemp.WhenHasValue(
                 () => tyresTemperaturesRepository.UpdateRearLeft(pilotName, tyresTemperatures.RearLeftTemp));
 
-            tyresTemperatures.RearRightTemp.WhenHasValue(() => tyresTemperaturesRepository.UpdateRearRight(pilotName, tyresTemperatures.RearRightTemp));
+            tyresTemperatures.RearRightTemp.WhenHasValue(
+                () => tyresTemperaturesRepository.UpdateRearRight(pilotName, tyresTemperatures.RearRightTemp));
         }
 
         private void UpdateTyreWear(ITyresWear? tyresWears, string pilotName)
