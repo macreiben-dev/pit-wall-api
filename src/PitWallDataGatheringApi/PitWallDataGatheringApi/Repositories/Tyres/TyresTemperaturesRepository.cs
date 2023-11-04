@@ -13,11 +13,6 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
         private const string GaugeNameFrontRight = "pitwall_tyres_temperatures_frontright_celsius";
         private const string GaugeNameRearRight = "pitwall_tyres_temperatures_rearright_celsius";
 
-        private const string GaugeLabelFrontLeft = "FrontLeft";
-        private const string GaugeLabelFrontRight = "FrontRight";
-        private const string GaugeLabelRearLeft = "RearLeft";
-        private const string GaugeLabelRearRight = "RearRight";
-
         readonly string[] tyreLabels = new[] { "Pilot" };
 
         private readonly Gauge _gaugeFrontLeftTyre;
@@ -43,28 +38,32 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public string Description => "Current tyre temperature in celsius.";
 
-        public void UpdateFrontLeft(ITyresTemperatures? data, string pilotName)
+        /**
+         * Idea : a lot of repeatition here.
+         * */
+
+        public void UpdateFrontLeft(string pilotName, double? frontLeftTemp)
         {
-            UpdateGauge(data.FrontLeftTemp, pilotName, _gaugeFrontLeftTyre);
-            UpdateGauge(data.FrontLeftTemp, "All", _gaugeFrontLeftTyre);
+            UpdateGauge(frontLeftTemp, pilotName, _gaugeFrontLeftTyre);
+            UpdateGauge(frontLeftTemp, "All", _gaugeFrontLeftTyre);
         }
 
-        public void UpdateFrontRight(ITyresTemperatures? data, string pilotName)
+        public void UpdateFrontRight(string pilotName, double? frontRightTemp)
         {
-            UpdateGauge(data.FrontRightTemp, pilotName, _gaugeFrontRightTyre);
-            UpdateGauge(data.FrontRightTemp, "All", _gaugeFrontRightTyre);
+            UpdateGauge(frontRightTemp, pilotName, _gaugeFrontRightTyre);
+            UpdateGauge(frontRightTemp, "All", _gaugeFrontRightTyre);
         }
 
-        public void UpdateRearLeft(ITyresTemperatures? data, string pilotName)
+        public void UpdateRearLeft(string pilotName, double? rearLeftTemp)
         {
-            UpdateGauge(data.RearLeftTemp, pilotName, _gaugeRearLeftTyre);
-            UpdateGauge(data.RearLeftTemp, "All", _gaugeRearLeftTyre);
+            UpdateGauge(rearLeftTemp, pilotName, _gaugeRearLeftTyre);
+            UpdateGauge(rearLeftTemp, "All", _gaugeRearLeftTyre);
         }
 
-        public void UpdateRearRight(ITyresTemperatures? data, string pilotName)
+        public void UpdateRearRight(string pilotName, double? rearRightTemp)
         {
-            UpdateGauge(data.RearRightTemp, pilotName, _gaugeRearRightTyre);
-            UpdateGauge(data.RearRightTemp, "All", _gaugeRearRightTyre);
+            UpdateGauge(rearRightTemp, pilotName, _gaugeRearRightTyre);
+            UpdateGauge(rearRightTemp, "All", _gaugeRearRightTyre);
         }
 
         private void UpdateGauge(double? data, string pilotName, Gauge gauge)

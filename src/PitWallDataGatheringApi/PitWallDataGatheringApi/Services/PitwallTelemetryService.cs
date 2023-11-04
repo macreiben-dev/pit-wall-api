@@ -40,16 +40,13 @@ namespace PitWallDataGatheringApi.Services
              * Maybe uniformize all this.
              * */
 
-            telemetry.TyresWear.WhenHasValue(() => 
-                UpdateTyreWear(
-                    telemetry.TyresWear, 
-                    telemetry.PilotName)
-                );
+            UpdateTyreWear(
+                telemetry.TyresWear,
+                telemetry.PilotName);
 
-            telemetry.TyresTemperatures.WhenHasValue(() => 
-                UpdateTyresTemperatures(
-                    telemetry.TyresTemperatures, 
-                    telemetry.PilotName));
+            UpdateTyresTemperatures(
+                telemetry.TyresTemperatures,
+                telemetry.PilotName);
 
             laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
@@ -71,10 +68,16 @@ namespace PitWallDataGatheringApi.Services
 
         private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName)
         {
-            tyresTemperaturesRepository.UpdateFrontLeft(tyresTemperatures, pilotName);
-            tyresTemperaturesRepository.UpdateFrontRight(tyresTemperatures, pilotName);
-            tyresTemperaturesRepository.UpdateRearLeft(tyresTemperatures, pilotName);
-            tyresTemperaturesRepository.UpdateRearRight(tyresTemperatures, pilotName);
+            tyresTemperatures.FrontLeftTemp.WhenHasValue(
+                () => tyresTemperaturesRepository.UpdateFrontLeft(pilotName, tyresTemperatures.FrontLeftTemp));
+
+            tyresTemperatures.FrontRightTemp.WhenHasValue(
+                () => tyresTemperaturesRepository.UpdateFrontRight(pilotName, tyresTemperatures.FrontRightTemp));
+
+            tyresTemperatures.RearLeftTemp.WhenHasValue(
+                () => tyresTemperaturesRepository.UpdateRearLeft(pilotName, tyresTemperatures.RearLeftTemp));
+
+            tyresTemperatures.RearRightTemp.WhenHasValue(() => tyresTemperaturesRepository.UpdateRearRight(pilotName, tyresTemperatures.RearRightTemp));
         }
 
         private void UpdateTyreWear(ITyresWear? tyresWears, string pilotName)

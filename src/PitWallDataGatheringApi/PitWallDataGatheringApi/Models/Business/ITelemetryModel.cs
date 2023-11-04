@@ -10,7 +10,7 @@
 
         public double? AvgWetness { get; }
 
-        ITyresWear? TyresWear { get; }
+        ITyresWear TyresWear { get; }
 
         ITyresTemperatures TyresTemperatures { get; }
     }
