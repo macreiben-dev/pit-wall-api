@@ -40,9 +40,16 @@ namespace PitWallDataGatheringApi.Services
              * Maybe uniformize all this.
              * */
 
-            telemetry.TyresWear.WhenHasValue(() => UpdateTyreWear(telemetry.TyresWear, telemetry.PilotName));
+            telemetry.TyresWear.WhenHasValue(() => 
+                UpdateTyreWear(
+                    telemetry.TyresWear, 
+                    telemetry.PilotName)
+                );
 
-            telemetry.TyresTemperatures.WhenHasValue(() => UpdateTyresTemperatures(telemetry.TyresTemperatures, telemetry.PilotName));
+            telemetry.TyresTemperatures.WhenHasValue(() => 
+                UpdateTyresTemperatures(
+                    telemetry.TyresTemperatures, 
+                    telemetry.PilotName));
 
             laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
