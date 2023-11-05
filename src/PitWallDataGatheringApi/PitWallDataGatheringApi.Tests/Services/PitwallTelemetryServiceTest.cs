@@ -12,6 +12,9 @@ namespace PitWallDataGatheringApi.Tests.Services
         private readonly ITyreWearRepository _tyreWearRepository;
         private readonly ILaptimeRepository _laptimeRepository;
         private readonly ITyresTemperaturesRepository _tyreTemperature;
+        private readonly IAvgWetnessRepository _avgWetness;
+        private readonly IAirTemperatureRepository _airTemperature;
+
         private const string PilotName = "Pilot01";
 
         public PitwallTelemetryServiceTest()
@@ -21,6 +24,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             _laptimeRepository = Substitute.For<ILaptimeRepository>();
 
             _tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
+            
+            _avgWetness = Substitute.For<IAvgWetnessRepository>();
+
+            _airTemperature = Substitute.For<IAirTemperatureRepository>();
         }
 
         private PitwallTelemetryService GetTarget()
@@ -29,7 +36,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _tyreWearRepository,
                 _laptimeRepository,
                 _tyreTemperature,
-                Substitute.For<IAvgWetnessRepository>(),
+                _avgWetness,
                 Substitute.For<IAirTemperatureRepository>());
         }
 
@@ -87,6 +94,32 @@ namespace PitWallDataGatheringApi.Tests.Services
             // ASSERT
             _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
         }
+
+
+        [Fact]
+        public void GIVEN_telemetry_isNull_THEN_should_not_update_avgWetness()
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(null);
+
+            // ASSERT
+            _avgWetness.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void GIVEN_telemetry_isNull_THEN_should_not_update_airTemperature()
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(null);
+
+            // ASSERT
+            _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+        }
+
 
         public class TyreWearTest
         {
