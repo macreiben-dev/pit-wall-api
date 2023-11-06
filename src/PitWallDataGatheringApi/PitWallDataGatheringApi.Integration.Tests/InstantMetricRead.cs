@@ -25,8 +25,6 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Check.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
             }
             {
-                //var queryPath = "api/v1/query?query=pitwall_air_temperature_celsius{Pilot=%22IntegrationTest_airTemp%22}";
-
                 string intermediary = await ReadInstantQueryResult(
                     "pitwall_air_temperature_celsius", 
                     "Pilot", 
@@ -37,7 +35,6 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Check.That(actual).IsEqualTo(10.0);
             }
         }
-
 
         [Fact]
         public async void GIVEN_laptimeSeconds_WHEN_using_instantQueries_THEN_retrieve_value()
@@ -56,8 +53,6 @@ namespace PitWallDataGatheringApi.Integration.Tests
             }
 
             {
-                var queryPath = "api/v1/query?query=pitwall_laptimes_seconds{Pilot=%22IntegrationTest_laptime%22}";
-
                 string intermediary = await ReadInstantQueryResult(
                    "pitwall_laptimes_seconds",
                    "Pilot",
