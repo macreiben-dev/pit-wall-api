@@ -37,8 +37,8 @@ stages:
       displayName: Run tests
       inputs:
         command: 'test'
-        projects: **/*.sln
-        arguments:  --filter FullyQualifiedName!~Integration.Tests
+        projects: '**/*.sln'
+        arguments: '--filter FullyQualifiedName!~Integration.Tests'
         workingDirectory: 'src/PitWallDataGatheringApi'
 
     - task: PublishBuildArtifacts@1
