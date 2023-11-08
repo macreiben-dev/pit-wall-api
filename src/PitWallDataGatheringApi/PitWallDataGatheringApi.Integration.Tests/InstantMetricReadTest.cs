@@ -15,111 +15,160 @@ namespace PitWallDataGatheringApi.Integration.Tests
         private const string TimeSerieUri = "http://localhost:10100";
         private const string TargetApi = "http://localhost:32773";
         private const string PilotLabel = "Pilot";
+        private const string SimerKey = "some_test_looking_value23";
 
-        public class TestDataInstantMetrics : IEnumerable<object[]>
+        [Fact]
+        public async void GIVEN_pitwall_tyres_wear_rearleft_percent_THEN_read_from_timeSerie()
         {
-            private const string SimerKey = "some_test_looking_value23";
-
-            private readonly List<object[]> _inner = null;
-
-            public TestDataInstantMetrics()
+            var context = new Context(SimerKey)
             {
-                var data = new List<object[]>()
-            {
-                new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_laptimes_seconds",
-                        PilotName = "IntegrationTest_laptime",
-                        SetFieldValue = t => t.LaptimeSeconds = 122.0,
-                        GetApiModelInstance = () => ModelWithoutSubMappings(),
-                        Expected = 122.0
-                    }},
-                 new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_air_temperature_celsius",
-                        PilotName = "IntegrationTest_airTemp",
-                        SetFieldValue = t => t.AirTemperature= 10.0,
-                        GetApiModelInstance = () => ModelWithoutSubMappings(),
-                        Expected = 10.0
-                    }},
-                  new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_road_wetness_avg_percent",
-                        PilotName = "IntegrationTest_roadWetness",
-                        SetFieldValue = t => t.AvgWetness= 0.3,
-                        GetApiModelInstance = () => ModelWithoutSubMappings(),
-                        Expected = 0.3
-                    }},
+                MetricName = "pitwall_tyres_wear_rearleft_percent",
+                PilotName = "IntegrationTest_twear_rearleft",
+                SetFieldValue = t => t.TyresWear.ReartLeftWear = 60.0,
+                GetApiModelInstance = () => ModelWithTyreWear(),
+                Expected = 60.0
+            };
 
-                // ===================================================================
-
-                new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_tyres_temperatures_frontleft_celsius",
-                        PilotName = "IntegrationTest_ttemp_frontleft",
-                        SetFieldValue = t => t.TyresTemperatures.FrontLeftTemp = 60.0,
-                        GetApiModelInstance = () => ModelWithTyreTemp(),
-                        Expected = 60.0
-                    }},
-
-                new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_tyres_temperatures_frontright_celsius",
-                        PilotName = "IntegrationTest_ttemp_frontright",
-                        SetFieldValue = t => t.TyresTemperatures.FrontRightTemp = 61.0,
-                        GetApiModelInstance = () => ModelWithTyreTemp(),
-                        Expected = 61.0
-                    }},
-
-
-                new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_tyres_temperatures_rearleft_celsius",
-                        PilotName = "IntegrationTest_ttemp_rearleft",
-                        SetFieldValue = t => t.TyresTemperatures.FrontRightTemp = 62.0,
-                        GetApiModelInstance = () => ModelWithTyreTemp(),
-                        Expected = 62.0
-                    }},
-
-                  new [] {
-                    new Context(SimerKey) {
-                        MetricName = "pitwall_tyres_temperatures_rearright_celsius",
-                        PilotName = "IntegrationTest_ttemp_rearright",
-                        SetFieldValue = t => t.TyresTemperatures.FrontRightTemp = 63.0,
-                        GetApiModelInstance = () => ModelWithTyreTemp(),
-                        Expected = 63.0
-                    }},
-                };
-
-                _inner = data;
-            }
-
-            private TelemetryModel ModelWithoutSubMappings()
-            {
-                return new TelemetryModel();
-            }
-
-            private TelemetryModel ModelWithTyreTemp()
-            {
-                return new TelemetryModel()
-                {
-                    TyresTemperatures = new TyresTemperatures()
-                };
-            }
-
-            public IEnumerator<object[]> GetEnumerator()
-            {
-                return _inner.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return _inner.GetEnumerator();
-            }
+            GIVEN_metric_THEN_read_from_timeSerie(context);
         }
 
-        [Theory]
-        [ClassData(typeof(TestDataInstantMetrics))]
+        [Fact]
+        public async void GIVEN_pitwall_tyres_wear_frontright_percent_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_tyres_wear_frontright_percent",
+                PilotName = "IntegrationTest_twear_frontright",
+                SetFieldValue = t => t.TyresWear.FrontRightWear = 61.0,
+                GetApiModelInstance = () => ModelWithTyreWear(),
+                Expected = 61.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_tyres_wear_frontleft_percent_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_tyres_wear_frontleft_percent",
+                PilotName = "IntegrationTest_twear_frontleft",
+                SetFieldValue = t => t.TyresWear.FrontLeftWear= 60.0,
+                GetApiModelInstance = () => ModelWithTyreWear(),
+                Expected = 60.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        // =============
+
+        [Fact]
+        public async void GIVEN_pitwall_tyres_temperatures_rearright_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_tyres_temperatures_rearright_celsius",
+                PilotName = "IntegrationTest_ttemp_rearright",
+                SetFieldValue = t => t.TyresTemperatures.RearRightTemp = 62.0,
+                GetApiModelInstance = () => ModelWithTyreTemp(),
+                Expected = 62.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_tyres_temperatures_rearleft_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_tyres_temperatures_rearleft_celsius",
+                PilotName = "IntegrationTest_ttemp_rearleft",
+                SetFieldValue = t => t.TyresTemperatures.RearLeftTemp = 62.0,
+                GetApiModelInstance = () => ModelWithTyreTemp(),
+                Expected = 62.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_tyres_temperatures_frontright_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_tyres_temperatures_frontright_celsius",
+                PilotName = "IntegrationTest_ttemp_frontright",
+                SetFieldValue = t => t.TyresTemperatures.FrontRightTemp = 61.0,
+                GetApiModelInstance = () => ModelWithTyreTemp(),
+                Expected = 61.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_tyres_temperatures_frontleft_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_tyres_temperatures_frontleft_celsius",
+                PilotName = "IntegrationTest_ttemp_frontleft",
+                SetFieldValue = t => t.TyresTemperatures.FrontLeftTemp = 60.0,
+                GetApiModelInstance = () => ModelWithTyreTemp(),
+                Expected = 60.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_road_wetness_avg_percent_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_road_wetness_avg_percent",
+                PilotName = "IntegrationTest_roadWetness",
+                SetFieldValue = t => t.AvgWetness = 0.3,
+                GetApiModelInstance = () => ModelWithoutSubMappings(),
+                Expected = 0.3
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_laptimes_seconds_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_laptimes_seconds",
+                PilotName = "IntegrationTest_laptime",
+                SetFieldValue = t => t.LaptimeSeconds = 122.0,
+                GetApiModelInstance = () => ModelWithoutSubMappings(),
+                Expected = 122.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        [Fact]
+        public async void GIVEN_pitwall_air_temperature_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_air_temperature_celsius",
+                PilotName = "IntegrationTest_airTemp",
+                SetFieldValue = t => t.AirTemperature = 10.0,
+                GetApiModelInstance = () => ModelWithoutSubMappings(),
+                Expected = 10.0
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
         public async void GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
         {
 
@@ -140,9 +189,13 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Check.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
             }
 
-            //Thread.Sleep(16000);
+            Thread.Sleep(4000);
 
             {
+                /**
+                 * Idea: Use retry every seconds for 5 seconds method
+                 * */
+
                 string intermediary = await ReadInstantQueryResult(
                    testContext.MetricName,
                    PilotLabel,
@@ -206,6 +259,28 @@ namespace PitWallDataGatheringApi.Integration.Tests
 
             var response = await client.PostAsync("/api/Telemetry", content);
             return response;
+        }
+
+        private TelemetryModel ModelWithoutSubMappings()
+        {
+            return new TelemetryModel();
+        }
+
+        private TelemetryModel ModelWithTyreTemp()
+        {
+            return new TelemetryModel()
+            {
+                TyresTemperatures = new TyresTemperatures()
+            };
+        }
+
+
+        private TelemetryModel ModelWithTyreWear()
+        {
+            return new TelemetryModel()
+            {
+                TyresWear = new TyresWear()
+            };
         }
     }
 }
