@@ -169,7 +169,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
             await GIVEN_metric_THEN_read_from_timeSerie(context);
         }
 
-        public async Task GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
+        private async Task GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
         {
 
             Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + testContext);
