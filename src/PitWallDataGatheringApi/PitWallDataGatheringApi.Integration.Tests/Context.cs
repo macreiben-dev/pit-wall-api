@@ -1,0 +1,33 @@
+﻿using PitWallDataGatheringApi.Models.Apis;
+
+namespace PitWallDataGatheringApi.Integration.Tests
+{
+    public sealed class Context : IContext
+    {
+        public string _simerKey = null;
+
+        public Context(string simerKey)
+        {
+            _simerKey = simerKey;
+        }
+
+        public string MetricName { get; set; }
+
+        public string SimerKey => _simerKey;
+
+        public string PilotName { get; set; }
+
+        public object OriginalValue { get; set; }
+
+        public object Expected { get; set; }
+
+        public Action<TelemetryModel> SetFieldValue { get; set; }
+
+        public Func<TelemetryModel> GetApiModelInstance { get; set; }
+
+        public override string ToString()
+        {
+            return $"Metricname: [{MetricName}] - PilotName: [{PilotName}] - Expected: [{Expected}]";
+        }
+    }
+}

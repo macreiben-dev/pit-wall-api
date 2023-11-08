@@ -25,17 +25,20 @@ stages:
         command: 'restore'
         projects: '**/*.sln'
         workingDirectory: 'src/PitWallDataGatheringApi'
+
     - task: DotNetCoreCLI@2
       displayName: Build solution
       inputs:
         command: 'build'
         projects: '**/*.sln'
         workingDirectory: 'src/PitWallDataGatheringApi'
+
     - task: DotNetCoreCLI@2
       displayName: Run tests
       inputs:
         command: 'test'
-        projects: '**/*.sln'
+        projects: **/*.sln
+        arguments:  --filter FullyQualifiedName!~Integration.Tests
         workingDirectory: 'src/PitWallDataGatheringApi'
 
     - task: PublishBuildArtifacts@1

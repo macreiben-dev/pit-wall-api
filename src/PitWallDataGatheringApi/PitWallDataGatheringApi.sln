@@ -9,10 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Tes
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{464F40EE-D811-4432-9F48-06A274E2DC27}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\azure-pipelines.yml = ..\..\azure-pipelines.yml
 		..\Container\compose.yml = ..\Container\compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Integration.Tests", "PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj", "{9D914C92-ED59-481A-9114-06C849A33B3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Integration.Tests", "PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj", "{9D914C92-ED59-481A-9114-06C849A33B3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
