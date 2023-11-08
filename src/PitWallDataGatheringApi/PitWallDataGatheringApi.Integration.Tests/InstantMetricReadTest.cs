@@ -166,10 +166,10 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Expected = 10.0
             };
 
-            GIVEN_metric_THEN_read_from_timeSerie(context);
+            await GIVEN_metric_THEN_read_from_timeSerie(context);
         }
 
-        public async void GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
+        public async Task GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
         {
 
             Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + testContext);
@@ -237,6 +237,11 @@ namespace PitWallDataGatheringApi.Integration.Tests
             {
                 Formatting = Formatting.Indented,
             });
+
+            if(json == null)
+            {
+                throw new NoResultException(TimeSerieUri, queryPath);
+            }
 
             string intermediary = json["data"]["result"][0]["value"][1].ToString();
             return intermediary;

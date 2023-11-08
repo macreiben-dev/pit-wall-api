@@ -11,11 +11,11 @@ namespace PitWallDataGatheringApi.Integration.Tests
             _simerKey = simerKey;
         }
 
-        public string MetricName { get; set; }
+        public string? MetricName { get; set; }
 
         public string SimerKey => _simerKey;
 
-        public string PilotName { get; set; }
+        public string? PilotName { get; set; }
 
         public object OriginalValue { get; set; }
 

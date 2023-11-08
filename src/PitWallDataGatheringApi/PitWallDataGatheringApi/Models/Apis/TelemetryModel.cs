@@ -6,7 +6,7 @@
         {
             TyresWear = new TyresWear();
         }
-        public string PilotName { get; set; }
+        public string? PilotName { get; set; }
 
         public double? LaptimeSeconds { get; set; }
 
