@@ -12,6 +12,10 @@ namespace PitWallDataGatheringApi.Tests.Services
         private readonly ITyreWearRepository _tyreWearRepository;
         private readonly ILaptimeRepository _laptimeRepository;
         private readonly ITyresTemperaturesRepository _tyreTemperature;
+        private readonly IAvgWetnessRepository _avgWetness;
+        private readonly IAirTemperatureRepository _airTemperature;
+
+        private const string PilotName = "Pilot01";
 
         public PitwallTelemetryServiceTest()
         {
@@ -20,6 +24,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             _laptimeRepository = Substitute.For<ILaptimeRepository>();
 
             _tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
+            
+            _avgWetness = Substitute.For<IAvgWetnessRepository>();
+
+            _airTemperature = Substitute.For<IAirTemperatureRepository>();
         }
 
         private PitwallTelemetryService GetTarget()
@@ -28,7 +36,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _tyreWearRepository,
                 _laptimeRepository,
                 _tyreTemperature,
-                Substitute.For<IAvgWetnessRepository>(), 
+                _avgWetness,
                 Substitute.For<IAirTemperatureRepository>());
         }
 
@@ -48,14 +56,14 @@ namespace PitWallDataGatheringApi.Tests.Services
                 tyreWearRepository,
                 laptimeRepository,
                 tyreTemperature,
-                avgWetnessRepository, 
+                avgWetnessRepository,
                 airTemperature);
 
             return new TestContextPitwallTelemetryService(
-                target, 
-                tyreWearRepository, 
-                tyreTemperature, 
-                laptimeRepository, 
+                target,
+                tyreWearRepository,
+                tyreTemperature,
+                laptimeRepository,
                 avgWetnessRepository,
                 airTemperature);
         }
@@ -69,10 +77,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _tyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<ITyresWear>());
-            _tyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<ITyresWear>());
-            _tyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<ITyresWear>());
-            _tyreWearRepository.Received(0).UpdateRearRight(Arg.Any<ITyresWear>());
+            _tyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>());
+            _tyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>());
+            _tyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>());
+            _tyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>());
         }
 
         [Fact]
@@ -86,6 +94,32 @@ namespace PitWallDataGatheringApi.Tests.Services
             // ASSERT
             _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
         }
+
+
+        [Fact]
+        public void GIVEN_telemetry_isNull_THEN_should_not_update_avgWetness()
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(null);
+
+            // ASSERT
+            _avgWetness.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+        }
+
+        [Fact]
+        public void GIVEN_telemetry_isNull_THEN_should_not_update_airTemperature()
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(null);
+
+            // ASSERT
+            _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+        }
+
 
         public class TyreWearTest
         {
@@ -101,18 +135,16 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 var original = new TelemetryModel();
 
-                original.TyresWear = null;
-
                 // ACT
                 var target = _context.Target;
 
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<ITyresWear>());
-                _context.TyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<ITyresWear>());
-                _context.TyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<ITyresWear>());
-                _context.TyreWearRepository.Received(0).UpdateRearRight(Arg.Any<ITyresWear>());
+                _context.TyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>());
+                _context.TyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>());
+                _context.TyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>());
+                _context.TyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>());
             }
 
             [Fact]
@@ -120,6 +152,8 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 // ARRANGE
                 var original = new TelemetryModel();
+                original.PilotName = PilotName;
+
                 var tyres = new TyresWear()
                 {
                     FrontLeftWear = 50.0
@@ -133,8 +167,9 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateFrontLeft(
-                    Arg.Is<TyresWear>(c => c.FrontLeftWear == 50.0));
+                _context.TyreWearRepository.Received(1).UpdateFrontLeft( 
+                    PilotName, 
+                    50.0);
             }
 
             [Fact]
@@ -142,6 +177,8 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 // ARRANGE
                 var original = new TelemetryModel();
+                original.PilotName = PilotName;
+
                 var tyres = new TyresWear()
                 {
                     FrontRightWear = 51.0
@@ -156,7 +193,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateFrontRight(
-                    Arg.Is<TyresWear>(c => c.FrontRightWear == 51.0));
+                    PilotName,
+                    51.0);
             }
 
             [Fact]
@@ -164,6 +202,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 // ARRANGE
                 var original = new TelemetryModel();
+                original.PilotName = PilotName;
 
                 var tyres = new TyresWear()
                 {
@@ -179,7 +218,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearLeft(
-                    Arg.Is<TyresWear>(c => c.ReartLeftWear == 52.0));
+                    PilotName,
+                    52.0);
             }
 
             [Fact]
@@ -187,6 +227,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 // ARRANGE
                 var original = new TelemetryModel();
+                original.PilotName = PilotName;
 
                 var tyres = new TyresWear()
                 {
@@ -202,13 +243,16 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearRight(
-                    Arg.Is<TyresWear>(c => c.RearRightWear == 53.0));
+                    PilotName,
+                    53.0);
             }
         }
 
         public class TyresTemperaturesTest
         {
             private TestContextPitwallTelemetryService _context;
+
+            private const string PilotName = "pilot01";
 
             public TyresTemperaturesTest()
             {
@@ -219,8 +263,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             public void GIVEN_telemetry_with_TyresTemperatyres_isNull_THEN_should_not_updateTyres()
             {
                 var original = new TelemetryModel();
-
-                original.TyresWear = null;
+                original.PilotName = PilotName;
 
                 // ACT
                 var target = _context.Target;
@@ -228,10 +271,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<ITyresTemperatures>());
-                _context.TyreTemperature.Received(0).UpdateFrontRight(Arg.Any<ITyresTemperatures>());
-                _context.TyreTemperature.Received(0).UpdateRearLeft(Arg.Any<ITyresTemperatures>());
-                _context.TyreTemperature.Received(0).UpdateRearRight(Arg.Any<ITyresTemperatures>());
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>());
+                _context.TyreTemperature.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>());
+                _context.TyreTemperature.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>());
+                _context.TyreTemperature.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>());
             }
 
             [Fact]
@@ -241,10 +284,11 @@ namespace PitWallDataGatheringApi.Tests.Services
                 var original = new TelemetryModel();
                 var tyres = new TyresTemperatures()
                 {
-                    FrontLeftTemp = 50.0
+                    FrontLeftTemp = 48.0
                 };
 
                 original.TyresTemperatures = tyres;
+                original.PilotName = PilotName;
 
                 // ACT
                 var target = _context.Target;
@@ -253,7 +297,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontLeft(
-                    Arg.Is<TyresTemperatures>(c => c.FrontLeftTemp == 50.0));
+                    PilotName,
+                    48.0);
             }
 
             [Fact]
@@ -263,9 +308,9 @@ namespace PitWallDataGatheringApi.Tests.Services
                 var original = new TelemetryModel();
                 var tyres = new TyresTemperatures()
                 {
-                    FrontRightTemp = 50.0
+                    FrontRightTemp = 49.0
                 };
-
+                original.PilotName = PilotName;
                 original.TyresTemperatures = tyres;
 
                 // ACT
@@ -275,7 +320,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontRight(
-                    Arg.Is<TyresTemperatures>(c => c.FrontRightTemp == 50.0));
+                    PilotName,
+                    49.0);
             }
 
             [Fact]
@@ -287,7 +333,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 {
                     RearLeftTemp = 50.0
                 };
-
+                original.PilotName = PilotName;
                 original.TyresTemperatures = tyres;
 
                 // ACT
@@ -297,7 +343,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearLeft(
-                    Arg.Is<TyresTemperatures>(c => c.RearLeftTemp == 50.0));
+                    PilotName, 
+                    50.0);
             }
 
             [Fact]
@@ -307,9 +354,9 @@ namespace PitWallDataGatheringApi.Tests.Services
                 var original = new TelemetryModel();
                 var tyres = new TyresTemperatures()
                 {
-                    RearRightTemp = 50.0
+                    RearRightTemp = 51.0
                 };
-
+                original.PilotName = PilotName;
                 original.TyresTemperatures = tyres;
 
                 // ACT
@@ -319,7 +366,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearRight(
-                    Arg.Is<TyresTemperatures>(c => c.RearRightTemp == 50.0));
+                    PilotName,
+                    51.0);
             }
         }
 
@@ -356,8 +404,8 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 // ARRANGE
                 var original = new TelemetryModel();
-                
-                original.AvgWetness= 5.0;
+
+                original.AvgWetness = 5.0;
                 original.PilotName = "Pilot1";
 
                 // ACT

@@ -7,11 +7,11 @@ namespace PitWallDataGatheringApi.Services
 {
     public sealed class PitwallTelemetryService : IPitwallTelemetryService
     {
-        private readonly ITyreWearRepository pitwallTyresPercentRepository;
-        private readonly ILaptimeRepository laptimeRepository;
-        private readonly ITyresTemperaturesRepository tyresTemperatures;
-        private readonly IAvgWetnessRepository avgWetnessRepository;
-        private readonly IAirTemperatureRepository airTemperatureRepository;
+        private readonly ITyreWearRepository _pitwallTyresPercentRepository;
+        private readonly ILaptimeRepository _laptimeRepository;
+        private readonly ITyresTemperaturesRepository _tyresTemperaturesRepository;
+        private readonly IAvgWetnessRepository _avgWetnessRepository;
+        private readonly IAirTemperatureRepository _airTemperatureRepository;
 
         public PitwallTelemetryService(
             ITyreWearRepository pitwallTyresPercentRepository,
@@ -20,11 +20,11 @@ namespace PitWallDataGatheringApi.Services
             IAvgWetnessRepository avgWetnessRepository,
             IAirTemperatureRepository airTemperatureRepository)
         {
-            this.pitwallTyresPercentRepository = pitwallTyresPercentRepository;
-            this.laptimeRepository = laptimeRepository;
-            this.tyresTemperatures = tyresTemperatures;
-            this.avgWetnessRepository = avgWetnessRepository;
-            this.airTemperatureRepository = airTemperatureRepository;
+            _pitwallTyresPercentRepository = pitwallTyresPercentRepository;
+            _laptimeRepository = laptimeRepository;
+            _tyresTemperaturesRepository = tyresTemperatures;
+            _avgWetnessRepository = avgWetnessRepository;
+            _airTemperatureRepository = airTemperatureRepository;
         }
 
         public void Update(ITelemetryModel telemetry)
@@ -34,43 +34,61 @@ namespace PitWallDataGatheringApi.Services
                 return;
             }
 
-            if (telemetry.TyresWear != null)
-            {
-                var tyresWears = telemetry.TyresWear;
+            /**
+             * Idea : pilotname is a perrequest information, and could be stored in an injected repository.
+             * */
 
-                pitwallTyresPercentRepository.UpdateFrontLeft(tyresWears);
-                pitwallTyresPercentRepository.UpdateFrontRight(tyresWears);
-                pitwallTyresPercentRepository.UpdateRearLeft(tyresWears);
-                pitwallTyresPercentRepository.UpdateRearRight(tyresWears);
-            }
+            UpdateTyreWear(
+                telemetry.TyresWear,
+                telemetry.PilotName);
 
-            if (telemetry.TyresTemperatures != null)
-            {
-                tyresTemperatures.UpdateFrontLeft(telemetry.TyresTemperatures);
-                tyresTemperatures.UpdateFrontRight(telemetry.TyresTemperatures);
-                tyresTemperatures.UpdateRearLeft(telemetry.TyresTemperatures);
-                tyresTemperatures.UpdateRearRight(telemetry.TyresTemperatures);
-            }
+            UpdateTyresTemperatures(
+                telemetry.TyresTemperatures,
+                telemetry.PilotName);
 
-            // ------
-
-            laptimeRepository.Update(
+            _laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
                 telemetry.PilotName);
 
-            if (telemetry.AvgWetness != null)
-            {
-                avgWetnessRepository.Update(
+            telemetry.AvgWetness.WhenHasValue(
+                () => _avgWetnessRepository.Update(
                     telemetry.AvgWetness,
-                    telemetry.PilotName);
-            }
+                    telemetry.PilotName)
+                );
 
-            if (telemetry.AirTemperature != null)
-            {
-                airTemperatureRepository.Update(
+            telemetry.AirTemperature.WhenHasValue(
+                () =>
+                _airTemperatureRepository.Update(
                     telemetry.AirTemperature,
-                    telemetry.PilotName);
-            }
+                    telemetry.PilotName)
+                );
+        }
+
+        private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName)
+        {
+            tyresTemperatures.FrontLeftTemp.WhenHasValue(
+                () => _tyresTemperaturesRepository.UpdateFrontLeft(pilotName, tyresTemperatures.FrontLeftTemp));
+
+            tyresTemperatures.FrontRightTemp.WhenHasValue(
+                () => _tyresTemperaturesRepository.UpdateFrontRight(pilotName, tyresTemperatures.FrontRightTemp));
+
+            tyresTemperatures.RearLeftTemp.WhenHasValue(
+                () => _tyresTemperaturesRepository.UpdateRearLeft(pilotName, tyresTemperatures.RearLeftTemp));
+
+            tyresTemperatures.RearRightTemp.WhenHasValue(
+                () => _tyresTemperaturesRepository.UpdateRearRight(pilotName, tyresTemperatures.RearRightTemp));
+        }
+
+        private void UpdateTyreWear(ITyresWear tyresWears, string pilotName)
+        {
+            tyresWears.FrontLeftWear.WhenHasValue(() =>
+                _pitwallTyresPercentRepository.UpdateFrontLeft(pilotName, tyresWears.FrontLeftWear));
+
+            _pitwallTyresPercentRepository.UpdateFrontRight(pilotName, tyresWears.FrontRightWear);
+
+            _pitwallTyresPercentRepository.UpdateRearLeft(pilotName, tyresWears.ReartLeftWear);
+
+            _pitwallTyresPercentRepository.UpdateRearRight(pilotName, tyresWears.RearRightWear);
         }
     }
 }
