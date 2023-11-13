@@ -75,3 +75,7 @@ It should not be left active all the time because no advanced pentesting has bee
 I currently have not metrics about the growth of the disk space.
 
 It works on a Standard B1 on Azure.
+
+## See also
+
+- [Simhub Pitwall Acquisition Plugin](https://github.com/macreiben-dev/pit-wall-acquisition)
