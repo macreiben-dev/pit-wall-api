@@ -4,6 +4,10 @@ This API exposes a Metrics endpoint to allow a prometheus instance to retrieve d
 
 ## Installation
 
+### Requirements
+
+- Works on Azure B1 Standard Virtual Machine
+
 ### Compiling sources
 
 - You will need a working dotnet installation
@@ -60,9 +64,9 @@ Forget one of these, and you'll be toss out immediately.
 
 ### Security
 
-Althought the API has a simerkey to avoid being data poisoning, it do not have a embedded DDOS security.
+Althought the API has a simerkey to avoid being data poisoning, it do not have a embed DDOS security.
 
-The system has been made very light to run almost anywhere without having coupling to an authentication system.
+The system has been made very light to run almost anywhere without having coupling to an authentication system for now.
 
 It should not be left active all the time because no advanced pentesting has been made.
 
