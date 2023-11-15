@@ -18,7 +18,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         private const string SimerKey = "some_test_looking_value23";
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_wear_rearleft_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_wear_rearleft_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -33,7 +33,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_wear_frontright_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_wear_frontright_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -48,13 +48,13 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_wear_frontleft_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_wear_frontleft_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
                 MetricName = "pitwall_tyres_wear_frontleft_percent",
                 PilotName = "IntegrationTest_twear_frontleft",
-                SetFieldValue = t => t.TyresWear.FrontLeftWear= 60.0,
+                SetFieldValue = t => t.TyresWear.FrontLeftWear = 60.0,
                 GetApiModelInstance = () => ModelWithTyreWear(),
                 Expected = 60.0
             };
@@ -65,7 +65,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         // =============
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_rearright_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_rearright_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -80,7 +80,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_rearleft_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_rearleft_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -95,7 +95,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_frontright_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_frontright_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -110,7 +110,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_frontleft_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_frontleft_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -125,7 +125,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_road_wetness_avg_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_road_wetness_avg_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -140,7 +140,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_laptimes_seconds_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_laptimes_seconds_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -155,7 +155,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_air_temperature_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_air_temperature_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -166,10 +166,25 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Expected = 10.0
             };
 
-            await GIVEN_metric_THEN_read_from_timeSerie(context);
+            GIVEN_metric_THEN_read_from_timeSerie(context);
         }
 
-        private async Task GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
+        [Fact]
+        public void GIVEN_pitwall_track_temperature_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_track_temperature_celsius",
+                PilotName = "IntegrationTest_trackTemp",
+                SetFieldValue = t => t.TrackTemperature = 33.3,
+                GetApiModelInstance = () => ModelWithoutSubMappings(),
+                Expected = 33.3
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
+        private void GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
         {
 
             Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + testContext);
@@ -184,9 +199,13 @@ namespace PitWallDataGatheringApi.Integration.Tests
             testContext.SetFieldValue(model);
 
             {
-                HttpResponseMessage response = await SendToApi(model);
+                Task<HttpResponseMessage> curent = SendToApi(model);
 
-                Check.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+                Task.WaitAll(curent);
+
+                HttpResponseMessage responseMessage = curent.Result;
+
+                Check.That(responseMessage.StatusCode).IsEqualTo(HttpStatusCode.OK);
             }
 
             Thread.Sleep(4000);
@@ -196,10 +215,14 @@ namespace PitWallDataGatheringApi.Integration.Tests
                  * Idea: Use retry every seconds for 5 seconds method
                  * */
 
-                string intermediary = await ReadInstantQueryResult(
+                Task<string> read = ReadInstantQueryResult(
                    testContext.MetricName,
                    PilotLabel,
                    testContext.PilotName);
+
+                Task.WaitAll(read);
+
+                string intermediary = read.Result;
 
                 var actual = Double.Parse(intermediary, CultureInfo.InvariantCulture);
 
@@ -238,9 +261,14 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Formatting = Formatting.Indented,
             });
 
-            if(json == null)
+            if (json == null)
             {
                 throw new NoResultException(TimeSerieUri, queryPath);
+            }
+
+            if(json["data"]["result"].Count() == 0)
+            {
+                throw new NoDataFoundException();
             }
 
             string intermediary = json["data"]["result"][0]["value"][1].ToString();
@@ -262,7 +290,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PostAsync("/api/Telemetry", content);
+            var response = await client.PostAsync("/api/v1/Telemetry", content);
             return response;
         }
 
