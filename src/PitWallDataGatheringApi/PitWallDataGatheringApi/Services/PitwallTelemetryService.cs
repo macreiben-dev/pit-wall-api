@@ -18,7 +18,8 @@ namespace PitWallDataGatheringApi.Services
             ILaptimeRepository laptimeRepository,
             ITyresTemperaturesRepository tyresTemperatures,
             IAvgWetnessRepository avgWetnessRepository,
-            IAirTemperatureRepository airTemperatureRepository)
+            IAirTemperatureRepository airTemperatureRepository, 
+            ITrackTemperatureRepository trackTemperatureRepository)
         {
             _pitwallTyresPercentRepository = pitwallTyresPercentRepository;
             _laptimeRepository = laptimeRepository;

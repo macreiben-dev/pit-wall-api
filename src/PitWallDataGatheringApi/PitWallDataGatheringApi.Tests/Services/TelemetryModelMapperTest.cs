@@ -92,7 +92,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 ApiTelemetryModel source = new ApiTelemetryModel();
 
-                source.TyresTemperatures = new Models.Apis.TyresTemperatures();
+                source.TyresTemperatures = new PitWallDataGatheringApi.Models.Apis.TyresTemperatures();
 
                 source.TyresTemperatures.FrontLeftTemp = FrontLeftTemp;
                 source.TyresTemperatures.FrontRightTemp = FrontRightTemp;
@@ -140,6 +140,8 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             private const double AvgWetness = 10.0;
             private const double AirTemperature = 11.0;
+            private const double TrackTemperature = 12.0;
+
             private ITelemetryModel? _actual;
 
             public WeatherTest()
@@ -148,6 +150,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 source.AirTemperature = AirTemperature;
                 source.AvgWetness = AvgWetness;
+                source.TrackTemperature = TrackTemperature;
 
                 _actual = GetTarget().Map(source);
             }
@@ -162,6 +165,12 @@ namespace PitWallDataGatheringApi.Tests.Services
             public void Should_map_avgWetness()
             {
                 Check.That(_actual.AvgWetness).IsEqualTo(AvgWetness);
+            }
+
+            [Fact]
+            public void Should_map_track_temperature()
+            {
+                Check.That(_actual.TrackTemperature).IsEqualTo(TrackTemperature);
             }
         }
     }

@@ -7,12 +7,13 @@ namespace PitWallDataGatheringApi.Tests.Services
 {
     public class TestContextPitwallTelemetryService
     {
-        public TestContextPitwallTelemetryService(PitwallTelemetryService target, 
-            ITyreWearRepository tyreWearRepository, 
-            ITyresTemperaturesRepository tyreTemperature, 
+        public TestContextPitwallTelemetryService(PitwallTelemetryService target,
+            ITyreWearRepository tyreWearRepository,
+            ITyresTemperaturesRepository tyreTemperature,
             ILaptimeRepository laptimeRepository,
             IAvgWetnessRepository wetnessRepository,
-            IAirTemperatureRepository airTemperature)
+            IAirTemperatureRepository airTemperature, 
+            ITrackTemperatureRepository trackTemperatureRepository)
         {
             Target = target;
             TyreWearRepository = tyreWearRepository;
@@ -20,6 +21,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             LaptimeRepository = laptimeRepository;
             AvgWetnessRepository = wetnessRepository;
             AirTemperature = airTemperature;
+            TrackTemperature = trackTemperatureRepository;
         }
 
         public PitwallTelemetryService Target { get; }
@@ -28,5 +30,6 @@ namespace PitWallDataGatheringApi.Tests.Services
         public ILaptimeRepository LaptimeRepository { get; }
         public IAvgWetnessRepository AvgWetnessRepository { get; }
         public IAirTemperatureRepository AirTemperature { get; }
+        public ITrackTemperatureRepository TrackTemperature { get; }
     }
 }

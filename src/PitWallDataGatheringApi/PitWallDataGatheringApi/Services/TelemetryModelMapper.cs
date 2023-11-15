@@ -16,11 +16,20 @@ namespace PitWallDataGatheringApi.Services
             BusinessTelemetryModel model = new BusinessTelemetryModel();
 
             model.AirTemperature = apiModel.AirTemperature;
+            
             model.AvgWetness = apiModel.AvgWetness;
+
+            model.TrackTemperature = apiModel.TrackTemperature;
+            
             model.LaptimeSeconds = apiModel.LaptimeSeconds;
+            
+            /**
+             * correct this one in v2 API
+             * */
             model.PilotName = apiModel.PilotName;
 
             model.TyresWear = Map(apiModel.TyresWear);
+            
             model.TyresTemperatures = Map(apiModel.TyresTemperatures);
 
             return model;

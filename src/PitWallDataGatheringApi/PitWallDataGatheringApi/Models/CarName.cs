@@ -1,4 +1,4 @@
-﻿namespace PitWallDataGatheringApi.Repositories.Prometheus
+﻿namespace PitWallDataGatheringApi.Models
 {
     public struct CarName
     {

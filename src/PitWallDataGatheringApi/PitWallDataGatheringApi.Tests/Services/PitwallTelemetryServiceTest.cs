@@ -1,6 +1,8 @@
 ﻿using NSubstitute;
+using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Prometheus;
 using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Services;
@@ -14,6 +16,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         private readonly ITyresTemperaturesRepository _tyreTemperature;
         private readonly IAvgWetnessRepository _avgWetness;
         private readonly IAirTemperatureRepository _airTemperature;
+        private readonly ITrackTemperatureRepository _trackTemperature;
 
         private const string PilotName = "Pilot01";
 
@@ -28,6 +31,8 @@ namespace PitWallDataGatheringApi.Tests.Services
             _avgWetness = Substitute.For<IAvgWetnessRepository>();
 
             _airTemperature = Substitute.For<IAirTemperatureRepository>();
+
+            _trackTemperature = Substitute.For<ITrackTemperatureRepository>();
         }
 
         private PitwallTelemetryService GetTarget()
@@ -37,7 +42,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _laptimeRepository,
                 _tyreTemperature,
                 _avgWetness,
-                Substitute.For<IAirTemperatureRepository>());
+                Substitute.For<IAirTemperatureRepository>(), 
+                _trackTemperature);
         }
 
         public static TestContextPitwallTelemetryService GetTargetTestContext()
@@ -52,12 +58,15 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             var airTemperature = Substitute.For<IAirTemperatureRepository>();
 
+            var trackTemperature = Substitute.For<ITrackTemperatureRepository>();
+
             var target = new PitwallTelemetryService(
                 tyreWearRepository,
                 laptimeRepository,
                 tyreTemperature,
                 avgWetnessRepository,
-                airTemperature);
+                airTemperature,
+                trackTemperature);
 
             return new TestContextPitwallTelemetryService(
                 target,
@@ -65,7 +74,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 tyreTemperature,
                 laptimeRepository,
                 avgWetnessRepository,
-                airTemperature);
+                airTemperature, 
+                trackTemperature);
         }
 
         [Fact]
@@ -120,6 +130,17 @@ namespace PitWallDataGatheringApi.Tests.Services
             _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
         }
 
+        [Fact]
+        public void GIVEN_telemetry_isNull_THEN_should_not_update_trackTemperature()
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(null);
+
+            // ASSERT
+            _trackTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), new CarName(null));
+        }
 
         public class TyreWearTest
         {
@@ -452,6 +473,44 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.AirTemperature.Received(1).Update(5.0, "Pilot1");
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_nullTrackTemperature_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.TrackTemperature = null;
+                original.PilotName = "Pilot1";
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TrackTemperature.Received(0)
+                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_trackTemperatyre_THEN_update_data_AND_set_pilotName()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.TrackTemperature = 13.3;
+                original.PilotName = "Pilot1";
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TrackTemperature.Received(0)
+                    .Update(13.3, "Pilot1", Arg.Any<CarName>());
             }
 
         }

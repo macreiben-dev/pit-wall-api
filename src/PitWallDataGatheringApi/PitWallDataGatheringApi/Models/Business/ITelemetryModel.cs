@@ -6,9 +6,11 @@
 
         string PilotName { get; }
 
-        public double? AirTemperature { get; }
+        double? AirTemperature { get; }
 
-        public double? AvgWetness { get; }
+        double? AvgWetness { get; }
+
+        double? TrackTemperature { get; }
 
         ITyresWear TyresWear { get; }
 

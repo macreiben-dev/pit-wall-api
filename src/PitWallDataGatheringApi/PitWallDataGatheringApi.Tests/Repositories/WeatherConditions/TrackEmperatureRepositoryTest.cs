@@ -1,5 +1,6 @@
 ﻿using NFluent;
 using NSubstitute;
+using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prometheus;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 

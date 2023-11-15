@@ -1,7 +1,7 @@
 ﻿using NFluent;
-using PitWallDataGatheringApi.Repositories.Prometheus;
+using PitWallDataGatheringApi.Models;
 
-namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
+namespace PitWallDataGatheringApi.Tests.Models
 {
     public sealed class CarNameTest
     {
