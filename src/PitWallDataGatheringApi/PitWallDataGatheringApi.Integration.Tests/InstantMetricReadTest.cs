@@ -176,7 +176,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
             {
                 MetricName = "pitwall_track_temperature_celsius",
                 PilotName = "IntegrationTest_trackTemp",
-                SetFieldValue = t => t.AirTemperature = 33.3,
+                SetFieldValue = t => t.TrackTemperature = 33.3,
                 GetApiModelInstance = () => ModelWithoutSubMappings(),
                 Expected = 33.3
             };
