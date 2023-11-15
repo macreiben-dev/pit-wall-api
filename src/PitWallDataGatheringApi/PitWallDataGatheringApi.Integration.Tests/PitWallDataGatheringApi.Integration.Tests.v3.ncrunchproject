@@ -4,6 +4,9 @@
       <NamedTestSelector>
         <TestName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest.GIVEN_metric_THEN_read_from_timeSerie</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest.GIVEN_pitwall_track_temperature_celsius_THEN_read_from_timeSerie</TestName>
+      </NamedTestSelector>
       <FixtureTestSelector>
         <FixtureName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest</FixtureName>
       </FixtureTestSelector>

@@ -1,4 +1,5 @@
-﻿using PitWallDataGatheringApi.Models.Business;
+﻿using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
@@ -12,6 +13,7 @@ namespace PitWallDataGatheringApi.Services
         private readonly ITyresTemperaturesRepository _tyresTemperaturesRepository;
         private readonly IAvgWetnessRepository _avgWetnessRepository;
         private readonly IAirTemperatureRepository _airTemperatureRepository;
+        private readonly ITrackTemperatureRepository _trackTemperatureRepository;
 
         public PitwallTelemetryService(
             ITyreWearRepository pitwallTyresPercentRepository,
@@ -26,6 +28,7 @@ namespace PitWallDataGatheringApi.Services
             _tyresTemperaturesRepository = tyresTemperatures;
             _avgWetnessRepository = avgWetnessRepository;
             _airTemperatureRepository = airTemperatureRepository;
+            _trackTemperatureRepository = trackTemperatureRepository;
         }
 
         public void Update(ITelemetryModel telemetry)
@@ -51,17 +54,24 @@ namespace PitWallDataGatheringApi.Services
                 telemetry.LaptimeSeconds,
                 telemetry.PilotName);
 
-            telemetry.AvgWetness.WhenHasValue(
-                () => _avgWetnessRepository.Update(
+            telemetry.AvgWetness.WhenHasValue(() => 
+                _avgWetnessRepository.Update(
                     telemetry.AvgWetness,
                     telemetry.PilotName)
                 );
 
-            telemetry.AirTemperature.WhenHasValue(
-                () =>
+            telemetry.AirTemperature.WhenHasValue(() =>
                 _airTemperatureRepository.Update(
                     telemetry.AirTemperature,
                     telemetry.PilotName)
+                );
+
+            telemetry.TrackTemperature.WhenHasValue(() => 
+                _trackTemperatureRepository.Update(
+                    telemetry.TrackTemperature,
+                    telemetry.PilotName, 
+                    new CarName(null)
+                    )
                 );
         }
 

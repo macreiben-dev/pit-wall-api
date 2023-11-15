@@ -169,6 +169,21 @@ namespace PitWallDataGatheringApi.Integration.Tests
             GIVEN_metric_THEN_read_from_timeSerie(context);
         }
 
+        [Fact]
+        public void GIVEN_pitwall_track_temperature_celsius_THEN_read_from_timeSerie()
+        {
+            var context = new Context(SimerKey)
+            {
+                MetricName = "pitwall_track_temperature_celsius",
+                PilotName = "IntegrationTest_trackTemp",
+                SetFieldValue = t => t.AirTemperature = 33.3,
+                GetApiModelInstance = () => ModelWithoutSubMappings(),
+                Expected = 33.3
+            };
+
+            GIVEN_metric_THEN_read_from_timeSerie(context);
+        }
+
         private void GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
         {
 
@@ -249,6 +264,11 @@ namespace PitWallDataGatheringApi.Integration.Tests
             if (json == null)
             {
                 throw new NoResultException(TimeSerieUri, queryPath);
+            }
+
+            if(json["data"]["result"].Count() == 0)
+            {
+                throw new NoDataFoundException();
             }
 
             string intermediary = json["data"]["result"][0]["value"][1].ToString();

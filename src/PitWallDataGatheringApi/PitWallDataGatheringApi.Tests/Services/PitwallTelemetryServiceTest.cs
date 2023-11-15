@@ -458,7 +458,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             }
 
             [Fact]
-            public void GIVEN_telemetry_with_airTemperatyre_THEN_update_data_AND_set_pilotName()
+            public void GIVEN_telemetry_with_airTemperature_THEN_update_data_AND_set_pilotName()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -495,7 +495,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             }
 
             [Fact]
-            public void GIVEN_telemetry_with_trackTemperatyre_THEN_update_data_AND_set_pilotName()
+            public void GIVEN_telemetry_with_trackTemperature_THEN_update_data_AND_set_pilotName()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -509,7 +509,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TrackTemperature.Received(0)
+                _context.TrackTemperature.Received(1)
                     .Update(13.3, "Pilot1", Arg.Any<CarName>());
             }
 
