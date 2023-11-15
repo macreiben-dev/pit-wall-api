@@ -1,6 +1,4 @@
 ﻿using Prometheus;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Reflection.Emit;
 
 namespace PitWallDataGatheringApi.Repositories.Prometheus
 {

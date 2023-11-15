@@ -1,11 +1,22 @@
-﻿namespace PitWallDataGatheringApi.Repositories.WeatherConditions
+﻿using PitWallDataGatheringApi.Repositories.Prometheus;
+
+namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public sealed class TrackEmperatureRepository : ITrackTemperatureRepository, IDocumentationTrackTemperatureSerie
+    public sealed class TrackEmperatureRepository : ITrackTemperatureRepository
     {
-        public string SerieName => throw new NotImplementedException();
+        private readonly IGauge _gauge;
 
-        public string[] Labels => throw new NotImplementedException();
+        public TrackEmperatureRepository(IGaugeWrapperFactory _gaugeFactory)
+        {
+            _gauge = _gaugeFactory.Create(
+                "pitwall_track_temperature_celsius",
+                "Track temperature in celsius",
+                new[] { "Pilot", "All", "Car" });
+        }
 
-        public string Description => throw new NotImplementedException();
+        public void Update(double? dataValue, string pilotName, CarName carName)
+        {
+            _gauge.Update(new[] { pilotName, "All", carName.ToString() }, dataValue);
+        }
     }
 }

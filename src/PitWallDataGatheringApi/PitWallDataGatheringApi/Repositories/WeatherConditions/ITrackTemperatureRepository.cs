@@ -1,11 +1,9 @@
-﻿namespace PitWallDataGatheringApi.Repositories.WeatherConditions
+﻿using PitWallDataGatheringApi.Repositories.Prometheus;
+
+namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
     public interface ITrackTemperatureRepository
     {
-    }
-
-    public interface IDocumentationTrackTemperatureSerie : IDocumentationLaptimeSerie
-    {
-
+        void Update(double? dataValue, string pilotName, CarName carName);
     }
 }
