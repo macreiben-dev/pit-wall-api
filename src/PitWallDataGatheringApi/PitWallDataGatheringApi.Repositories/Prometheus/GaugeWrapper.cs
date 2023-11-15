@@ -10,7 +10,7 @@ namespace PitWallDataGatheringApi.Repositories.Prometheus
         public GaugeWrapper(
             string serieName,
             string description,
-            string[] labels)
+            IEnumerable<string> labels)
         {
             if (serieName is null)
             {
@@ -37,14 +37,14 @@ namespace PitWallDataGatheringApi.Repositories.Prometheus
                 throw new ArgumentNullException(nameof(labels));
             }
 
-            if (labels.Length == 0)
+            if (labels.Count() == 0)
             {
                 throw new ArgumentException($"Parameter '{nameof(labels)}' cannot be empty.");
             }
 
             var config = new GaugeConfiguration();
 
-            config.LabelNames = labels;
+            config.LabelNames = labels.ToArray();
 
             /**
              * Idea : create a factory to create gauge so repository can be full unit tested.

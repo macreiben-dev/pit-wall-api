@@ -7,7 +7,7 @@
         public IGauge Create(
             string serieName,
             string description,
-            string[] labels)
+            IEnumerable<string> labels)
         {
             if (_allGauges.TryGetValue(serieName, out IGauge? result))
             {

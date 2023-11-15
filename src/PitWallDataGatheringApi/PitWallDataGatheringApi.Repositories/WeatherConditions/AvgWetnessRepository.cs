@@ -6,7 +6,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
     {
         private const string LocalSerieName = "pitwall_road_wetness_avg_percent";
         private readonly IGauge _gauge;
-        readonly string[] _labels = new[] { "Pilot" };
+        readonly string[] _labels = new[] { "Pilot", "All", "Car" };
 
         public string SerieName => LocalSerieName;
 

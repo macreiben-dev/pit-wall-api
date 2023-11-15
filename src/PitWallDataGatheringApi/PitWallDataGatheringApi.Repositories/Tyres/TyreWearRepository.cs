@@ -1,5 +1,5 @@
-﻿using PitWallDataGatheringApi.Models.Business;
-using Prometheus;
+﻿using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
@@ -14,20 +14,17 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         readonly string[] tyreLabels = new[] { "Pilot" };
 
-        private readonly Gauge _gaugeFrontLeft;
-        private readonly Gauge _gaugeRearLeft;
-        private readonly Gauge _gaugeFrontRight;
-        private readonly Gauge _gaugeRearRight;
+        private readonly IGauge _gaugeFrontLeft;
+        private readonly IGauge _gaugeRearLeft;
+        private readonly IGauge _gaugeFrontRight;
+        private readonly IGauge _gaugeRearRight;
 
-        public TyreWearRepository()
+        public TyreWearRepository(IGaugeWrapperFactory gaugeFactory)
         {
-            var configTyres = new GaugeConfiguration();
-            configTyres.LabelNames = tyreLabels;
-
-            _gaugeFrontLeft = Metrics.CreateGauge(GaugeNameFrontLeft, "Tyres wear front left in percent.", configTyres);
-            _gaugeRearLeft = Metrics.CreateGauge(GaugeNameRearLeft, "Tyres wear front left in percent.", configTyres);
-            _gaugeFrontRight = Metrics.CreateGauge(GaugeNameFrontRight, "Tyres wear front left in percent.", configTyres);
-            _gaugeRearRight = Metrics.CreateGauge(GaugeNameRearRight, "Tyres wear front left in percent.", configTyres);
+            _gaugeFrontLeft = gaugeFactory.Create(GaugeNameFrontLeft, "Tyres wear front left in percent.", ConstantLabels.Labels);
+            _gaugeRearLeft = gaugeFactory.Create(GaugeNameRearLeft, "Tyres wear front left in percent.", ConstantLabels.Labels);
+            _gaugeFrontRight = gaugeFactory.Create(GaugeNameFrontRight, "Tyres wear front left in percent.", ConstantLabels.Labels);
+            _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Tyres wear front left in percent.", ConstantLabels.Labels);
         }
 
         public string SerieName => GaugeNamePitwallTyreWearPercent;
@@ -36,34 +33,24 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public string Description => "Current tyre wear as percent.";
 
-        public void UpdateFrontLeft(string pilotName, double? frontLeftWear)
+        public void UpdateFrontLeft(string pilotName, double? frontLeftWear, CarName carName)
         {
-            UpdateGauge(frontLeftWear, pilotName, _gaugeFrontLeft);
+            _gaugeFrontLeft.Update(new[] { pilotName, "All", carName.ToString() }, frontLeftWear);
         }
 
-        public void UpdateFrontRight(string pilotName, double? frontRightWear)
+        public void UpdateFrontRight(string pilotName, double? frontRightWear, CarName carName)
         {
-            UpdateGauge(frontRightWear, pilotName, _gaugeFrontRight);
+            _gaugeFrontRight.Update(new[] { pilotName, "All", carName.ToString() }, frontRightWear);
         }
 
-        public void UpdateRearLeft(string pilotName, double? reartLeftWear)
+        public void UpdateRearLeft(string pilotName, double? reartLeftWear, CarName carName)
         {
-            UpdateGauge(reartLeftWear, pilotName, _gaugeRearLeft);
+            _gaugeFrontRight.Update(new[] { pilotName, "All", carName.ToString() }, reartLeftWear);
         }
 
-        public void UpdateRearRight(string pilotName, double? rearRightWear)
+        public void UpdateRearRight(string pilotName, double? rearRightWear, CarName carName)
         {
-            UpdateGauge(rearRightWear, pilotName, _gaugeRearRight);
-        }
-
-        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
-        {
-            if (!data.HasValue)
-            {
-                return;
-            }
-
-            gauge.WithLabels(gaugeLabel).Set(data.Value);
+            _gaugeRearRight.Update(new[] { pilotName, "All", carName.ToString() }, rearRightWear);
         }
     }
 }

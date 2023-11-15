@@ -94,13 +94,13 @@ namespace PitWallDataGatheringApi.Services
         private void UpdateTyreWear(ITyresWear tyresWears, string pilotName)
         {
             tyresWears.FrontLeftWear.WhenHasValue(() =>
-                _pitwallTyresPercentRepository.UpdateFrontLeft(pilotName, tyresWears.FrontLeftWear));
+                _pitwallTyresPercentRepository.UpdateFrontLeft(pilotName, tyresWears.FrontLeftWear, CarName.Null()));
 
-            _pitwallTyresPercentRepository.UpdateFrontRight(pilotName, tyresWears.FrontRightWear);
+            _pitwallTyresPercentRepository.UpdateFrontRight(pilotName, tyresWears.FrontRightWear, CarName.Null());
 
-            _pitwallTyresPercentRepository.UpdateRearLeft(pilotName, tyresWears.ReartLeftWear);
+            _pitwallTyresPercentRepository.UpdateRearLeft(pilotName, tyresWears.ReartLeftWear, CarName.Null());
 
-            _pitwallTyresPercentRepository.UpdateRearRight(pilotName, tyresWears.RearRightWear);
+            _pitwallTyresPercentRepository.UpdateRearRight(pilotName, tyresWears.RearRightWear, CarName.Null());
         }
     }
 }

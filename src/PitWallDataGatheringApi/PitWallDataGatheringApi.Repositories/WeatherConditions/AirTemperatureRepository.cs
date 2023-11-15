@@ -20,7 +20,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
             _gauge = _gaugeFactory.Create(
               LocalSerieName,
               Description,
-              _labels);
+              ConstantLabels.Labels);
         }
 
         public void Update(double? data, string pilotName, CarName carName)

@@ -27,7 +27,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             _laptimeRepository = Substitute.For<ILaptimeRepository>();
 
             _tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
-            
+
             _avgWetness = Substitute.For<IAvgWetnessRepository>();
 
             _airTemperature = Substitute.For<IAirTemperatureRepository>();
@@ -42,7 +42,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _laptimeRepository,
                 _tyreTemperature,
                 _avgWetness,
-                Substitute.For<IAirTemperatureRepository>(), 
+                Substitute.For<IAirTemperatureRepository>(),
                 _trackTemperature);
         }
 
@@ -74,7 +74,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 tyreTemperature,
                 laptimeRepository,
                 avgWetnessRepository,
-                airTemperature, 
+                airTemperature,
                 trackTemperature);
         }
 
@@ -87,10 +87,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _tyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>());
-            _tyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>());
-            _tyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>());
-            _tyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>());
+            _tyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), CarName.Null());
+            _tyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), CarName.Null());
+            _tyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), CarName.Null());
+            _tyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
         }
 
         [Fact]
@@ -162,10 +162,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>());
-                _context.TyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>());
-                _context.TyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>());
-                _context.TyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>());
+                _context.TyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), CarName.Null());
+                _context.TyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), CarName.Null());
+                _context.TyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), CarName.Null());
+                _context.TyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
             }
 
             [Fact]
@@ -188,9 +188,9 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateFrontLeft( 
-                    PilotName, 
-                    50.0);
+                _context.TyreWearRepository.Received(1).UpdateFrontLeft(
+                    PilotName,
+                    50.0, CarName.Null());
             }
 
             [Fact]
@@ -215,7 +215,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateFrontRight(
                     PilotName,
-                    51.0);
+                    51.0, CarName.Null());
             }
 
             [Fact]
@@ -240,7 +240,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearLeft(
                     PilotName,
-                    52.0);
+                    52.0, CarName.Null());
             }
 
             [Fact]
@@ -265,7 +265,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearRight(
                     PilotName,
-                    53.0);
+                    53.0, CarName.Null());
             }
         }
 
@@ -364,7 +364,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearLeft(
-                    PilotName, 
+                    PilotName,
                     50.0);
             }
 

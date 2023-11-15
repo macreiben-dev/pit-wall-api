@@ -5,6 +5,6 @@
         IGauge Create(
             string serieName,
             string description,
-            string[] labels);
+            IEnumerable<string> labels);
     }
 }
