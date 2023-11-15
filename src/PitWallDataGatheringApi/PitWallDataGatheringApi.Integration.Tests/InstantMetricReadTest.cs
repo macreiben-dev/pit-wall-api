@@ -54,7 +54,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
             {
                 MetricName = "pitwall_tyres_wear_frontleft_percent",
                 PilotName = "IntegrationTest_twear_frontleft",
-                SetFieldValue = t => t.TyresWear.FrontLeftWear= 60.0,
+                SetFieldValue = t => t.TyresWear.FrontLeftWear = 60.0,
                 GetApiModelInstance = () => ModelWithTyreWear(),
                 Expected = 60.0
             };
@@ -184,9 +184,13 @@ namespace PitWallDataGatheringApi.Integration.Tests
             testContext.SetFieldValue(model);
 
             {
-                HttpResponseMessage response = await SendToApi(model);
+                Task<HttpResponseMessage> curent = SendToApi(model);
 
-                Check.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+                Task.WaitAll(curent);
+
+                HttpResponseMessage responseMessage = curent.Result;
+
+                Check.That(responseMessage.StatusCode).IsEqualTo(HttpStatusCode.OK);
             }
 
             Thread.Sleep(4000);
@@ -238,7 +242,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Formatting = Formatting.Indented,
             });
 
-            if(json == null)
+            if (json == null)
             {
                 throw new NoResultException(TimeSerieUri, queryPath);
             }
@@ -262,7 +266,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Encoding.UTF8,
                 "application/json");
 
-            var response = await client.PostAsync("/api/Telemetry", content);
+            var response = await client.PostAsync("/api/v1/Telemetry", content);
             return response;
         }
 
