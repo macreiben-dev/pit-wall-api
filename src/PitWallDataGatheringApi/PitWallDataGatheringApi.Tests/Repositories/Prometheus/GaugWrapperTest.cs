@@ -107,7 +107,6 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
                 .Throws<LabelCountMustMatchDeclaredLabelsException>();
         }
 
-
         [Fact]
         public void THEN_gauge_exposes_label()
         {
