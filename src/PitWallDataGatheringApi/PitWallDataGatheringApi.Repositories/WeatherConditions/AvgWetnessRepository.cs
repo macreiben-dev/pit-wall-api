@@ -25,7 +25,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
         public void Update(double? laptime, string pilotName)
         {
             _gauge.Update(
-                Labels,
+                ConstantLabels.Labels,
                 laptime);
         }
     }

@@ -4,7 +4,7 @@
     {
         void Update(string label, double? value);
 
-        void Update(string[] labels, double? dataValue);
+        void Update(IEnumerable<string> labels, double? dataValue);
 
         string Description { get; }
 

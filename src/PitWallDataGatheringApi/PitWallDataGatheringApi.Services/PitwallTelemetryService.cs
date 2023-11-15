@@ -73,34 +73,61 @@ namespace PitWallDataGatheringApi.Services
                     telemetry.PilotName,
                     CarName.Null()
                     )
-                ); ;
+                );
         }
 
         private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName)
         {
             tyresTemperatures.FrontLeftTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateFrontLeft(pilotName, tyresTemperatures.FrontLeftTemp));
+                () => _tyresTemperaturesRepository.UpdateFrontLeft(
+                    pilotName, 
+                    tyresTemperatures.FrontLeftTemp, 
+                    CarName.Null()));
 
             tyresTemperatures.FrontRightTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateFrontRight(pilotName, tyresTemperatures.FrontRightTemp));
+                () => _tyresTemperaturesRepository.UpdateFrontRight(
+                    pilotName,
+                    tyresTemperatures.FrontRightTemp,
+                    CarName.Null()));
 
             tyresTemperatures.RearLeftTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateRearLeft(pilotName, tyresTemperatures.RearLeftTemp));
+                () => _tyresTemperaturesRepository.UpdateRearLeft(
+                    pilotName,
+                    tyresTemperatures.RearLeftTemp,
+                    CarName.Null()));
 
             tyresTemperatures.RearRightTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateRearRight(pilotName, tyresTemperatures.RearRightTemp));
+                () => _tyresTemperaturesRepository.UpdateRearRight(
+                    pilotName,
+                    tyresTemperatures.RearRightTemp,
+                    CarName.Null()));
         }
 
         private void UpdateTyreWear(ITyresWear tyresWears, string pilotName)
         {
             tyresWears.FrontLeftWear.WhenHasValue(() =>
-                _pitwallTyresPercentRepository.UpdateFrontLeft(pilotName, tyresWears.FrontLeftWear, CarName.Null()));
+                _pitwallTyresPercentRepository.UpdateFrontLeft(
+                    pilotName, 
+                    tyresWears.FrontLeftWear, 
+                    CarName.Null()));
 
-            _pitwallTyresPercentRepository.UpdateFrontRight(pilotName, tyresWears.FrontRightWear, CarName.Null());
+            tyresWears.FrontRightWear.WhenHasValue(() =>
+                _pitwallTyresPercentRepository.UpdateFrontRight(
+                    pilotName, 
+                    tyresWears.FrontRightWear, 
+                    CarName.Null()));
 
-            _pitwallTyresPercentRepository.UpdateRearLeft(pilotName, tyresWears.ReartLeftWear, CarName.Null());
+            tyresWears.ReartLeftWear.WhenHasValue(() =>
+                _pitwallTyresPercentRepository.UpdateRearLeft(
+                    pilotName, 
+                    tyresWears.ReartLeftWear, 
+                    CarName.Null()));
 
-            _pitwallTyresPercentRepository.UpdateRearRight(pilotName, tyresWears.RearRightWear, CarName.Null());
+            tyresWears.RearRightWear.WhenHasValue(() =>
+                _pitwallTyresPercentRepository.UpdateRearRight(
+                    pilotName, 
+                    tyresWears.RearRightWear, 
+                    CarName.Null()));
         }
     }
 }

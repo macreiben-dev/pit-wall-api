@@ -1,5 +1,5 @@
-﻿using PitWallDataGatheringApi.Models.Business;
-using Prometheus;
+﻿using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
@@ -15,21 +15,17 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         readonly string[] tyreLabels = new[] { "Pilot" };
 
-        private readonly Gauge _gaugeFrontLeftTyre;
-        private readonly Gauge _gaugeRearLeftTyre;
-        private readonly Gauge _gaugeFrontRightTyre;
-        private readonly Gauge _gaugeRearRightTyre;
+        private readonly IGauge _gaugeFrontLeftTyre;
+        private readonly IGauge _gaugeRearLeftTyre;
+        private readonly IGauge _gaugeFrontRightTyre;
+        private readonly IGauge _gaugeRearRightTyre;
 
-        public TyresTemperaturesRepository()
+        public TyresTemperaturesRepository(IGaugeWrapperFactory gaugeFactory)
         {
-            var configTyres = new GaugeConfiguration();
-
-            configTyres.LabelNames = tyreLabels;
-
-            _gaugeFrontLeftTyre = Metrics.CreateGauge(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", configTyres);
-            _gaugeRearLeftTyre = Metrics.CreateGauge(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", configTyres);
-            _gaugeFrontRightTyre = Metrics.CreateGauge(GaugeNameFrontRight, "Front left tyre temperature in celsuis.", configTyres);
-            _gaugeRearRightTyre = Metrics.CreateGauge(GaugeNameRearRight, "Front left tyre temperature in celsuis.", configTyres);
+            _gaugeFrontLeftTyre = gaugeFactory.Create(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeRearLeftTyre = gaugeFactory.Create(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeFrontRightTyre = gaugeFactory.Create(GaugeNameFrontRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeRearRightTyre = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
         }
 
         public string SerieName => GaugeName;
@@ -38,42 +34,25 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public string Description => "Current tyre temperature in celsius.";
 
-        /**
-         * Idea : a lot of repeatition here.
-         * */
 
-        public void UpdateFrontLeft(string pilotName, double? frontLeftTemp)
+        public void UpdateFrontLeft(string pilotName, double? frontLeftTemp, CarName carName)
         {
-            UpdateGauge(frontLeftTemp, pilotName, _gaugeFrontLeftTyre);
-            UpdateGauge(frontLeftTemp, "All", _gaugeFrontLeftTyre);
+            _gaugeFrontLeftTyre.Update(new[] { pilotName, "All", carName.ToString() }, frontLeftTemp);
         }
 
-        public void UpdateFrontRight(string pilotName, double? frontRightTemp)
+        public void UpdateFrontRight(string pilotName, double? frontRightTemp, CarName carName)
         {
-            UpdateGauge(frontRightTemp, pilotName, _gaugeFrontRightTyre);
-            UpdateGauge(frontRightTemp, "All", _gaugeFrontRightTyre);
+            _gaugeFrontRightTyre.Update(new[] { pilotName, "All", carName.ToString() }, frontRightTemp);
         }
 
-        public void UpdateRearLeft(string pilotName, double? rearLeftTemp)
+        public void UpdateRearLeft(string pilotName, double? rearLeftTemp, CarName carName)
         {
-            UpdateGauge(rearLeftTemp, pilotName, _gaugeRearLeftTyre);
-            UpdateGauge(rearLeftTemp, "All", _gaugeRearLeftTyre);
+            _gaugeRearLeftTyre.Update(new[] { pilotName, "All", carName.ToString() }, rearLeftTemp);
         }
 
-        public void UpdateRearRight(string pilotName, double? rearRightTemp)
+        public void UpdateRearRight(string pilotName, double? rearRightTemp, CarName carName)
         {
-            UpdateGauge(rearRightTemp, pilotName, _gaugeRearRightTyre);
-            UpdateGauge(rearRightTemp, "All", _gaugeRearRightTyre);
-        }
-
-        private void UpdateGauge(double? data, string pilotName, Gauge gauge)
-        {
-            if (!data.HasValue)
-            {
-                return;
-            }
-
-            gauge.WithLabels(pilotName).Set(data.Value);
+            _gaugeRearRightTyre.Update(new[] { pilotName, "All", carName.ToString() }, rearRightTemp);
         }
     }
 }

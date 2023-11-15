@@ -45,7 +45,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateRearLeft(string pilotName, double? reartLeftWear, CarName carName)
         {
-            _gaugeFrontRight.Update(new[] { pilotName, "All", carName.ToString() }, reartLeftWear);
+            _gaugeRearLeft.Update(new[] { pilotName, "All", carName.ToString() }, reartLeftWear);
         }
 
         public void UpdateRearRight(string pilotName, double? rearRightWear, CarName carName)

@@ -168,8 +168,36 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _context.TyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
             }
 
+            // ------------------
+
             [Fact]
-            public void GIVEN_telemetry_with_tyreWear_THEN_updateFrontLeft()
+            public void GIVEN_tyreWearFrontLeft_isNull_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                original.PilotName = PilotName;
+
+                var tyres = new TyresWear()
+                {
+                    FrontLeftWear = null
+                };
+
+                original.TyresWear = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreWearRepository.Received(0).UpdateFrontLeft(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(), 
+                    Arg.Any<CarName>());
+            }
+
+            [Fact]
+            public void GIVEN_tyreWearFrontLeft_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -190,11 +218,40 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateFrontLeft(
                     PilotName,
-                    50.0, CarName.Null());
+                    50.0, 
+                    CarName.Null());
+            }
+
+            // ------------------
+
+            [Fact]
+            public void GIVEN_tyreWearFrontRight_isNull_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                original.PilotName = PilotName;
+
+                var tyres = new TyresWear()
+                {
+                    FrontRightWear = null
+                };
+
+                original.TyresWear = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreWearRepository.Received(0).UpdateFrontRight(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
             }
 
             [Fact]
-            public void GIVEN_telemetry_with_tyreWear_THEN_updateFrontRight()
+            public void GIVEN_tyreWearFrontRight_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -218,8 +275,36 @@ namespace PitWallDataGatheringApi.Tests.Services
                     51.0, CarName.Null());
             }
 
+            // ------------------
+
             [Fact]
-            public void GIVEN_telemetry_with_tyreWear_THEN_updateRearLeft()
+            public void GIVEN_tyreWearRearLeft_isNull_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                original.PilotName = PilotName;
+
+                var tyres = new TyresWear()
+                {
+                    ReartLeftWear = null
+                };
+
+                original.TyresWear = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreWearRepository.Received(0).UpdateRearLeft(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
+            }
+
+            [Fact]
+            public void GIVEN_tyreWearRearLeft_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -243,8 +328,36 @@ namespace PitWallDataGatheringApi.Tests.Services
                     52.0, CarName.Null());
             }
 
+            // ------------------
+
             [Fact]
-            public void GIVEN_telemetry_with_tyreWear_THEN_updateRearRight()
+            public void GIVEN_tyreWearRearRight_isNull_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                original.PilotName = PilotName;
+
+                var tyres = new TyresWear()
+                {
+                    RearRightWear = null
+                };
+
+                original.TyresWear = tyres;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreWearRepository.Received(0).UpdateRearRight(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
+            }
+
+            [Fact]
+            public void GIVEN_tyreWearRearRight_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -265,7 +378,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearRight(
                     PilotName,
-                    53.0, CarName.Null());
+                    53.0, 
+                    CarName.Null());
             }
         }
 
@@ -292,14 +406,41 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>());
-                _context.TyreTemperature.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>());
-                _context.TyreTemperature.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>());
-                _context.TyreTemperature.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>());
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
+            }
+
+            // ------------------
+
+            [Fact]
+            public void GIVEN_tyreTemperatureFrontLeft_isNull_THEN_doNotUpdate()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    FrontLeftTemp = null
+                };
+
+                original.TyresTemperatures = tyres;
+                original.PilotName = PilotName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
             }
 
             [Fact]
-            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateFrontLeft()
+            public void GIVEN_tyreTemperatureFrontLeft_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -319,11 +460,39 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontLeft(
                     PilotName,
-                    48.0);
+                    48.0,
+                    CarName.Null());
+            }
+
+            // ------------------
+
+            [Fact]
+            public void GIVEN_tyreTemperatureFrontRight_isNull_THEN_doNotUpdate()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    FrontRightTemp = null
+                };
+
+                original.TyresTemperatures = tyres;
+                original.PilotName = PilotName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(0).UpdateFrontRight(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
             }
 
             [Fact]
-            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateFrontRight()
+            public void GIVEN_tyreTemperatureFrontRight_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -342,11 +511,39 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontRight(
                     PilotName,
-                    49.0);
+                    49.0,
+                    CarName.Null());
+            }
+
+            // ------------------
+
+            [Fact]
+            public void GIVEN_tyreTemperatureRearLeft_isNull_THEN_doNotUpdate()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    RearLeftTemp = null
+                };
+
+                original.TyresTemperatures = tyres;
+                original.PilotName = PilotName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(0).UpdateRearLeft(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
             }
 
             [Fact]
-            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateRearLeft()
+            public void GIVEN_tyreTemperatureReartLeft_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -365,11 +562,39 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearLeft(
                     PilotName,
-                    50.0);
+                    50.0, CarName.Null());
             }
 
+            // ------------------
+
             [Fact]
-            public void GIVEN_telemetry_with_tyreTemperature_THEN_updateRearRight()
+            public void GIVEN_tyreTemperatureRearRight_isNull_THEN_doNotUpdate()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+                var tyres = new TyresTemperatures()
+                {
+                    RearRightTemp = null
+                };
+
+                original.TyresTemperatures = tyres;
+                original.PilotName = PilotName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(original);
+
+                // ASSERT
+                _context.TyreTemperature.Received(0).UpdateRearRight(
+                    Arg.Any<string>(),
+                    Arg.Any<double?>(),
+                    Arg.Any<CarName>());
+            }
+
+
+            [Fact]
+            public void GIVEN_tyreTemperatureReartRight_isNotNull_THEN_update()
             {
                 // ARRANGE
                 var original = new TelemetryModel();
@@ -388,7 +613,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateRearRight(
                     PilotName,
-                    51.0);
+                    51.0, CarName.Null());
             }
         }
 

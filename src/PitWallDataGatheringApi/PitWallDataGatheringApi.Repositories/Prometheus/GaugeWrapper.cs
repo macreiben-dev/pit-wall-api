@@ -66,9 +66,9 @@ namespace PitWallDataGatheringApi.Repositories.Prometheus
 
         public IEnumerable<string> Labels => _labels;
 
-        public void Update(string[] labels, double? dataValue)
+        public void Update(IEnumerable<string> labels, double? dataValue)
         {
-            if (labels.Length != _labels.Count)
+            if (labels.Count() != _labels.Count)
             {
                 throw new LabelCountMustMatchDeclaredLabelsException(_labels, labels);
             }
@@ -78,7 +78,7 @@ namespace PitWallDataGatheringApi.Repositories.Prometheus
                 return;
             }
 
-            _gauge.WithLabels(labels).Set(dataValue.Value);
+            _gauge.WithLabels(labels.ToArray()).Set(dataValue.Value);
         }
 
         public void Update(string label, double? data)
