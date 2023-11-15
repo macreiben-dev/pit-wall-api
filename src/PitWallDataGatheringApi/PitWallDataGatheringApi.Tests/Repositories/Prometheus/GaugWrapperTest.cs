@@ -3,10 +3,14 @@ using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 {
-    public sealed class GaugWrapperTest
+    public sealed class GaugeWrapperTest
     {
+        private const string Description = "SomeDescription";
+        private const string SerieName = "SomeSerieName";
+
         private const string Label1 = "label1";
         private const string Label2 = "label2";
+        
         private readonly string[] EmptyLabels = new string[0];
         private readonly string[] NotEmptyLabels = new[] { Label1, Label2 };
 
@@ -78,20 +82,55 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 
         private GaugeWrapper GetTarget()
         {
-            return new GaugeWrapper("SomeSerieName", "SomeDescription", NotEmptyLabels);
+            return new GaugeWrapper(SerieName, Description, NotEmptyLabels);
         }
 
+
         [Fact]
-        public void GIVEN_label_notDeclared_THEN_fail_update()
+        public void GIVEN_multiple_labels_AND_labels_count_is_different_THEN_fail()
         {
             var target = GetTarget();
 
             Check.ThatCode(() =>
-            target.Update("NotDeclaredLabel", 2.0))
-                .Throws<LabelNotDeclaredException>()
-                .WithProperty("LabelName", "NotDeclaredLabel")
-                .And
-                .WithProperty("Value", 2.0);
+                target.Update(new[] { Label1 }, 13.2))
+                .Throws<LabelCountMustMatchDeclaredLabelsException>();
         }
+
+
+        [Fact]
+        public void GIVEN_multiple_labels_AND_unpdate_singleLabel_THEN_fail()
+        {
+            var target = GetTarget();
+
+            Check.ThatCode(() =>
+                target.Update(Label1, 13.2))
+                .Throws<LabelCountMustMatchDeclaredLabelsException>();
+        }
+
+
+        [Fact]
+        public void THEN_gauge_exposes_label()
+        {
+            var target = GetTarget();
+
+            Check.That(target.Labels).ContainsExactly(NotEmptyLabels);
+        }
+
+        [Fact]
+        public void THEN_gauge_exposes_description()
+        {
+            var target = GetTarget();
+
+            Check.That(target.Description).IsEqualTo(Description);
+        }
+
+        [Fact]
+        public void THEN_gauge_exposes_serieName()
+        {
+            var target = GetTarget();
+
+            Check.That(target.SerieName).IsEqualTo(SerieName);
+        }
+
     }
 }

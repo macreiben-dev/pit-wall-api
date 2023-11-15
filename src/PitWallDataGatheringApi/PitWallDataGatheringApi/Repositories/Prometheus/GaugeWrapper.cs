@@ -1,8 +1,10 @@
 ﻿using Prometheus;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Reflection.Emit;
 
 namespace PitWallDataGatheringApi.Repositories.Prometheus
 {
-    public sealed class GaugeWrapper : IGauge
+    public sealed class GaugeWrapper : IGauge, ISerieDocumentation
     {
         private readonly Gauge _gauge;
         private readonly HashSet<string> _labels;
@@ -55,13 +57,37 @@ namespace PitWallDataGatheringApi.Repositories.Prometheus
                 config);
 
             _labels = new HashSet<string>(labels);
+
+            Description = description;
+
+            SerieName = serieName;
+        }
+
+        public string Description { get; }
+        public string SerieName { get; }
+
+        public IEnumerable<string> Labels => _labels;
+
+        public void Update(string[] labels, double? dataValue)
+        {
+            if (labels.Length != _labels.Count)
+            {
+                throw new LabelCountMustMatchDeclaredLabelsException(_labels, labels);
+            }
+
+            if (!dataValue.HasValue)
+            {
+                return;
+            }
+
+            _gauge.WithLabels(labels).Set(dataValue.Value);
         }
 
         public void Update(string label, double? data)
         {
-            if (!_labels.Contains(label))
+            if (_labels.Count != 1)
             {
-                throw new LabelNotDeclaredException(label, data);
+                throw new LabelCountMustMatchDeclaredLabelsException(_labels, new[] { label });
             }
 
             if (!data.HasValue)
