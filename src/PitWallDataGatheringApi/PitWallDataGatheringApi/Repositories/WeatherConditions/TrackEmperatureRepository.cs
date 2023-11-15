@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public class TrackEmperatureRepository : ITrackTemperatureRepository, IDocumentationTrackTemperatureSerie
+    public sealed class TrackEmperatureRepository : ITrackTemperatureRepository, IDocumentationTrackTemperatureSerie
     {
         public string SerieName => throw new NotImplementedException();
 

@@ -1,7 +1,7 @@
 ﻿using NFluent;
 using PitWallDataGatheringApi.Repositories.Prometheus;
 
-namespace PitWallDataGatheringApi.Tests.Repositories
+namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 {
     public sealed class GaugWrapperTest
     {
