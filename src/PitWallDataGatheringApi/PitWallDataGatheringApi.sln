@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Integration.Tests", "PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj", "{9D914C92-ED59-481A-9114-06C849A33B3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Models", "PitWallDataGatheringApi.Models\PitWallDataGatheringApi.Models.csproj", "{2F941E44-0B54-4917-8794-51F6048E6636}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Models", "PitWallDataGatheringApi.Models\PitWallDataGatheringApi.Models.csproj", "{2F941E44-0B54-4917-8794-51F6048E6636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Repositories", "PitWallDataGatheringApi.Repositories\PitWallDataGatheringApi.Repositories.csproj", "{D2C8222F-B531-40A4-A43A-A1F4543557EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{2F941E44-0B54-4917-8794-51F6048E6636}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F941E44-0B54-4917-8794-51F6048E6636}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F941E44-0B54-4917-8794-51F6048E6636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2C8222F-B531-40A4-A43A-A1F4543557EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2C8222F-B531-40A4-A43A-A1F4543557EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2C8222F-B531-40A4-A43A-A1F4543557EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2C8222F-B531-40A4-A43A-A1F4543557EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

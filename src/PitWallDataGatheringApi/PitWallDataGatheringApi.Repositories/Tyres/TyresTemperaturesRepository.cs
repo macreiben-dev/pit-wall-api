@@ -7,7 +7,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
         : ITyresTemperaturesRepository, IDocumentationTyresTemperaturesSerie
     {
         private const string GaugeName = "pitwall_tyres_temperatures_celsius";
-        
+
         private const string GaugeNameFrontLeft = "pitwall_tyres_temperatures_frontleft_celsius";
         private const string GaugeNameRearLeft = "pitwall_tyres_temperatures_rearleft_celsius";
         private const string GaugeNameFrontRight = "pitwall_tyres_temperatures_frontright_celsius";
@@ -25,7 +25,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             var configTyres = new GaugeConfiguration();
 
             configTyres.LabelNames = tyreLabels;
-            
+
             _gaugeFrontLeftTyre = Metrics.CreateGauge(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", configTyres);
             _gaugeRearLeftTyre = Metrics.CreateGauge(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", configTyres);
             _gaugeFrontRightTyre = Metrics.CreateGauge(GaugeNameFrontRight, "Front left tyre temperature in celsuis.", configTyres);

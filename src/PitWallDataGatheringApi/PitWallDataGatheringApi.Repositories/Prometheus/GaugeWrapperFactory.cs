@@ -9,7 +9,7 @@
             string description,
             string[] labels)
         {
-            if(_allGauges.TryGetValue(serieName, out IGauge? result))
+            if (_allGauges.TryGetValue(serieName, out IGauge? result))
             {
                 return result;
             }
