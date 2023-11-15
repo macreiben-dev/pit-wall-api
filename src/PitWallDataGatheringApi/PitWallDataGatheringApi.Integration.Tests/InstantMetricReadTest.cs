@@ -166,10 +166,10 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Expected = 10.0
             };
 
-            await GIVEN_metric_THEN_read_from_timeSerie(context);
+            GIVEN_metric_THEN_read_from_timeSerie(context);
         }
 
-        private async Task GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
+        private void GIVEN_metric_THEN_read_from_timeSerie(IContext testContext)
         {
 
             Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + testContext);
@@ -200,10 +200,14 @@ namespace PitWallDataGatheringApi.Integration.Tests
                  * Idea: Use retry every seconds for 5 seconds method
                  * */
 
-                string intermediary = await ReadInstantQueryResult(
+                Task<string> read = ReadInstantQueryResult(
                    testContext.MetricName,
                    PilotLabel,
                    testContext.PilotName);
+
+                Task.WaitAll(read);
+
+                string intermediary = read.Result;
 
                 var actual = Double.Parse(intermediary, CultureInfo.InvariantCulture);
 
