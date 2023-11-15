@@ -18,7 +18,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         private const string SimerKey = "some_test_looking_value23";
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_wear_rearleft_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_wear_rearleft_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -33,7 +33,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_wear_frontright_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_wear_frontright_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -48,7 +48,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_wear_frontleft_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_wear_frontleft_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -65,7 +65,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         // =============
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_rearright_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_rearright_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -80,7 +80,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_rearleft_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_rearleft_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -95,7 +95,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_frontright_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_frontright_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -110,7 +110,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_tyres_temperatures_frontleft_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_tyres_temperatures_frontleft_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -125,7 +125,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_road_wetness_avg_percent_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_road_wetness_avg_percent_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -140,7 +140,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_laptimes_seconds_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_laptimes_seconds_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
@@ -155,7 +155,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         }
 
         [Fact]
-        public async void GIVEN_pitwall_air_temperature_celsius_THEN_read_from_timeSerie()
+        public void GIVEN_pitwall_air_temperature_celsius_THEN_read_from_timeSerie()
         {
             var context = new Context(SimerKey)
             {
