@@ -12,12 +12,12 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
             _gauge = _gaugeFactory.Create(
                 "pitwall_track_temperature_celsius",
                 "Track temperature in celsius",
-                new[] { "Pilot", "All", "Car" });
+                ConstantLabels.Labels);
         }
 
         public void Update(double? dataValue, string pilotName, CarName carName)
         {
-            _gauge.Update(new[] { pilotName, "All", carName.ToString() }, dataValue);
+            _gauge.Update(new[] { pilotName, carName.ToString() }, dataValue);
         }
     }
 }

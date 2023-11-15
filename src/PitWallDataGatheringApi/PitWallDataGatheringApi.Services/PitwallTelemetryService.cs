@@ -57,7 +57,8 @@ namespace PitWallDataGatheringApi.Services
             telemetry.AvgWetness.WhenHasValue(() => 
                 _avgWetnessRepository.Update(
                     telemetry.AvgWetness,
-                    telemetry.PilotName)
+                    telemetry.PilotName,
+                    CarName.Null())
                 );
 
             telemetry.AirTemperature.WhenHasValue(() =>
