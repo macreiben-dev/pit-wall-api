@@ -9,7 +9,7 @@ using PitWallDataGatheringApi.Services;
 
 namespace PitWallDataGatheringApi.Tests.Services
 {
-    public class PitwallTelemetryServiceTest
+    public sealed class PitwallTelemetryServiceTest
     {
         private readonly ITyreWearRepository _tyreWearRepository;
         private readonly ILaptimeRepository _laptimeRepository;
