@@ -6,5 +6,7 @@
             string serieName,
             string description,
             IEnumerable<string> labels);
+
+        IEnumerable<ISerieDocumentation> ListCreated();
     }
 }
