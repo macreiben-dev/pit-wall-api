@@ -1,11 +1,11 @@
-﻿using Prometheus;
+﻿using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
     public sealed class AvgWetnessRepository : IDocumentationAvgWetnessSerie, IAvgWetnessRepository
     {
         private const string LocalSerieName = "pitwall_road_wetness_avg_percent";
-        private readonly Gauge _gauge;
+        private readonly IGauge _gauge;
         readonly string[] _labels = new[] { "Pilot" };
 
         public string SerieName => LocalSerieName;
@@ -14,39 +14,19 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
         public string Description => "Road wetness in percent.";
 
-        public AvgWetnessRepository()
+        public AvgWetnessRepository(IGaugeWrapperFactory gaugeFactory)
         {
-            var config = new GaugeConfiguration();
-
-            config.LabelNames = _labels;
-
-            _gauge = Metrics.CreateGauge(
-                SerieName,
-                "Average road wetness in percent.",
-                config);
+            _gauge = gaugeFactory.Create(
+               LocalSerieName,
+              "Average road wetness in percent.",
+              Labels);
         }
 
         public void Update(double? laptime, string pilotName)
         {
-            UpdateGauge(
-               laptime,
-               pilotName,
-               _gauge);
-
-            UpdateGauge(
-                laptime,
-                "All",
-                _gauge);
-        }
-
-        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
-        {
-            if (!data.HasValue)
-            {
-                return;
-            }
-
-            gauge.WithLabels(gaugeLabel).Set(data.Value);
+            _gauge.Update(
+                Labels,
+                laptime);
         }
     }
 }
