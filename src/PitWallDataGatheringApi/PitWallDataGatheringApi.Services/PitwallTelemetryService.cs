@@ -63,16 +63,17 @@ namespace PitWallDataGatheringApi.Services
             telemetry.AirTemperature.WhenHasValue(() =>
                 _airTemperatureRepository.Update(
                     telemetry.AirTemperature,
-                    telemetry.PilotName)
+                    telemetry.PilotName,
+                    CarName.Null())
                 );
 
-            telemetry.TrackTemperature.WhenHasValue(() => 
+            telemetry.TrackTemperature.WhenHasValue(() =>
                 _trackTemperatureRepository.Update(
                     telemetry.TrackTemperature,
-                    telemetry.PilotName, 
-                    new CarName(null)
+                    telemetry.PilotName,
+                    CarName.Null()
                     )
-                );
+                ); ;
         }
 
         private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName)

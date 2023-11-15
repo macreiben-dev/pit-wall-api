@@ -127,7 +127,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+            _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
         }
 
         [Fact]
@@ -454,7 +454,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.AirTemperature.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>());
+                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
             }
 
             [Fact]
@@ -472,7 +472,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.AirTemperature.Received(1).Update(5.0, "Pilot1");
+                _context.AirTemperature.Received(1).Update(5.0, "Pilot1", CarName.Null());
             }
 
             [Fact]

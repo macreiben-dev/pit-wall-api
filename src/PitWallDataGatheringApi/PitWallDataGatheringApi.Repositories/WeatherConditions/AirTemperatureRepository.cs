@@ -1,12 +1,13 @@
-﻿using Prometheus;
+﻿using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
     public sealed class AirTemperatureRepository : IDocumentationAirTemperatureSerie, IAirTemperatureRepository
     {
         private const string LocalSerieName = "pitwall_air_temperature_celsius";
-        private readonly Gauge _gauge;
-        readonly string[] _labels = new[] { "Pilot" };
+        private readonly IGauge _gauge;
+        readonly string[] _labels = new[] { "Pilot", "All", "Car" };
 
         public string SerieName => LocalSerieName;
 
@@ -14,39 +15,17 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
         public string Description => "Road wetness in percent.";
 
-        public AirTemperatureRepository()
+        public AirTemperatureRepository(IGaugeWrapperFactory _gaugeFactory)
         {
-            var config = new GaugeConfiguration();
-
-            config.LabelNames = _labels;
-
-            _gauge = Metrics.CreateGauge(
-                SerieName,
-                "Air temperature in celsius.",
-                config);
+            _gauge = _gaugeFactory.Create(
+              LocalSerieName,
+              Description,
+              _labels);
         }
 
-        public void Update(double? data, string pilotName)
+        public void Update(double? data, string pilotName, CarName carName)
         {
-            UpdateGauge(
-               data,
-               pilotName,
-               _gauge);
-
-            UpdateGauge(
-                data,
-                "All",
-                _gauge);
-        }
-
-        private void UpdateGauge(double? data, string gaugeLabel, Gauge gauge)
-        {
-            if (!data.HasValue)
-            {
-                return;
-            }
-
-            gauge.WithLabels(gaugeLabel).Set(data.Value);
+            _gauge.Update(new[] { pilotName, "All", carName.ToString() }, data);
         }
     }
 }

@@ -10,4 +10,9 @@ public struct CarName
     {
         return carName;
     }
+
+    public static CarName Null()
+    {
+        return new CarName(null);
+    }
 }
