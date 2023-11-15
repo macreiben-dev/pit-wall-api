@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using Prometheus;
+﻿using Prometheus;
 
-namespace PitWallDataGatheringApi.Repositories.WeatherConditions
+namespace PitWallDataGatheringApi.Repositories.Prometheus
 {
-    public sealed class GaugeWrapper : IGaugeWrapper
+    public sealed class GaugeWrapper : IGauge
     {
         private readonly Gauge _gauge;
         private readonly HashSet<string> _labels;
@@ -18,12 +17,12 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
                 throw new ArgumentNullException(nameof(serieName));
             }
 
-            if(serieName == string.Empty)
+            if (serieName == string.Empty)
             {
                 throw new ArgumentException($"Parameter '{nameof(serieName)}' cannot be empty.");
             }
 
-            if(description is null)
+            if (description is null)
             {
                 throw new ArgumentNullException(nameof(description));
             }
@@ -33,7 +32,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
                 throw new ArgumentException($"Parameter '{nameof(description)}' cannot be empty.");
             }
 
-            if(labels is null)
+            if (labels is null)
             {
                 throw new ArgumentNullException(nameof(labels));
             }
@@ -47,6 +46,9 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
             config.LabelNames = labels;
 
+            /**
+             * Idea : create a factory to create gauge so repository can be full unit tested.
+             * */
             _gauge = Metrics.CreateGauge(
                 serieName,
                 description,
@@ -57,7 +59,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
         public void Update(string label, double? data)
         {
-            if(!_labels.Contains(label))
+            if (!_labels.Contains(label))
             {
                 throw new LabelNotDeclaredException(label, data);
             }
@@ -69,32 +71,5 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
             _gauge.WithLabels(label).Set(data.Value);
         }
-    }
-
-    public interface IGaugeWrapper
-    {
-        void Update(string label, double? value);
-    }
-
-    public sealed class GaugeWrapperFactory : IGaugeWrapperFactory
-    {
-
-    }
-
-    public interface IGaugeWrapperFactory
-    {
-        
-    }
-
-    public sealed class LabelNotDeclaredException : Exception
-    {
-        public LabelNotDeclaredException(string label, double? value)
-        {
-            LabelName = label;
-            Value = value;
-        }
-
-        public string LabelName { get; }
-        public double? Value { get; }
     }
 }

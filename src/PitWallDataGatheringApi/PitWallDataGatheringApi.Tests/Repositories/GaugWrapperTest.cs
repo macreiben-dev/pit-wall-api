@@ -1,5 +1,5 @@
 ﻿using NFluent;
-using PitWallDataGatheringApi.Repositories.WeatherConditions;
+using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Tests.Repositories
 {
