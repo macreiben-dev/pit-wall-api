@@ -29,10 +29,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             AvgWetnessRepository = wetnessRepository;
             AirTemperature = airTemperature;
             TrackTemperature = trackTemperatureRepository;
-            LaspLapConsumptionRepository = laspLapConsumptionRepository;
+            LastLapConsumptionRepository = laspLapConsumptionRepository;
             LiterPerLapsRepository = literPerLapsRepository;
             RemainingLaps = remainingLaps;
-            LapConsumptionRepository = lapConsumptionRepository;
+            RemainingTimeRepository = lapConsumptionRepository;
             FuelRepository = fuelRepository;
             MaxFuelRepository = maxFuelRepository;
         }
@@ -44,10 +44,10 @@ namespace PitWallDataGatheringApi.Tests.Services
         public IAvgWetnessRepository AvgWetnessRepository { get; }
         public IAirTemperatureRepository AirTemperature { get; }
         public ITrackTemperatureRepository TrackTemperature { get; }
-        public IComputedLastLapConsumptionRepository LaspLapConsumptionRepository { get; }
+        public IComputedLastLapConsumptionRepository LastLapConsumptionRepository { get; }
         public IComputedLiterPerLapsRepository LiterPerLapsRepository { get; }
         public IComputedRemainingLapsRepository RemainingLaps { get; }
-        public IComputedRemainingTimeRepository LapConsumptionRepository { get; }
+        public IComputedRemainingTimeRepository RemainingTimeRepository { get; }
         public IFuelRepository FuelRepository { get; }
         public IMaxFuelRepository MaxFuelRepository { get; }
     }
