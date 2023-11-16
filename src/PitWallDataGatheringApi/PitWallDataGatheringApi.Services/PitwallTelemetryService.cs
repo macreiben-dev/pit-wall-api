@@ -44,11 +44,13 @@ namespace PitWallDataGatheringApi.Services
 
             UpdateTyreWear(
                 telemetry.TyresWear,
-                telemetry.PilotName);
+                telemetry.PilotName,
+                CarName.Null());
 
             UpdateTyresTemperatures(
                 telemetry.TyresTemperatures,
-                telemetry.PilotName);
+                telemetry.PilotName,
+                CarName.Null());
 
             _laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
@@ -59,14 +61,16 @@ namespace PitWallDataGatheringApi.Services
                 _avgWetnessRepository.Update(
                     telemetry.AvgWetness,
                     telemetry.PilotName,
-                    CarName.Null())
+                    CarName.Null()
+                    )
                 );
 
             telemetry.AirTemperature.WhenHasValue(() =>
                 _airTemperatureRepository.Update(
                     telemetry.AirTemperature,
                     telemetry.PilotName,
-                    CarName.Null())
+                    CarName.Null()
+                    )
                 );
 
             telemetry.TrackTemperature.WhenHasValue(() =>
@@ -78,58 +82,58 @@ namespace PitWallDataGatheringApi.Services
                 );
         }
 
-        private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName)
+        private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName, CarName carName)
         {
             tyresTemperatures.FrontLeftTemp.WhenHasValue(
                 () => _tyresTemperaturesRepository.UpdateFrontLeft(
                     pilotName, 
-                    tyresTemperatures.FrontLeftTemp, 
-                    CarName.Null()));
+                    tyresTemperatures.FrontLeftTemp,
+                    carName));
 
             tyresTemperatures.FrontRightTemp.WhenHasValue(
                 () => _tyresTemperaturesRepository.UpdateFrontRight(
                     pilotName,
                     tyresTemperatures.FrontRightTemp,
-                    CarName.Null()));
+                    carName));
 
             tyresTemperatures.RearLeftTemp.WhenHasValue(
                 () => _tyresTemperaturesRepository.UpdateRearLeft(
                     pilotName,
                     tyresTemperatures.RearLeftTemp,
-                    CarName.Null()));
+                    carName));
 
             tyresTemperatures.RearRightTemp.WhenHasValue(
                 () => _tyresTemperaturesRepository.UpdateRearRight(
                     pilotName,
                     tyresTemperatures.RearRightTemp,
-                    CarName.Null()));
+                    carName));
         }
 
-        private void UpdateTyreWear(ITyresWear tyresWears, string pilotName)
+        private void UpdateTyreWear(ITyresWear tyresWears, string pilotName, CarName carName)
         {
             tyresWears.FrontLeftWear.WhenHasValue(() =>
                 _pitwallTyresPercentRepository.UpdateFrontLeft(
                     pilotName, 
-                    tyresWears.FrontLeftWear, 
-                    CarName.Null()));
+                    tyresWears.FrontLeftWear,
+                    carName ));
 
             tyresWears.FrontRightWear.WhenHasValue(() =>
                 _pitwallTyresPercentRepository.UpdateFrontRight(
                     pilotName, 
                     tyresWears.FrontRightWear, 
-                    CarName.Null()));
+                    carName));
 
             tyresWears.ReartLeftWear.WhenHasValue(() =>
                 _pitwallTyresPercentRepository.UpdateRearLeft(
                     pilotName, 
                     tyresWears.ReartLeftWear, 
-                    CarName.Null()));
+                    carName));
 
             tyresWears.RearRightWear.WhenHasValue(() =>
                 _pitwallTyresPercentRepository.UpdateRearRight(
                     pilotName, 
                     tyresWears.RearRightWear, 
-                    CarName.Null()));
+                    carName));
         }
     }
 }
