@@ -3,7 +3,7 @@ using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
-    public sealed class TyreWearRepository : ITyreWearRepository, IDocumentationTyresWearSerie
+    public sealed class TyreWearRepository : ITyreWearRepository
     {
         private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
 

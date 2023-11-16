@@ -4,7 +4,7 @@ using PitWallDataGatheringApi.Repositories.Prometheus;
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public sealed class TyresTemperaturesRepository
-        : ITyresTemperaturesRepository, IDocumentationTyresTemperaturesSerie
+        : ITyresTemperaturesRepository
     {
         private const string GaugeName = "pitwall_tyres_temperatures_celsius";
 

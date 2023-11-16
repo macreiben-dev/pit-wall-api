@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories
 {
-    public sealed class LaptimeRepository : ILaptimeRepository, IDocumentationLaptimeSerie
+    public sealed class LaptimeRepository : ILaptimeRepository
     {
         private const string LocalSerieName = "pitwall_laptimes_seconds";
         private readonly Gauge _gaugeLapTimes;
