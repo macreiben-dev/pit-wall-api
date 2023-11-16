@@ -7,8 +7,7 @@ namespace PitWallDataGatheringApi.Repositories
     {
         private const string LocalSerieName = "pitwall_laptimes_seconds";
         private readonly IGauge _gaugeLapTimes;
-        readonly string[] pilotLabels = new[] { "Pilot" };
-
+ 
         public LaptimeRepository(IGaugeWrapperFactory gaugeFactory)
         {
             _gaugeLapTimes = gaugeFactory.Create(
