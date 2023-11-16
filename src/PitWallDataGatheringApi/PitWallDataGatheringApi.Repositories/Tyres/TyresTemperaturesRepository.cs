@@ -6,14 +6,10 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
     public sealed class TyresTemperaturesRepository
         : ITyresTemperaturesRepository
     {
-        private const string GaugeName = "pitwall_tyres_temperatures_celsius";
-
         private const string GaugeNameFrontLeft = "pitwall_tyres_temperatures_frontleft_celsius";
         private const string GaugeNameRearLeft = "pitwall_tyres_temperatures_rearleft_celsius";
         private const string GaugeNameFrontRight = "pitwall_tyres_temperatures_frontright_celsius";
         private const string GaugeNameRearRight = "pitwall_tyres_temperatures_rearright_celsius";
-
-        readonly string[] tyreLabels = new[] { "Pilot" };
 
         private readonly IGauge _gaugeFrontLeftTyre;
         private readonly IGauge _gaugeRearLeftTyre;
@@ -28,31 +24,24 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             _gaugeRearRightTyre = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
         }
 
-        public string SerieName => GaugeName;
-
-        public string[] Labels => tyreLabels;
-
-        public string Description => "Current tyre temperature in celsius.";
-
-
         public void UpdateFrontLeft(string pilotName, double? frontLeftTemp, CarName carName)
         {
-            _gaugeFrontLeftTyre.Update(new[] { pilotName, "All", carName.ToString() }, frontLeftTemp);
+            _gaugeFrontLeftTyre.Update(new[] { pilotName, carName.ToString() }, frontLeftTemp);
         }
 
         public void UpdateFrontRight(string pilotName, double? frontRightTemp, CarName carName)
         {
-            _gaugeFrontRightTyre.Update(new[] { pilotName, "All", carName.ToString() }, frontRightTemp);
+            _gaugeFrontRightTyre.Update(new[] { pilotName, carName.ToString() }, frontRightTemp);
         }
 
         public void UpdateRearLeft(string pilotName, double? rearLeftTemp, CarName carName)
         {
-            _gaugeRearLeftTyre.Update(new[] { pilotName, "All", carName.ToString() }, rearLeftTemp);
+            _gaugeRearLeftTyre.Update(new[] { pilotName, carName.ToString() }, rearLeftTemp);
         }
 
         public void UpdateRearRight(string pilotName, double? rearRightTemp, CarName carName)
         {
-            _gaugeRearRightTyre.Update(new[] { pilotName, "All", carName.ToString() }, rearRightTemp);
+            _gaugeRearRightTyre.Update(new[] { pilotName, carName.ToString() }, rearRightTemp);
         }
     }
 }
