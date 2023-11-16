@@ -9,7 +9,7 @@
             get;
         }
 
-        double? LastLapConsumption { get; }
+        double? ComputedLastLapConsumption { get; }
 
         public double? ComputedLiterPerLaps { get; }
 
@@ -24,7 +24,7 @@
 
         public double? MaxFuel { get; set; }
 
-        public double? LastLapConsumption { get; set; }
+        public double? ComputedLastLapConsumption { get; set; }
 
         public double? ComputedLiterPerLaps { get; set; }
 

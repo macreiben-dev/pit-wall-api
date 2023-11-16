@@ -55,7 +55,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
-                Check.That(actual.VehicleConsumption.LastLapConsumption).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
             }
 
             [Fact]
@@ -78,7 +78,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
-                Check.That(actual.VehicleConsumption.LastLapConsumption).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
             }
 
             [Fact]
@@ -101,7 +101,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsEqualTo(expected);
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
-                Check.That(actual.VehicleConsumption.LastLapConsumption).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
             }
 
             [Fact]
@@ -124,7 +124,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsEqualTo(expected);
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
-                Check.That(actual.VehicleConsumption.LastLapConsumption).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
             }
 
             [Fact]
@@ -136,7 +136,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 double expected = 50.0;
 
-                source.VehicleConsumption.LastLapConsumption = expected;
+                source.VehicleConsumption.ComputedLastLapConsumption = expected;
 
                 var target = GetTarget();
 
@@ -147,7 +147,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
-                Check.That(actual.VehicleConsumption.LastLapConsumption).IsEqualTo(expected);
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsEqualTo(expected);
             }
         }
 

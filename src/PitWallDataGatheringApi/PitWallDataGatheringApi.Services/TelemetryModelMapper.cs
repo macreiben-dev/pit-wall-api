@@ -51,7 +51,7 @@ namespace PitWallDataGatheringApi.Services
                     ComputedLiterPerLaps = vehicleConsumption.ComputedLiterPerLaps,
                     ComputedRemainingLaps = vehicleConsumption.ComputedRemainingLaps,
                     ComputedRemainingTime = vehicleConsumption.ComputedRemainingTime,
-                    LastLapConsumption = vehicleConsumption.LastLapConsumption,
+                    ComputedLastLapConsumption = vehicleConsumption.ComputedLastLapConsumption,
                 };
             }
 
@@ -97,7 +97,7 @@ namespace PitWallDataGatheringApi.Services
                 || vehicleConsumption.MaxFuel != null
                 || vehicleConsumption.ComputedLiterPerLaps != null
                 || vehicleConsumption.ComputedRemainingLaps != null
-                || vehicleConsumption.LastLapConsumption != null
+                || vehicleConsumption.ComputedLastLapConsumption != null
                 );
         }
 

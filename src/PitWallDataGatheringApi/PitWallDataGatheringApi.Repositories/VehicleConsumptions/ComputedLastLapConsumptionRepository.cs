@@ -1,16 +1,17 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prometheus;
 
-namespace PitWallDataGatheringApi.Repositories.WeatherConditions
+namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 {
-    public sealed class AirTemperatureRepository :  IAirTemperatureRepository
+    public sealed class ComputedLastLapConsumptionRepository : IComputedLastLapConsumptionRepository
     {
-        private const string LocalSerieName = "pitwall_air_temperature_celsius";
+        private const string LocalSerieName = "pitwall_computed_lastlapconsumption_volume";
         private readonly IGauge _gauge;
 
-        private string Description => "Air temperature in celsius.";
+        private string Description => "Computed - last lap consumption.";
 
-        public AirTemperatureRepository(IGaugeWrapperFactory _gaugeFactory)
+
+        public ComputedLastLapConsumptionRepository(IGaugeWrapperFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,
