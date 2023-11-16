@@ -27,22 +27,22 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateFrontLeft(string pilotName, double? frontLeftWear, CarName carName)
         {
-            _gaugeFrontLeft.Update(new[] { pilotName, "All", carName.ToString() }, frontLeftWear);
+            _gaugeFrontLeft.Update(new[] { pilotName,  carName.ToString() }, frontLeftWear);
         }
 
         public void UpdateFrontRight(string pilotName, double? frontRightWear, CarName carName)
         {
-            _gaugeFrontRight.Update(new[] { pilotName, "All", carName.ToString() }, frontRightWear);
+            _gaugeFrontRight.Update(new[] { pilotName,  carName.ToString() }, frontRightWear);
         }
 
         public void UpdateRearLeft(string pilotName, double? reartLeftWear, CarName carName)
         {
-            _gaugeRearLeft.Update(new[] { pilotName, "All", carName.ToString() }, reartLeftWear);
+            _gaugeRearLeft.Update(new[] { pilotName, carName.ToString() }, reartLeftWear);
         }
 
         public void UpdateRearRight(string pilotName, double? rearRightWear, CarName carName)
         {
-            _gaugeRearRight.Update(new[] { pilotName, "All", carName.ToString() }, rearRightWear);
+            _gaugeRearRight.Update(new[] { pilotName, carName.ToString() }, rearRightWear);
         }
     }
 }
