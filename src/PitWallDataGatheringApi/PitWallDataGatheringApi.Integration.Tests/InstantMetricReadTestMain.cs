@@ -34,7 +34,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Check.That(responseMessage.StatusCode).IsEqualTo(HttpStatusCode.OK);
             }
 
-            Thread.Sleep(4000);
+            Thread.Sleep(5000);
 
             {
                 /**
