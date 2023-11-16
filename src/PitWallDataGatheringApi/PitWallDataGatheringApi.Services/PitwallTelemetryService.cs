@@ -52,7 +52,8 @@ namespace PitWallDataGatheringApi.Services
 
             _laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
-                telemetry.PilotName);
+                telemetry.PilotName, 
+                CarName.Null());
 
             telemetry.AvgWetness.WhenHasValue(() => 
                 _avgWetnessRepository.Update(

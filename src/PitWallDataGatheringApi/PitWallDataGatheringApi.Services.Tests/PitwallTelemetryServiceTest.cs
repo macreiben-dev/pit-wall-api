@@ -102,7 +102,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+            _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
         }
 
 

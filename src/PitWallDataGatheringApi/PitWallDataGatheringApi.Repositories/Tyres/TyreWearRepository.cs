@@ -12,8 +12,6 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
         private const string GaugeNameFrontRight = "pitwall_tyres_wear_frontright_percent";
         private const string GaugeNameRearRight = "pitwall_tyres_wear_rearright_percent";
 
-        readonly string[] tyreLabels = new[] { "Pilot" };
-
         private readonly IGauge _gaugeFrontLeft;
         private readonly IGauge _gaugeRearLeft;
         private readonly IGauge _gaugeFrontRight;
@@ -26,12 +24,6 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             _gaugeFrontRight = gaugeFactory.Create(GaugeNameFrontRight, "Tyres wear front left in percent.", ConstantLabels.Labels);
             _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Tyres wear front left in percent.", ConstantLabels.Labels);
         }
-
-        public string SerieName => GaugeNamePitwallTyreWearPercent;
-
-        public string[] Labels => tyreLabels;
-
-        public string Description => "Current tyre wear as percent.";
 
         public void UpdateFrontLeft(string pilotName, double? frontLeftWear, CarName carName)
         {
