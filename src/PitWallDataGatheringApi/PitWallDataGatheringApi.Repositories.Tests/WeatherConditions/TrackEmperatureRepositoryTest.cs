@@ -11,7 +11,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
         private IGaugeWrapperFactory _gaugeFactory;
         private IGauge _gaugeWrapper;
 
-        public TrackEmperatureRepositoryTest() {
+        public TrackEmperatureRepositoryTest()
+        {
 
             _gaugeFactory = Substitute.For<IGaugeWrapperFactory>();
 
@@ -31,7 +32,7 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
         [Fact]
         public void GIVEN_instance_THEN_update_track_temp_for_pilot()
         {
-            var originalLabels = new string[] { "thePilotName01", "All", "32" };
+            var originalLabels = new string[] { "thePilotName01", "32" };
 
             var actualLabels = new string[0];
             double? actualValue = 0.0;
@@ -57,8 +58,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
         [Fact]
         public void GIVEN_instance_AND_noCarName_THEN_useDefault_car_number()
         {
-            var originalLabels = new string[] { "thePilotName01", "All", "NoCarNumber" };
-            
+            var originalLabels = new string[] { "thePilotName01", "NoCarNumber" };
+
             var actualLabels = new string[0];
             double? actualValue = 0.0;
 

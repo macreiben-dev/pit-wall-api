@@ -3,15 +3,10 @@ using PitWallDataGatheringApi.Repositories.Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public sealed class AirTemperatureRepository : IDocumentationAirTemperatureSerie, IAirTemperatureRepository
+    public sealed class AirTemperatureRepository :  IAirTemperatureRepository
     {
         private const string LocalSerieName = "pitwall_air_temperature_celsius";
         private readonly IGauge _gauge;
-        readonly string[] _labels = new[] { "Pilot", "All", "Car" };
-
-        public string SerieName => LocalSerieName;
-
-        public string[] Labels => _labels;
 
         public string Description => "Road wetness in percent.";
 
@@ -25,7 +20,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
         public void Update(double? data, string pilotName, CarName carName)
         {
-            _gauge.Update(new[] { pilotName, "All", carName.ToString() }, data);
+            _gauge.Update(new[] { pilotName, carName.ToString() }, data);
         }
     }
 }

@@ -102,7 +102,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+            _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
         }
 
 
@@ -115,7 +115,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _avgWetness.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>());
+            _avgWetness.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
         }
 
         [Fact]
@@ -642,7 +642,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.AvgWetnessRepository.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>());
+                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
             }
 
             [Fact]
@@ -660,7 +660,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.AvgWetnessRepository.Received(1).Update(5.0, "Pilot1");
+                _context.AvgWetnessRepository.Received(1).Update(5.0, "Pilot1", Arg.Any<CarName>());
             }
 
             [Fact]

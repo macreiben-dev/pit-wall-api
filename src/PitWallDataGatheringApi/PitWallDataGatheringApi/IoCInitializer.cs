@@ -26,12 +26,6 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<ITrackTemperatureRepository, TrackEmperatureRepository>();
             services.AddSingleton<IGaugeWrapperFactory, GaugeWrapperFactory>();
 
-            services.AddScoped<IDocumentationLaptimeSerie, LaptimeRepository>();
-            services.AddScoped<IDocumentationTyresWearSerie, TyreWearRepository>();
-            services.AddScoped<IDocumentationTyresTemperaturesSerie, TyresTemperaturesRepository>();
-            services.AddScoped<IDocumentationAirTemperatureSerie, AirTemperatureRepository>();
-            services.AddScoped<IDocumentationAvgWetnessSerie, AvgWetnessRepository>();
-
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
             services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
 
