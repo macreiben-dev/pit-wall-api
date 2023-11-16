@@ -41,13 +41,7 @@ namespace PitWallDataGatheringApi.Services
 
         private IBusinessVehicleConsumption Map(VehicleConsumption? vehicleConsumption)
         {
-            if(vehicleConsumption != null
-                && (vehicleConsumption.Fuel != null
-                || vehicleConsumption.MaxFuel != null
-                || vehicleConsumption.ComputedLiterPerLaps != null
-                || vehicleConsumption.ComputedRemainingLaps != null
-                || vehicleConsumption.ComputedRemainingTime != null
-                )
+            if (AnyVehicleConsumptionInformationProvided(vehicleConsumption)
                )
             {
                 return new BusinessVehicleConsumption()
@@ -57,6 +51,7 @@ namespace PitWallDataGatheringApi.Services
                     ComputedLiterPerLaps = vehicleConsumption.ComputedLiterPerLaps,
                     ComputedRemainingLaps = vehicleConsumption.ComputedRemainingLaps,
                     ComputedRemainingTime = vehicleConsumption.ComputedRemainingTime,
+                    LastLapConsumption = vehicleConsumption.LastLapConsumption,
                 };
             }
 
@@ -93,6 +88,17 @@ namespace PitWallDataGatheringApi.Services
             }
 
             return new BusinessTyresWear();
+        }
+
+        private static bool AnyVehicleConsumptionInformationProvided(VehicleConsumption? vehicleConsumption)
+        {
+            return vehicleConsumption != null && (
+                vehicleConsumption.Fuel != null
+                || vehicleConsumption.MaxFuel != null
+                || vehicleConsumption.ComputedLiterPerLaps != null
+                || vehicleConsumption.ComputedRemainingLaps != null
+                || vehicleConsumption.LastLapConsumption != null
+                );
         }
 
         private static bool AnyTyreWearIsProvided(TyresWear source)

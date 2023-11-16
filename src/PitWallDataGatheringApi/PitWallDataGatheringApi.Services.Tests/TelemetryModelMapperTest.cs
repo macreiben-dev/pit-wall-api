@@ -128,7 +128,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             }
 
             [Fact]
-            public void GIVEN_vehicleConsumption_is_notNull_THEN_mapComputedRemainingTime_only()
+            public void GIVEN_vehicleConsumption_is_notNull_THEN_mapLastLapConsumption_only()
             {
                 ApiTelemetryModel source = new ApiTelemetryModel();
 
@@ -136,7 +136,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 double expected = 50.0;
 
-                source.VehicleConsumption.ComputedRemainingTime = expected;
+                source.VehicleConsumption.LastLapConsumption = expected;
 
                 var target = GetTarget();
 
@@ -146,8 +146,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.MaxFuel).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
-                Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsEqualTo(expected);
-                Check.That(actual.VehicleConsumption.LastLapConsumption).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
+                Check.That(actual.VehicleConsumption.LastLapConsumption).IsEqualTo(expected);
             }
         }
 
