@@ -4,6 +4,7 @@ using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Prometheus;
 using PitWallDataGatheringApi.Repositories.Tyres;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Services;
 
@@ -17,7 +18,12 @@ namespace PitWallDataGatheringApi.Tests.Services
         private readonly IAvgWetnessRepository _avgWetness;
         private readonly IAirTemperatureRepository _airTemperature;
         private readonly ITrackTemperatureRepository _trackTemperature;
-
+        private readonly IComputedLastLapConsumptionRepository _lastLapConsumption;
+        private readonly IComputedLiterPerLapsRepository _literPerLap;
+        private readonly IFuelRepository _fuel;
+        private readonly IMaxFuelRepository _maxFuel;
+        private IComputedRemainingLapsRepository _remainingLaps;
+        private readonly IComputedRemainingTimeRepository _remainingTime;
         private const string PilotName = "Pilot01";
 
         public PitwallTelemetryServiceTest()
@@ -33,6 +39,13 @@ namespace PitWallDataGatheringApi.Tests.Services
             _airTemperature = Substitute.For<IAirTemperatureRepository>();
 
             _trackTemperature = Substitute.For<ITrackTemperatureRepository>();
+
+            _lastLapConsumption = Substitute.For<IComputedLastLapConsumptionRepository>();
+            _literPerLap = Substitute.For<IComputedLiterPerLapsRepository>();
+            _remainingLaps = Substitute.For<IComputedRemainingLapsRepository>();
+            _remainingTime = Substitute.For<IComputedRemainingTimeRepository>();
+            _fuel = Substitute.For<IFuelRepository>();
+            _maxFuel = Substitute.For<IMaxFuelRepository>();
         }
 
         private PitwallTelemetryService GetTarget()
@@ -43,7 +56,13 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _tyreTemperature,
                 _avgWetness,
                 Substitute.For<IAirTemperatureRepository>(),
-                _trackTemperature);
+                _trackTemperature,
+                _lastLapConsumption,
+                _literPerLap,
+                _remainingLaps,
+                _remainingTime,
+                _fuel,
+                _maxFuel);
         }
 
         public static TestContextPitwallTelemetryService GetTargetTestContext()
@@ -60,13 +79,26 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             var trackTemperature = Substitute.For<ITrackTemperatureRepository>();
 
+            var lastLapConsumption = Substitute.For<IComputedLastLapConsumptionRepository>();
+            var literPerLap = Substitute.For<IComputedLiterPerLapsRepository>();
+            var remainingLaps = Substitute.For<IComputedRemainingLapsRepository>();
+            var remainingTime = Substitute.For<IComputedRemainingTimeRepository>();
+            var fuel = Substitute.For<IFuelRepository>();
+            var maxFuel = Substitute.For<IMaxFuelRepository>();
+
             var target = new PitwallTelemetryService(
                 tyreWearRepository,
                 laptimeRepository,
                 tyreTemperature,
                 avgWetnessRepository,
                 airTemperature,
-                trackTemperature);
+                trackTemperature,
+                lastLapConsumption,
+               literPerLap,
+               remainingLaps,
+               remainingTime,
+               fuel,
+               maxFuel);
 
             return new TestContextPitwallTelemetryService(
                 target,
@@ -75,7 +107,13 @@ namespace PitWallDataGatheringApi.Tests.Services
                 laptimeRepository,
                 avgWetnessRepository,
                 airTemperature,
-                trackTemperature);
+                trackTemperature,
+                lastLapConsumption,
+               literPerLap,
+               remainingLaps,
+               remainingTime,
+               fuel,
+               maxFuel);
         }
 
         [Fact]
@@ -192,7 +230,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(0).UpdateFrontLeft(
                     Arg.Any<string>(),
-                    Arg.Any<double?>(), 
+                    Arg.Any<double?>(),
                     Arg.Any<CarName>());
             }
 
@@ -218,7 +256,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateFrontLeft(
                     PilotName,
-                    50.0, 
+                    50.0,
                     CarName.Null());
             }
 
@@ -378,7 +416,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearRight(
                     PilotName,
-                    53.0, 
+                    53.0,
                     CarName.Null());
             }
         }

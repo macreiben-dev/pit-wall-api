@@ -2,6 +2,7 @@
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 
 namespace PitWallDataGatheringApi.Services
@@ -14,14 +15,26 @@ namespace PitWallDataGatheringApi.Services
         private readonly IAvgWetnessRepository _avgWetnessRepository;
         private readonly IAirTemperatureRepository _airTemperatureRepository;
         private readonly ITrackTemperatureRepository _trackTemperatureRepository;
+        private readonly IComputedLastLapConsumptionRepository _laspLapConsumptionRepository;
+        private readonly IComputedLiterPerLapsRepository _literPerLapsRepository;
+        private readonly IComputedRemainingLapsRepository _remainingLaps;
+        private readonly IComputedRemainingTimeRepository _lapConsumptionRepository;
+        private readonly IFuelRepository _fuelRepository;
+        private readonly IMaxFuelRepository _maxFuelRepository;
 
         public PitwallTelemetryService(
             ITyreWearRepository pitwallTyresPercentRepository,
             ILaptimeRepository laptimeRepository,
             ITyresTemperaturesRepository tyresTemperatures,
             IAvgWetnessRepository avgWetnessRepository,
-            IAirTemperatureRepository airTemperatureRepository, 
-            ITrackTemperatureRepository trackTemperatureRepository)
+            IAirTemperatureRepository airTemperatureRepository,
+            ITrackTemperatureRepository trackTemperatureRepository,
+            IComputedLastLapConsumptionRepository laspLapConsumptionRepository,
+            IComputedLiterPerLapsRepository literPerLapsRepository,
+            IComputedRemainingLapsRepository remainingLaps,
+            IComputedRemainingTimeRepository lapConsumptionRepository,
+            IFuelRepository fuelRepository,
+            IMaxFuelRepository maxFuelRepository)
         {
             _pitwallTyresPercentRepository = pitwallTyresPercentRepository;
             _laptimeRepository = laptimeRepository;
@@ -29,6 +42,12 @@ namespace PitWallDataGatheringApi.Services
             _avgWetnessRepository = avgWetnessRepository;
             _airTemperatureRepository = airTemperatureRepository;
             _trackTemperatureRepository = trackTemperatureRepository;
+            _laspLapConsumptionRepository = laspLapConsumptionRepository;
+            _literPerLapsRepository = literPerLapsRepository;
+            _remainingLaps = remainingLaps;
+            _lapConsumptionRepository = lapConsumptionRepository;
+            _fuelRepository = fuelRepository;
+            _maxFuelRepository = maxFuelRepository;
         }
 
         public void Update(ITelemetryModel telemetry)
