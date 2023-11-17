@@ -2,7 +2,6 @@
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
-using PitWallDataGatheringApi.Repositories.Prometheus;
 using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;

@@ -1,5 +1,5 @@
 ﻿using NFluent;
-using PitWallDataGatheringApi.Repositories.Prometheus;
+using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 {

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PitWallDataGatheringApi.Repositories.Prometheus;
+using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi.Controllers
 {

@@ -1,4 +1,4 @@
-﻿namespace PitWallDataGatheringApi.Repositories.Prometheus
+﻿namespace PitWallDataGatheringApi.Repositories.Prom
 {
     public sealed class GaugeWrapperFactory : IGaugeWrapperFactory
     {

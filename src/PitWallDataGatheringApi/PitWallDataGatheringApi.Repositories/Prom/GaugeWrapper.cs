@@ -1,6 +1,6 @@
 ﻿using Prometheus;
 
-namespace PitWallDataGatheringApi.Repositories.Prometheus
+namespace PitWallDataGatheringApi.Repositories.Prom
 {
     public sealed class GaugeWrapper : IGauge, ISerieDocumentation
     {

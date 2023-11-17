@@ -77,7 +77,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 {
                     MetricName = "pitwall_maxfuel_volume",
                     PilotName = "IntegrationTest_maxfuelvol",
-                    SetFieldValue = t => t.VehicleConsumption.Fuel = 85.0,
+                    SetFieldValue = t => t.VehicleConsumption.MaxFuel = 85.0,
                     GetApiModelInstance = () => ModelWithVehicleConsumption(),
                     Expected = 85.0
                 };

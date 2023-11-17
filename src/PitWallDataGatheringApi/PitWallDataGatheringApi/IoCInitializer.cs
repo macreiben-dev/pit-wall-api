@@ -2,8 +2,8 @@
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
-using PitWallDataGatheringApi.Repositories.Prometheus;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
+using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi
 {
