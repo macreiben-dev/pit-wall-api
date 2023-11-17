@@ -21,6 +21,7 @@ docker build -f src/PitWallDataGatheringApi/PitWallDataGatheringApi/Dockerfile -
 
 - Go the [container folder](./src/Container/)
 - Configure then simerkey
+  ![Simer key in configuration](./documentation//assets/simerkeyExample.png)
   - Send the simerkey to the people you wish to have the data sent from
 - Run the following command :
 
