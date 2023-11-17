@@ -52,7 +52,7 @@ internal static class InstantMetricReadTestHelpers
 
         if (json["data"]["result"].Count() == 0)
         {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException(timeSerieUri, queryPath);
         }
 
         string intermediary = json["data"]["result"][0]["value"][1].ToString();

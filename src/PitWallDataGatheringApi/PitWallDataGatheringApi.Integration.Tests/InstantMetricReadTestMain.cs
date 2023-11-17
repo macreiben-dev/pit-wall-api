@@ -48,6 +48,18 @@ namespace PitWallDataGatheringApi.Integration.Tests
                    timeSerieUri);
 
                 Task.WaitAll(read);
+                
+                if(read.Exception != null )
+                {
+                    var inner = read.Exception.InnerExceptions.FirstOrDefault();
+
+                    if(inner != null)
+                    {
+                        throw inner;
+                    }
+
+                    throw read.Exception;
+                }
 
                 string intermediary = read.Result;
 
