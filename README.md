@@ -71,6 +71,8 @@ The system has been made very light to run almost anywhere without having coupli
 
 It should not be left active all the time because no advanced pentesting has been made.
 
+Prometheus instance is not u**ser password secured for reading data**. That is a prometheus limitation. Therefore, you have to secure its access using port mapping and network filter.
+
 ### Disk space
 
 I currently have not metrics about the growth of the disk space.
