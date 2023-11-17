@@ -1,4 +1,5 @@
-﻿using PitWallDataGatheringApi.Models;
+﻿using Microsoft.Extensions.Logging;
+using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Tyres;
@@ -21,6 +22,7 @@ namespace PitWallDataGatheringApi.Services
         private readonly IComputedRemainingTimeRepository _remainingTimeRepository;
         private readonly IFuelRepository _fuelRepository;
         private readonly IMaxFuelRepository _maxFuelRepository;
+        private readonly ILogger<PitwallTelemetryService> _logger;
 
         public PitwallTelemetryService(
             ITyreWearRepository pitwallTyresPercentRepository,
@@ -34,7 +36,8 @@ namespace PitWallDataGatheringApi.Services
             IComputedRemainingLapsRepository remainingLaps,
             IComputedRemainingTimeRepository remainingTimeRepository,
             IFuelRepository fuelRepository,
-            IMaxFuelRepository maxFuelRepository)
+            IMaxFuelRepository maxFuelRepository,
+            ILogger<PitwallTelemetryService> logger)
         {
             _pitwallTyresPercentRepository = pitwallTyresPercentRepository;
             _laptimeRepository = laptimeRepository;
@@ -49,6 +52,10 @@ namespace PitWallDataGatheringApi.Services
             _remainingTimeRepository = remainingTimeRepository;
             _fuelRepository = fuelRepository;
             _maxFuelRepository = maxFuelRepository;
+
+            _logger = logger;
+
+            _logger.LogInformation("Pitwall telemetry service ready.");
         }
 
         public void Update(ITelemetryModel telemetry)

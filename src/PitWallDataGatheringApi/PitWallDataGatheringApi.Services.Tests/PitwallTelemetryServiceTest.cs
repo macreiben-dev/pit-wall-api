@@ -1,4 +1,6 @@
-﻿using NSubstitute;
+﻿using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
@@ -11,6 +13,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 {
     public sealed class PitwallTelemetryServiceTest
     {
+        private readonly ILogger<PitwallTelemetryService> _logger;
         private readonly ITyreWearRepository _tyreWearRepository;
         private readonly ILaptimeRepository _laptimeRepository;
         private readonly ITyresTemperaturesRepository _tyreTemperature;
@@ -27,6 +30,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
         public PitwallTelemetryServiceTest()
         {
+            _logger = Substitute.For<ILogger<PitwallTelemetryService>>();
+
             _tyreWearRepository = Substitute.For<ITyreWearRepository>();
 
             _laptimeRepository = Substitute.For<ILaptimeRepository>();
@@ -61,7 +66,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _remainingLaps,
                 _remainingTime,
                 _fuel,
-                _maxFuel);
+                _maxFuel,
+                _logger);
         }
 
         public static TestContextPitwallTelemetryService GetTargetTestContext()
@@ -97,7 +103,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                remainingLaps,
                remainingTime,
                fuel,
-               maxFuel);
+               maxFuel,
+               Substitute.For<ILogger<PitwallTelemetryService>>());
 
             return new TestContextPitwallTelemetryService(
                 target,
