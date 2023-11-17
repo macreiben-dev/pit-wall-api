@@ -1,4 +1,5 @@
-﻿using Prometheus;
+﻿using Microsoft.Extensions.Logging;
+using Prometheus;
 
 namespace PitWallDataGatheringApi.Repositories.Prom
 {
@@ -6,12 +7,17 @@ namespace PitWallDataGatheringApi.Repositories.Prom
     {
         private readonly Gauge _gauge;
         private readonly HashSet<string> _labels;
+        private readonly string _labelsContactenated;
+        private ILogger<GaugeWrapper> _logger;
 
         public GaugeWrapper(
             string serieName,
             string description,
-            IEnumerable<string> labels)
+            IEnumerable<string> labels, 
+            ILogger<GaugeWrapper> logger)
         {
+            _logger = logger;
+
             if (serieName is null)
             {
                 throw new ArgumentNullException(nameof(serieName));
@@ -56,6 +62,8 @@ namespace PitWallDataGatheringApi.Repositories.Prom
 
             _labels = new HashSet<string>(labels);
 
+            _labelsContactenated = string.Join(",", _labels);
+
             Description = description;
 
             SerieName = serieName;
@@ -79,6 +87,8 @@ namespace PitWallDataGatheringApi.Repositories.Prom
             }
 
             _gauge.WithLabels(labels.ToArray()).Set(dataValue.Value);
+
+            _logger.LogDebug($"Update [{SerieName}] - [{_labelsContactenated}] - [{dataValue}]");
         }
 
         public void Update(string label, double? data)
