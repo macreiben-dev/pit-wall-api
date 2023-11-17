@@ -33,6 +33,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
+
             }
 
             [Fact]
@@ -124,6 +126,29 @@ namespace PitWallDataGatheringApi.Tests.Services
                 Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
                 Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsEqualTo(expected);
                 Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
+            }
+
+            [Fact]
+            public void GIVEN_vehicleConsumption_is_notNull_THEN_mapComputedRemainingTime_only()
+            {
+                ApiTelemetryModel source = new ApiTelemetryModel();
+
+                source.VehicleConsumption = new ApiVehicleConsumption();
+
+                double expected = 50.0;
+
+                source.VehicleConsumption.ComputedRemainingLaps = expected;
+
+                var target = GetTarget();
+
+                var actual = target.Map(source);
+
+                Check.That(actual.VehicleConsumption.Fuel).IsNull();
+                Check.That(actual.VehicleConsumption.MaxFuel).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedLiterPerLaps).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedRemainingLaps).IsNull();
+                Check.That(actual.VehicleConsumption.ComputedRemainingTime).IsEqualTo(expected);
                 Check.That(actual.VehicleConsumption.ComputedLastLapConsumption).IsNull();
             }
 

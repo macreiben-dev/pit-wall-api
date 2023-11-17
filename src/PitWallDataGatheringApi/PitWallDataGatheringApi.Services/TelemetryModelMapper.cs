@@ -97,6 +97,7 @@ namespace PitWallDataGatheringApi.Services
                 || vehicleConsumption.MaxFuel != null
                 || vehicleConsumption.ComputedLiterPerLaps != null
                 || vehicleConsumption.ComputedRemainingLaps != null
+                || vehicleConsumption.ComputedRemainingTime != null
                 || vehicleConsumption.ComputedLastLapConsumption != null
                 );
         }
