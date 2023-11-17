@@ -9,6 +9,7 @@ public sealed class TelemetryModel : ITelemetryModel
     {
         TyresWear = new TyresWear();
         TyresTemperatures = new TyresTemperatures();
+        VehicleConsumption = new VehicleConsumption();
     }
 
     public string PilotName { get; set; }
@@ -47,4 +48,6 @@ public sealed class TelemetryModel : ITelemetryModel
             _tyresTemperatures = value;
         }
     }
+
+    public IVehicleConsumption VehicleConsumption { get; set; }
 }

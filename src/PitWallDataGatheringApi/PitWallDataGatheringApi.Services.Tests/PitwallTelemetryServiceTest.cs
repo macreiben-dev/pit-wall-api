@@ -1,9 +1,11 @@
-﻿using NSubstitute;
+﻿using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
-using PitWallDataGatheringApi.Repositories.Prometheus;
 using PitWallDataGatheringApi.Repositories.Tyres;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Services;
 
@@ -11,17 +13,25 @@ namespace PitWallDataGatheringApi.Tests.Services
 {
     public sealed class PitwallTelemetryServiceTest
     {
+        private readonly ILogger<PitwallTelemetryService> _logger;
         private readonly ITyreWearRepository _tyreWearRepository;
         private readonly ILaptimeRepository _laptimeRepository;
         private readonly ITyresTemperaturesRepository _tyreTemperature;
         private readonly IAvgWetnessRepository _avgWetness;
         private readonly IAirTemperatureRepository _airTemperature;
         private readonly ITrackTemperatureRepository _trackTemperature;
-
+        private readonly IComputedLastLapConsumptionRepository _lastLapConsumption;
+        private readonly IComputedLiterPerLapsRepository _literPerLap;
+        private readonly IFuelRepository _fuel;
+        private readonly IMaxFuelRepository _maxFuel;
+        private IComputedRemainingLapsRepository _remainingLaps;
+        private readonly IComputedRemainingTimeRepository _remainingTime;
         private const string PilotName = "Pilot01";
 
         public PitwallTelemetryServiceTest()
         {
+            _logger = Substitute.For<ILogger<PitwallTelemetryService>>();
+
             _tyreWearRepository = Substitute.For<ITyreWearRepository>();
 
             _laptimeRepository = Substitute.For<ILaptimeRepository>();
@@ -33,6 +43,13 @@ namespace PitWallDataGatheringApi.Tests.Services
             _airTemperature = Substitute.For<IAirTemperatureRepository>();
 
             _trackTemperature = Substitute.For<ITrackTemperatureRepository>();
+
+            _lastLapConsumption = Substitute.For<IComputedLastLapConsumptionRepository>();
+            _literPerLap = Substitute.For<IComputedLiterPerLapsRepository>();
+            _remainingLaps = Substitute.For<IComputedRemainingLapsRepository>();
+            _remainingTime = Substitute.For<IComputedRemainingTimeRepository>();
+            _fuel = Substitute.For<IFuelRepository>();
+            _maxFuel = Substitute.For<IMaxFuelRepository>();
         }
 
         private PitwallTelemetryService GetTarget()
@@ -43,7 +60,14 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _tyreTemperature,
                 _avgWetness,
                 Substitute.For<IAirTemperatureRepository>(),
-                _trackTemperature);
+                _trackTemperature,
+                _lastLapConsumption,
+                _literPerLap,
+                _remainingLaps,
+                _remainingTime,
+                _fuel,
+                _maxFuel,
+                _logger);
         }
 
         public static TestContextPitwallTelemetryService GetTargetTestContext()
@@ -60,13 +84,27 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             var trackTemperature = Substitute.For<ITrackTemperatureRepository>();
 
+            var lastLapConsumption = Substitute.For<IComputedLastLapConsumptionRepository>();
+            var literPerLap = Substitute.For<IComputedLiterPerLapsRepository>();
+            var remainingLaps = Substitute.For<IComputedRemainingLapsRepository>();
+            var remainingTime = Substitute.For<IComputedRemainingTimeRepository>();
+            var fuel = Substitute.For<IFuelRepository>();
+            var maxFuel = Substitute.For<IMaxFuelRepository>();
+
             var target = new PitwallTelemetryService(
                 tyreWearRepository,
                 laptimeRepository,
                 tyreTemperature,
                 avgWetnessRepository,
                 airTemperature,
-                trackTemperature);
+                trackTemperature,
+                lastLapConsumption,
+               literPerLap,
+               remainingLaps,
+               remainingTime,
+               fuel,
+               maxFuel,
+               Substitute.For<ILogger<PitwallTelemetryService>>());
 
             return new TestContextPitwallTelemetryService(
                 target,
@@ -75,7 +113,13 @@ namespace PitWallDataGatheringApi.Tests.Services
                 laptimeRepository,
                 avgWetnessRepository,
                 airTemperature,
-                trackTemperature);
+                trackTemperature,
+                lastLapConsumption,
+               literPerLap,
+               remainingLaps,
+               remainingTime,
+               fuel,
+               maxFuel);
         }
 
         [Fact]
@@ -142,6 +186,221 @@ namespace PitWallDataGatheringApi.Tests.Services
             _trackTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), new CarName(null));
         }
 
+        public class VehicleConsumptionTest
+        {
+            private const string PilotName = "Pilot1";
+
+            private TestContextPitwallTelemetryService _context;
+
+            public VehicleConsumptionTest()
+            {
+                _context = GetTargetTestContext();
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_null_ComputedLastLapConsumption_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    ComputedLastLapConsumption = null,
+                };
+
+                // ACT & ASSERT
+                EnsureRepoNotCalled(original, () => _context.LastLapConsumptionRepository);
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_ComputedLastLapConsumption_THEN_do_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    ComputedLastLapConsumption = 13.2,
+                };
+
+                // ACT & ASSERT
+                EnsureRepoCalledWithValue(original, 13.2, () => _context.LastLapConsumptionRepository);
+            }
+
+            // ------
+
+            [Fact]
+            public void GIVEN_telemetry_with_null_ComputedComputedLiterPerLaps_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    ComputedLiterPerLaps = null,
+                };
+
+                // ACT & ASSERT
+                EnsureRepoNotCalled(original, () => _context.LiterPerLapsRepository);
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_ComputedComputedLiterPerLaps_THEN_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                var originalValue = 13.3;
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    ComputedLiterPerLaps = originalValue,
+                };
+
+                EnsureRepoCalledWithValue(original, 13.3, () => _context.LiterPerLapsRepository);
+            }
+
+            // ------
+
+            [Fact]
+            public void GIVEN_telemetry_with_null_computedRemainingTime_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    ComputedRemainingTime = null,
+                };
+
+                // ACT & ASSERT
+                EnsureRepoNotCalled(original, () => _context.RemainingTimeRepository);
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_ComputedRemainingTime_THEN_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                var originalValue = 13.3;
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    ComputedRemainingTime = originalValue,
+                };
+
+                EnsureRepoCalledWithValue(original, 13.3, () => _context.RemainingTimeRepository);
+            }
+
+            // ------
+
+            [Fact]
+            public void GIVEN_telemetry_with_null_Fuel_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    Fuel = null,
+                };
+
+                // ACT & ASSERT
+                EnsureRepoNotCalled(original, () => _context.FuelRepository);
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_Fuel_THEN_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                var originalValue = 13.3;
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    Fuel = originalValue,
+                };
+
+                EnsureRepoCalledWithValue(original, 13.3, () => _context.FuelRepository);
+            }
+
+            // ------
+
+            [Fact]
+            public void GIVEN_telemetry_with_null_MaxFuel_THEN_doNot_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    MaxFuel = null,
+                };
+
+                // ACT & ASSERT
+                EnsureRepoNotCalled(original, () => _context.MaxFuelRepository);
+            }
+
+            [Fact]
+            public void GIVEN_telemetry_with_MaxFuel_THEN_update()
+            {
+                // ARRANGE
+                var original = new TelemetryModel();
+
+                var originalValue = 13.3;
+
+                original.VehicleConsumption = new VehicleConsumption()
+                {
+                    MaxFuel = originalValue,
+                };
+
+                EnsureRepoCalledWithValue(original, 13.3, () => _context.MaxFuelRepository);
+            }
+
+            // ================================================================================
+            // ================================================================================
+            // ================================================================================
+
+            private void EnsureRepoNotCalled(
+                TelemetryModel source,
+                Func<IMetricRepository> selectRepository)
+            {
+                source.PilotName = PilotName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(source);
+
+                // ASSERT
+                var metricRepo = selectRepository();
+
+                metricRepo.Received(0)
+                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
+            }
+
+            private void EnsureRepoCalledWithValue(
+                TelemetryModel source,
+                double? expectedValue,
+                Func<IMetricRepository> selectRepository)
+            {
+                source.PilotName = PilotName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(source);
+
+                // ASSERT
+                var metricRepo = selectRepository();
+
+                metricRepo.Received(1)
+                    .Update(expectedValue, PilotName, Arg.Any<CarName>());
+            }
+        }
+
         public class TyreWearTest
         {
             private TestContextPitwallTelemetryService _context;
@@ -192,7 +451,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(0).UpdateFrontLeft(
                     Arg.Any<string>(),
-                    Arg.Any<double?>(), 
+                    Arg.Any<double?>(),
                     Arg.Any<CarName>());
             }
 
@@ -218,7 +477,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateFrontLeft(
                     PilotName,
-                    50.0, 
+                    50.0,
                     CarName.Null());
             }
 
@@ -378,7 +637,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 // ASSERT
                 _context.TyreWearRepository.Received(1).UpdateRearRight(
                     PilotName,
-                    53.0, 
+                    53.0,
                     CarName.Null());
             }
         }

@@ -3,9 +3,11 @@
 using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.TelemetryModel;
 using BusinessTyresWear = PitWallDataGatheringApi.Models.Business.TyresWear;
 using BusinessTyresTemperatures = PitWallDataGatheringApi.Models.Business.TyresTemperatures;
+using BusinessVehicleConsumption = PitWallDataGatheringApi.Models.Business.VehicleConsumption;
 using IBusinessTyresWear = PitWallDataGatheringApi.Models.Business.ITyresWear;
 using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemetryModel;
 using IBusinessTyresTemperatures = PitWallDataGatheringApi.Models.Business.ITyresTemperatures;
+using IBusinessVehicleConsumption = PitWallDataGatheringApi.Models.Business.IVehicleConsumption;
 
 namespace PitWallDataGatheringApi.Services
 {
@@ -32,7 +34,28 @@ namespace PitWallDataGatheringApi.Services
             
             model.TyresTemperatures = Map(apiModel.TyresTemperatures);
 
+            model.VehicleConsumption = Map(apiModel.VehicleConsumption);
+
             return model;
+        }
+
+        private IBusinessVehicleConsumption Map(VehicleConsumption? vehicleConsumption)
+        {
+            if (AnyVehicleConsumptionInformationProvided(vehicleConsumption)
+               )
+            {
+                return new BusinessVehicleConsumption()
+                {
+                    Fuel = vehicleConsumption.Fuel,
+                    MaxFuel = vehicleConsumption.MaxFuel,
+                    ComputedLiterPerLaps = vehicleConsumption.ComputedLiterPerLaps,
+                    ComputedRemainingLaps = vehicleConsumption.ComputedRemainingLaps,
+                    ComputedRemainingTime = vehicleConsumption.ComputedRemainingTime,
+                    ComputedLastLapConsumption = vehicleConsumption.ComputedLastLapConsumption,
+                };
+            }
+
+            return new BusinessVehicleConsumption();
         }
 
         private IBusinessTyresTemperatures Map(TyresTemperatures? source)
@@ -65,6 +88,18 @@ namespace PitWallDataGatheringApi.Services
             }
 
             return new BusinessTyresWear();
+        }
+
+        private static bool AnyVehicleConsumptionInformationProvided(VehicleConsumption? vehicleConsumption)
+        {
+            return vehicleConsumption != null && (
+                vehicleConsumption.Fuel != null
+                || vehicleConsumption.MaxFuel != null
+                || vehicleConsumption.ComputedLiterPerLaps != null
+                || vehicleConsumption.ComputedRemainingLaps != null
+                || vehicleConsumption.ComputedRemainingTime != null
+                || vehicleConsumption.ComputedLastLapConsumption != null
+                );
         }
 
         private static bool AnyTyreWearIsProvided(TyresWear source)

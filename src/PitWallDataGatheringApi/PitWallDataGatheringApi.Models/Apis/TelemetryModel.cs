@@ -17,6 +17,8 @@ public sealed class TelemetryModel
 
     public TyresTemperatures? TyresTemperatures { get; set; }
 
+    public VehicleConsumption? VehicleConsumption { get; set; }
+
     public string SimerKey { get; set; }
 
     public double? AvgWetness { get; set; }

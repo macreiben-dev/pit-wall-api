@@ -2,7 +2,8 @@
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
-using PitWallDataGatheringApi.Repositories.Prometheus;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
+using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi
 {
@@ -24,6 +25,14 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<IAvgWetnessRepository, AvgWetnessRepository>();
             services.AddSingleton<IAirTemperatureRepository, AirTemperatureRepository>();
             services.AddSingleton<ITrackTemperatureRepository, TrackEmperatureRepository>();
+            
+            services.AddSingleton<IComputedLastLapConsumptionRepository, ComputedLastLapConsumptionRepository>();
+            services.AddSingleton<IComputedLiterPerLapsRepository, ComputedLiterPerLapsRepository>();
+            services.AddSingleton<IComputedRemainingLapsRepository, ComputedRemainingLapsRepository>();
+            services.AddSingleton<IComputedRemainingTimeRepository, ComputedRemainingTimeRepository>();
+            services.AddSingleton<IFuelRepository, FuelRepository>();
+            services.AddSingleton<IMaxFuelRepository, MaxFuelRepository>();
+
             services.AddSingleton<IGaugeWrapperFactory, GaugeWrapperFactory>();
 
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();

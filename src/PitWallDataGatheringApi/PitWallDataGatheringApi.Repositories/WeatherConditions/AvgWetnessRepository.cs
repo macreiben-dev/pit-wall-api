@@ -1,5 +1,5 @@
 ﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Repositories.Prometheus;
+using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {

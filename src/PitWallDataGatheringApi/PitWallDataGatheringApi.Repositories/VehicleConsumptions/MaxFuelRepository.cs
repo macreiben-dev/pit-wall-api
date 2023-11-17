@@ -1,16 +1,17 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
 
-namespace PitWallDataGatheringApi.Repositories.WeatherConditions
+namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 {
-    public sealed class AirTemperatureRepository :  IAirTemperatureRepository
+    public sealed class MaxFuelRepository : IMaxFuelRepository
     {
-        private const string LocalSerieName = "pitwall_air_temperature_celsius";
+        private const string LocalSerieName = "pitwall_maxfuel_volume";
         private readonly IGauge _gauge;
 
-        private string Description => "Air temperature in celsius.";
+        private string Description => "MaxFuel volume of the tank.";
 
-        public AirTemperatureRepository(IGaugeWrapperFactory _gaugeFactory)
+
+        public MaxFuelRepository(IGaugeWrapperFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

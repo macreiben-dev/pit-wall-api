@@ -23,9 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Rep
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Services", "PitWallDataGatheringApi.Services\PitWallDataGatheringApi.Services.csproj", "{DEA40742-5E96-4143-852D-7534CA0CAA9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Services.Tests", "PitWallDataGatheringApi.Services.Tests\PitWallDataGatheringApi.Services.Tests.csproj", "{AF834D2F-7D3E-47A2-A545-0BB62581F1AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Services.Tests", "PitWallDataGatheringApi.Services.Tests\PitWallDataGatheringApi.Services.Tests.csproj", "{AF834D2F-7D3E-47A2-A545-0BB62581F1AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Models.Tests", "PitWallDataGatheringApi.Models.Tests\PitWallDataGatheringApi.Models.Tests.csproj", "{4C8248FA-0B12-4D00-8B1E-113942520405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Models.Tests", "PitWallDataGatheringApi.Models.Tests\PitWallDataGatheringApi.Models.Tests.csproj", "{4C8248FA-0B12-4D00-8B1E-113942520405}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{800D3DA2-3631-4B83-BDA0-0099497C9043}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +74,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D2C8222F-B531-40A4-A43A-A1F4543557EB} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
+		{1C844491-3CE5-4D9B-89E7-86BE8C27CE9E} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6974FC9E-EA8C-4D88-A746-EA0D485A72F0}
