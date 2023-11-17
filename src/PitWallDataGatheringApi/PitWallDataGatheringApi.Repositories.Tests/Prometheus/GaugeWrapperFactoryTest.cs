@@ -1,4 +1,6 @@
-﻿using NFluent;
+﻿using Microsoft.Extensions.Logging;
+using NFluent;
+using NSubstitute;
 using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
@@ -17,7 +19,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 
         private static GaugeWrapperFactory GetTarget()
         {
-            return new GaugeWrapperFactory();
+            return new GaugeWrapperFactory(Substitute.For<ILogger<GaugeWrapperFactory>>(),
+                Substitute.For<ILogger<GaugeWrapper>>());
         }
 
         [Fact]

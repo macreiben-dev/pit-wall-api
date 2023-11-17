@@ -1,4 +1,7 @@
-﻿using NFluent;
+﻿using Castle.Core.Logging;
+using Microsoft.Extensions.Logging;
+using NFluent;
+using NSubstitute;
 using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
@@ -13,6 +16,12 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
         
         private readonly string[] EmptyLabels = new string[0];
         private readonly string[] NotEmptyLabels = new[] { Label1, Label2 };
+        private ILogger<GaugeWrapper> _logger;
+
+        public GaugeWrapperTest() { 
+        
+            _logger = Substitute.For<ILogger<GaugeWrapper>>();
+        }   
 
         [Fact]
         public void GIVEN_serie_isNull_THEN_fail()
@@ -20,7 +29,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
             Check.ThatCode(() => new GaugeWrapper(
                     null,
                     "some_description",
-                    NotEmptyLabels))
+                    NotEmptyLabels,
+                    _logger))
                 .Throws<ArgumentNullException>()
                 .WithMessage("Value cannot be null. (Parameter 'serieName')");
         }
@@ -31,7 +41,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
             Check.ThatCode(() => new GaugeWrapper(
                     "",
                     "some_description",
-                    NotEmptyLabels))
+                    NotEmptyLabels,
+                    _logger))
                 .Throws<ArgumentException>()
                 .WithMessage("Parameter 'serieName' cannot be empty.");
         }
@@ -42,7 +53,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
             Check.ThatCode(() => new GaugeWrapper(
                     "some_metric",
                     null,
-                    NotEmptyLabels))
+                    NotEmptyLabels,
+                    _logger))
                 .Throws<ArgumentNullException>()
                 .WithMessage("Value cannot be null. (Parameter 'description')");
         }
@@ -53,7 +65,7 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
             Check.ThatCode(() => new GaugeWrapper(
                     "some_metrics",
                     "",
-                    NotEmptyLabels))
+                    NotEmptyLabels, _logger))
                 .Throws<ArgumentException>()
                 .WithMessage("Parameter 'description' cannot be empty.");
         }
@@ -64,7 +76,8 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
             Check.ThatCode(() => new GaugeWrapper(
                     "some_metric",
                     "some_description",
-                    null))
+                    null,
+                    _logger))
                 .Throws<ArgumentNullException>()
                 .WithMessage("Value cannot be null. (Parameter 'labels')");
         }
@@ -75,14 +88,14 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
             Check.ThatCode(() => new GaugeWrapper(
                     "some_metric",
                     "some_description",
-                    EmptyLabels))
+                    EmptyLabels, _logger))
                 .Throws<ArgumentException>()
                 .WithMessage("Parameter 'labels' cannot be empty.");
         }
 
         private GaugeWrapper GetTarget()
         {
-            return new GaugeWrapper(SerieName, Description, NotEmptyLabels);
+            return new GaugeWrapper(SerieName, Description, NotEmptyLabels, _logger);
         }
 
 
