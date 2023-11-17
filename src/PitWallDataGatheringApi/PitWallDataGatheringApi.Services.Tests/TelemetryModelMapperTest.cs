@@ -138,7 +138,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 double expected = 50.0;
 
-                source.VehicleConsumption.ComputedRemainingLaps = expected;
+                source.VehicleConsumption.ComputedRemainingTime = expected;
 
                 var target = GetTarget();
 
