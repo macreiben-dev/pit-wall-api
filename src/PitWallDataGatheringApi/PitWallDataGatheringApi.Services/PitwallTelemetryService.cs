@@ -72,12 +72,12 @@ namespace PitWallDataGatheringApi.Services
             UpdateVehicleConsumption(
                 telemetry.VehicleConsumption,
                 telemetry.PilotName,
-                CarName.Null());
+                telemetry.CarName);
 
             UpdateTyreWear(
                 telemetry.TyresWear,
                 telemetry.PilotName,
-                CarName.Null());
+               telemetry.CarName);
 
             UpdateTyresTemperatures(
                 telemetry.TyresTemperatures,
@@ -87,13 +87,13 @@ namespace PitWallDataGatheringApi.Services
             _laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
                 telemetry.PilotName,
-                CarName.Null());
+                telemetry.CarName);
 
             telemetry.AvgWetness.WhenHasValue(() =>
                 _avgWetnessRepository.Update(
                     telemetry.AvgWetness,
                     telemetry.PilotName,
-                    CarName.Null()
+                    telemetry.CarName
                     )
                 );
 
@@ -101,7 +101,7 @@ namespace PitWallDataGatheringApi.Services
                 _airTemperatureRepository.Update(
                     telemetry.AirTemperature,
                     telemetry.PilotName,
-                    CarName.Null()
+                    telemetry.CarName
                     )
                 );
 
@@ -109,7 +109,7 @@ namespace PitWallDataGatheringApi.Services
                 _trackTemperatureRepository.Update(
                     telemetry.TrackTemperature,
                     telemetry.PilotName,
-                    CarName.Null()
+                    telemetry.CarName
                     )
                 );
         }

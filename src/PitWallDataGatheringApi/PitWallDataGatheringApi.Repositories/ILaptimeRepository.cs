@@ -2,8 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories
 {
-    public interface ILaptimeRepository
+    public interface ILaptimeRepository : IMetricRepository
     {
-        void Update(double? laptime, string pilotName, CarName carName);
     }
 }

@@ -33,19 +33,9 @@ namespace PitWallDataGatheringApi.Controllers
                 return Unauthorized();
             }
 
-            IList<string> badRequestMessages = new List<string>();
+            var badRequestMessages = ValidatePayload(telemetry);
 
-            if (telemetry.PilotName == null)
-            {
-                badRequestMessages.Add("Pilot name is mandatory.");
-            }
-
-            if(telemetry.CarName == null)
-            {
-                badRequestMessages.Add("Car name is mandatory.");
-            }
-
-            if(badRequestMessages.Any())
+            if (badRequestMessages.Any())
             {
                 return BadRequest(new ErrorMessages(telemetry, badRequestMessages));
             }
@@ -56,17 +46,22 @@ namespace PitWallDataGatheringApi.Controllers
 
             return Ok();
         }
-    }
 
-    public class ErrorMessages
-    {
-        public ErrorMessages(TelemetryModel original, IEnumerable<string> messages)
+        private static IList<string> ValidatePayload(TelemetryModel telemetry)
         {
-            Errors = messages;
-            Source = original;
-        }
+            IList<string> badRequestMessages = new List<string>();
 
-        public IEnumerable<string> Errors { get; }
-        public TelemetryModel Source { get; }
+            if (telemetry.PilotName == null)
+            {
+                badRequestMessages.Add("Pilot name is mandatory.");
+            }
+
+            if (telemetry.CarName == null)
+            {
+                badRequestMessages.Add("Car name is mandatory.");
+            }
+
+            return badRequestMessages;
+        }
     }
 }

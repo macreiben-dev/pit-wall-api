@@ -11,7 +11,7 @@ using PitWallDataGatheringApi.Services;
 
 namespace PitWallDataGatheringApi.Tests.Services
 {
-    public sealed class PitwallTelemetryServiceTest
+    public sealed partial class PitwallTelemetryServiceTest
     {
         private readonly ILogger<PitwallTelemetryService> _logger;
         private readonly ITyreWearRepository _tyreWearRepository;
@@ -27,6 +27,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         private IComputedRemainingLapsRepository _remainingLaps;
         private readonly IComputedRemainingTimeRepository _remainingTime;
         private const string PilotName = "Pilot01";
+        private readonly CarName CarName = new CarName("SomeCarName");
 
         public PitwallTelemetryServiceTest()
         {
@@ -59,7 +60,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _laptimeRepository,
                 _tyreTemperature,
                 _avgWetness,
-                Substitute.For<IAirTemperatureRepository>(),
+                _airTemperature,
                 _trackTemperature,
                 _lastLapConsumption,
                 _literPerLap,
@@ -70,6 +71,14 @@ namespace PitWallDataGatheringApi.Tests.Services
                 _logger);
         }
 
+        private TelemetryModel Create()
+        {
+            return new TelemetryModel()
+            {
+                PilotName = PilotName,
+                CarName = CarName,
+            };
+        }
         public static TestContextPitwallTelemetryService GetTargetTestContext()
         {
             var tyreWearRepository = Substitute.For<ITyreWearRepository>();
@@ -149,6 +158,16 @@ namespace PitWallDataGatheringApi.Tests.Services
             _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
         }
 
+        [Fact]
+        public void GIVEN_telemetry_isNotNull_THEN_update_laptimes()
+        {
+            TelemetryModel source = Create();
+
+            source.LaptimeSeconds = 10.0;
+
+            EnsureCalledWithValue(source, _laptimeRepository);
+        }
+
 
         [Fact]
         public void GIVEN_telemetry_isNull_THEN_should_not_update_avgWetness()
@@ -163,6 +182,16 @@ namespace PitWallDataGatheringApi.Tests.Services
         }
 
         [Fact]
+        public void GIVEN_telemetry_isNotNull_THEN_update_avgWetness()
+        {
+            TelemetryModel source = Create();
+
+            source.AvgWetness = 10.0;
+
+            EnsureCalledWithValue(source, _avgWetness);
+        }
+
+        [Fact]
         public void GIVEN_telemetry_isNull_THEN_should_not_update_airTemperature()
         {
             var target = GetTarget();
@@ -172,6 +201,17 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             // ASSERT
             _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
+        }
+
+
+        [Fact]
+        public void GIVEN_telemetry_isNotNull_THEN_update_airTemperature()
+        {
+            TelemetryModel source = Create();
+
+            source.AirTemperature = 10.0;
+
+            EnsureCalledWithValue(source, _airTemperature);
         }
 
         [Fact]
@@ -186,817 +226,26 @@ namespace PitWallDataGatheringApi.Tests.Services
             _trackTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), new CarName(null));
         }
 
-        public class VehicleConsumptionTest
+        [Fact]
+        public void GIVEN_telemetry_isNotNull_THEN_update_trackTemperature()
         {
-            private const string PilotName = "Pilot1";
+            TelemetryModel source = Create();
 
-            private TestContextPitwallTelemetryService _context;
+            source.TrackTemperature = 10.0;
 
-            public VehicleConsumptionTest()
-            {
-                _context = GetTargetTestContext();
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_null_ComputedLastLapConsumption_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    ComputedLastLapConsumption = null,
-                };
-
-                // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.LastLapConsumptionRepository);
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_ComputedLastLapConsumption_THEN_do_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    ComputedLastLapConsumption = 13.2,
-                };
-
-                // ACT & ASSERT
-                EnsureRepoCalledWithValue(original, 13.2, () => _context.LastLapConsumptionRepository);
-            }
-
-            // ------
-
-            [Fact]
-            public void GIVEN_telemetry_with_null_ComputedComputedLiterPerLaps_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    ComputedLiterPerLaps = null,
-                };
-
-                // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.LiterPerLapsRepository);
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_ComputedComputedLiterPerLaps_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                var originalValue = 13.3;
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    ComputedLiterPerLaps = originalValue,
-                };
-
-                EnsureRepoCalledWithValue(original, 13.3, () => _context.LiterPerLapsRepository);
-            }
-
-            // ------
-
-            [Fact]
-            public void GIVEN_telemetry_with_null_computedRemainingTime_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    ComputedRemainingTime = null,
-                };
-
-                // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.RemainingTimeRepository);
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_ComputedRemainingTime_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                var originalValue = 13.3;
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    ComputedRemainingTime = originalValue,
-                };
-
-                EnsureRepoCalledWithValue(original, 13.3, () => _context.RemainingTimeRepository);
-            }
-
-            // ------
-
-            [Fact]
-            public void GIVEN_telemetry_with_null_Fuel_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    Fuel = null,
-                };
-
-                // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.FuelRepository);
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_Fuel_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                var originalValue = 13.3;
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    Fuel = originalValue,
-                };
-
-                EnsureRepoCalledWithValue(original, 13.3, () => _context.FuelRepository);
-            }
-
-            // ------
-
-            [Fact]
-            public void GIVEN_telemetry_with_null_MaxFuel_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    MaxFuel = null,
-                };
-
-                // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.MaxFuelRepository);
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_MaxFuel_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                var originalValue = 13.3;
-
-                original.VehicleConsumption = new VehicleConsumption()
-                {
-                    MaxFuel = originalValue,
-                };
-
-                EnsureRepoCalledWithValue(original, 13.3, () => _context.MaxFuelRepository);
-            }
-
-            // ================================================================================
-            // ================================================================================
-            // ================================================================================
-
-            private void EnsureRepoNotCalled(
-                TelemetryModel source,
-                Func<IMetricRepository> selectRepository)
-            {
-                source.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(source);
-
-                // ASSERT
-                var metricRepo = selectRepository();
-
-                metricRepo.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
-            }
-
-            private void EnsureRepoCalledWithValue(
-                TelemetryModel source,
-                double? expectedValue,
-                Func<IMetricRepository> selectRepository)
-            {
-                source.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(source);
-
-                // ASSERT
-                var metricRepo = selectRepository();
-
-                metricRepo.Received(1)
-                    .Update(expectedValue, PilotName, Arg.Any<CarName>());
-            }
+            EnsureCalledWithValue(source, _trackTemperature);
         }
 
-        public class TyreWearTest
+
+        private void EnsureCalledWithValue(TelemetryModel source, IMetricRepository metricRepository)
         {
-            private TestContextPitwallTelemetryService _context;
+            var target = GetTarget();
 
-            public TyreWearTest()
-            {
-                _context = GetTargetTestContext();
-            }
+            // ACT
+            target.Update(source);
 
-            [Fact]
-            public void GIVEN_telemetry_with_TyresWear_isNull_THEN_should_not_updateTyres()
-            {
-                var original = new TelemetryModel();
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-                _context.TyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), CarName.Null());
-                _context.TyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-                _context.TyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreWearFrontLeft_isNull_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    FrontLeftWear = null
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreWearFrontLeft_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    FrontLeftWear = 50.0
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateFrontLeft(
-                    PilotName,
-                    50.0,
-                    CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreWearFrontRight_isNull_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    FrontRightWear = null
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreWearFrontRight_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    FrontRightWear = 51.0
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateFrontRight(
-                    PilotName,
-                    51.0, CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreWearRearLeft_isNull_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    ReartLeftWear = null
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateRearLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreWearRearLeft_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    ReartLeftWear = 52.0
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateRearLeft(
-                    PilotName,
-                    52.0, CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreWearRearRight_isNull_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    RearRightWear = null
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateRearRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreWearRearRight_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                var tyres = new TyresWear()
-                {
-                    RearRightWear = 53.0
-                };
-
-                original.TyresWear = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateRearRight(
-                    PilotName,
-                    53.0,
-                    CarName.Null());
-            }
-        }
-
-        public class TyresTemperaturesTest
-        {
-            private TestContextPitwallTelemetryService _context;
-
-            private const string PilotName = "pilot01";
-
-            public TyresTemperaturesTest()
-            {
-                _context = GetTargetTestContext();
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_TyresTemperatyres_isNull_THEN_should_not_updateTyres()
-            {
-                var original = new TelemetryModel();
-                original.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreTemperatureFrontLeft_isNull_THEN_doNotUpdate()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    FrontLeftTemp = null
-                };
-
-                original.TyresTemperatures = tyres;
-                original.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreTemperatureFrontLeft_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    FrontLeftTemp = 48.0
-                };
-
-                original.TyresTemperatures = tyres;
-                original.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(1).UpdateFrontLeft(
-                    PilotName,
-                    48.0,
-                    CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreTemperatureFrontRight_isNull_THEN_doNotUpdate()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    FrontRightTemp = null
-                };
-
-                original.TyresTemperatures = tyres;
-                original.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreTemperatureFrontRight_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    FrontRightTemp = 49.0
-                };
-                original.PilotName = PilotName;
-                original.TyresTemperatures = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(1).UpdateFrontRight(
-                    PilotName,
-                    49.0,
-                    CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreTemperatureRearLeft_isNull_THEN_doNotUpdate()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    RearLeftTemp = null
-                };
-
-                original.TyresTemperatures = tyres;
-                original.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(0).UpdateRearLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_tyreTemperatureReartLeft_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    RearLeftTemp = 50.0
-                };
-                original.PilotName = PilotName;
-                original.TyresTemperatures = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(1).UpdateRearLeft(
-                    PilotName,
-                    50.0, CarName.Null());
-            }
-
-            // ------------------
-
-            [Fact]
-            public void GIVEN_tyreTemperatureRearRight_isNull_THEN_doNotUpdate()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    RearRightTemp = null
-                };
-
-                original.TyresTemperatures = tyres;
-                original.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(0).UpdateRearRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
-            }
-
-
-            [Fact]
-            public void GIVEN_tyreTemperatureReartRight_isNotNull_THEN_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-                var tyres = new TyresTemperatures()
-                {
-                    RearRightTemp = 51.0
-                };
-                original.PilotName = PilotName;
-                original.TyresTemperatures = tyres;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TyreTemperature.Received(1).UpdateRearRight(
-                    PilotName,
-                    51.0, CarName.Null());
-            }
-        }
-
-        public class WeatherConditionsTest
-        {
-            private TestContextPitwallTelemetryService _context;
-
-            public WeatherConditionsTest()
-            {
-                _context = GetTargetTestContext();
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_nullAvgWetness_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.AvgWetness = null;
-                original.PilotName = "Pilot1";
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.AvgWetnessRepository.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_avgWetness_THEN_update_data_AND_set_pilotName()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.AvgWetness = 5.0;
-                original.PilotName = "Pilot1";
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.AvgWetnessRepository.Received(1).Update(5.0, "Pilot1", Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_nullAirTemperature_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.AirTemperature = null;
-                original.PilotName = "Pilot1";
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.AirTemperature.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_airTemperature_THEN_update_data_AND_set_pilotName()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.AirTemperature = 5.0;
-                original.PilotName = "Pilot1";
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.AirTemperature.Received(1).Update(5.0, "Pilot1", CarName.Null());
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_nullTrackTemperature_THEN_doNot_update()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.TrackTemperature = null;
-                original.PilotName = "Pilot1";
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TrackTemperature.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
-            }
-
-            [Fact]
-            public void GIVEN_telemetry_with_trackTemperature_THEN_update_data_AND_set_pilotName()
-            {
-                // ARRANGE
-                var original = new TelemetryModel();
-
-                original.TrackTemperature = 13.3;
-                original.PilotName = "Pilot1";
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(original);
-
-                // ASSERT
-                _context.TrackTemperature.Received(1)
-                    .Update(13.3, "Pilot1", Arg.Any<CarName>());
-            }
-
+            // ASSERT
+            metricRepository.Received(1).Update(10.0, PilotName, CarName);
         }
     }
 }
