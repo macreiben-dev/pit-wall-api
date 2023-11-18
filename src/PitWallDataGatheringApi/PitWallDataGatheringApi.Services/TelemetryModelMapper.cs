@@ -8,6 +8,7 @@ using IBusinessTyresWear = PitWallDataGatheringApi.Models.Business.ITyresWear;
 using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemetryModel;
 using IBusinessTyresTemperatures = PitWallDataGatheringApi.Models.Business.ITyresTemperatures;
 using IBusinessVehicleConsumption = PitWallDataGatheringApi.Models.Business.IVehicleConsumption;
+using PitWallDataGatheringApi.Models;
 
 namespace PitWallDataGatheringApi.Services
 {
@@ -29,12 +30,15 @@ namespace PitWallDataGatheringApi.Services
              * correct this one in v2 API
              * */
             model.PilotName = apiModel.PilotName;
+            
+            model.CarName = new CarName(apiModel.CarName);
 
             model.TyresWear = Map(apiModel.TyresWear);
             
             model.TyresTemperatures = Map(apiModel.TyresTemperatures);
 
             model.VehicleConsumption = Map(apiModel.VehicleConsumption);
+
 
             return model;
         }

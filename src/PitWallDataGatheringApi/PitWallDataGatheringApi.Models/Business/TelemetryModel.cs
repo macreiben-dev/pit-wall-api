@@ -50,4 +50,5 @@ public sealed class TelemetryModel : ITelemetryModel
     }
 
     public IVehicleConsumption VehicleConsumption { get; set; }
+    public CarName CarName { get; set; }
 }

@@ -6,6 +6,8 @@ public interface ITelemetryModel
 
     string PilotName { get; }
 
+    CarName CarName { get; }
+
     double? AirTemperature { get; }
 
     double? AvgWetness { get; }

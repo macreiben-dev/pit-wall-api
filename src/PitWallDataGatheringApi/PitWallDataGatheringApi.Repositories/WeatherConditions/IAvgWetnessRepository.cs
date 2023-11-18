@@ -2,8 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public interface IAvgWetnessRepository
+    public interface IAvgWetnessRepository : IMetricRepository
     {
-        void Update(double? laptime, string pilotName, CarName carName);
     }
 }

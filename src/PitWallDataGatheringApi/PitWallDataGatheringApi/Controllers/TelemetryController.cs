@@ -17,7 +17,7 @@ namespace PitWallDataGatheringApi.Controllers
 
         public TelemetryController(
             IPitwallTelemetryService pitwallTelemetryService,
-            ITelemetryModelMapper mapper, 
+            ITelemetryModelMapper mapper,
             ISimerKeyRepository simerKeyRepository)
         {
             _pitwallTelemetryService = pitwallTelemetryService;
@@ -28,9 +28,16 @@ namespace PitWallDataGatheringApi.Controllers
         [HttpPost]
         public IActionResult Post(TelemetryModel telemetry)
         {
-            if(telemetry.SimerKey != _simerKeyRepository.Key)
+            if (telemetry.SimerKey != _simerKeyRepository.Key)
             {
                 return Unauthorized();
+            }
+
+            var badRequestMessages = ValidatePayload(telemetry);
+
+            if (badRequestMessages.Any())
+            {
+                return BadRequest(new ErrorMessages(telemetry, badRequestMessages));
             }
 
             IBusinessTelemetryModel mapped = _mapper.Map(telemetry);
@@ -38,6 +45,23 @@ namespace PitWallDataGatheringApi.Controllers
             _pitwallTelemetryService.Update(mapped);
 
             return Ok();
+        }
+
+        private static IList<string> ValidatePayload(TelemetryModel telemetry)
+        {
+            IList<string> badRequestMessages = new List<string>();
+
+            if (telemetry.PilotName == null)
+            {
+                badRequestMessages.Add("Pilot name is mandatory.");
+            }
+
+            if (telemetry.CarName == null)
+            {
+                badRequestMessages.Add("Car name is mandatory.");
+            }
+
+            return badRequestMessages;
         }
     }
 }
