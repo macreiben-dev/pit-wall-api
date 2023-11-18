@@ -242,7 +242,6 @@ namespace PitWallDataGatheringApi.Tests.Services
                     CarName);
             }
 
-
             private TelemetryModel CreateModel()
             {
                 var original = new TelemetryModel();

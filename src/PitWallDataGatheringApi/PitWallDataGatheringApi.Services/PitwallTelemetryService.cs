@@ -77,12 +77,12 @@ namespace PitWallDataGatheringApi.Services
             UpdateTyreWear(
                 telemetry.TyresWear,
                 telemetry.PilotName,
-               telemetry.CarName);
+                telemetry.CarName);
 
             UpdateTyresTemperatures(
                 telemetry.TyresTemperatures,
                 telemetry.PilotName,
-                CarName.Null());
+                telemetry.CarName);
 
             _laptimeRepository.Update(
                 telemetry.LaptimeSeconds,
