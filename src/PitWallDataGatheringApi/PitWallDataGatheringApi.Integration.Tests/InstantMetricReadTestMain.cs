@@ -1,4 +1,6 @@
-﻿using NFluent;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using NFluent;
 using PitWallDataGatheringApi.Models.Apis;
 using System.Diagnostics;
 using System.Globalization;
@@ -21,6 +23,8 @@ namespace PitWallDataGatheringApi.Integration.Tests
             model.SimerKey = testContext.SimerKey;
 
             model.PilotName = testContext.PilotName;
+            
+            model.CarName = testContext.CarName;
 
             testContext.SetFieldValue(model);
 
@@ -30,6 +34,11 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 Task.WaitAll(curent);
 
                 HttpResponseMessage responseMessage = curent.Result;
+
+                if(responseMessage.StatusCode != HttpStatusCode.OK)
+                {
+                    DisplayContent(responseMessage);
+                }
 
                 Check.That(responseMessage.StatusCode).IsEqualTo(HttpStatusCode.OK);
             }
@@ -41,32 +50,64 @@ namespace PitWallDataGatheringApi.Integration.Tests
                  * Idea: Use retry every seconds for 5 seconds method
                  * */
 
-                Task<string> read = InstantMetricReadTestHelpers.ReadInstantQueryResult(
+                Task<string> readPilot = InstantMetricReadTestHelpers.ReadInstantQueryResult(
                    testContext.MetricName,
                    PilotLabel,
                    testContext.PilotName,
                    timeSerieUri);
 
-                Task.WaitAll(read);
-                
-                if(read.Exception != null )
+                Task<string> readCar = InstantMetricReadTestHelpers.ReadInstantQueryResult(
+                   testContext.MetricName,
+                   "Car",
+                   testContext.CarName,
+                   timeSerieUri);
+
+                ExecuteAndAssert(readPilot, testContext.Expected);
+
+                ExecuteAndAssert(readCar, testContext.Expected);
+            }
+        }
+
+        private static void DisplayContent(HttpResponseMessage responseMessage)
+        {
+            using StreamReader reader = new StreamReader(responseMessage.Content.ReadAsStream());
+
+            string response = reader.ReadToEnd();
+
+            var x = JsonConvert.DeserializeObject(response);
+
+            var formated = JsonConvert.SerializeObject(x, Formatting.Indented);
+
+            Trace.WriteLine(formated.ToString());
+        }
+
+        private static void ExecuteAndAssert(Task<string> task1, object expected)
+        {
+            Task.WaitAll(task1);
+
+            string intermediary = ReadResult(task1);
+
+            var actual = Double.Parse(intermediary, CultureInfo.InvariantCulture);
+
+            Check.That(actual).IsEqualTo(expected);
+        }
+
+        private static string ReadResult(Task<string> result)
+        {
+            if (result.Exception != null)
+            {
+                var inner = result.Exception.InnerExceptions.FirstOrDefault();
+
+                if (inner != null)
                 {
-                    var inner = read.Exception.InnerExceptions.FirstOrDefault();
-
-                    if(inner != null)
-                    {
-                        throw inner;
-                    }
-
-                    throw read.Exception;
+                    throw inner;
                 }
 
-                string intermediary = read.Result;
-
-                var actual = Double.Parse(intermediary, CultureInfo.InvariantCulture);
-
-                Check.That(actual).IsEqualTo(testContext.Expected);
+                throw result.Exception;
             }
+
+            string intermediary = result.Result;
+            return intermediary;
         }
     }
 }

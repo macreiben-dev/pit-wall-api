@@ -4,18 +4,6 @@
       <NamedTestSelector>
         <TestName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest.GIVEN_metric_THEN_read_from_timeSerie</TestName>
       </NamedTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest+VehicleConsumptionTests</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest+TyreWearTests</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest+WeatherConsitionsTests</FixtureName>
-      </FixtureTestSelector>
-      <FixtureTestSelector>
-        <FixtureName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest+TyresTemperaturesTests</FixtureName>
-      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

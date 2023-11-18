@@ -25,9 +25,14 @@ namespace PitWallDataGatheringApi.Integration.Tests
 
         public Func<TelemetryModel> GetApiModelInstance { get; set; }
 
+        public string CarName
+        {
+            get; set;
+        }
+
         public override string ToString()
         {
-            return $"Metricname: [{MetricName}] - PilotName: [{PilotName}] - Expected: [{Expected}]";
+            return $"Metricname: [{MetricName}] - PilotName: [{PilotName}] - CarName: [{CarName}] - Expected: [{Expected}]";
         }
     }
 }

@@ -7,6 +7,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
         object Expected { get; }
         string MetricName { get; }
         string PilotName { get; }
+        string CarName { get; }
         string SimerKey { get; }
 
         Action<TelemetryModel> SetFieldValue
