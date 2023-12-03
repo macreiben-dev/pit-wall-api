@@ -25,5 +25,13 @@ namespace PitWallDataGatheringApi.Tests.Models
 
             Check.That(actual).IsEqualTo("NoCarNumber");
         }
+
+        [Fact]
+        public void WHEN_nullInvoked_THEN_return_null_equivalent()
+        {
+            var actual = CarName.Null();
+
+            Check.That(actual.ToString()).IsEqualTo("NoCarNumber");
+        }
     }
 }
