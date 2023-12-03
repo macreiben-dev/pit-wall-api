@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 {
-    public interface IComputedLastLapConsumptionRepository : IMetricRepository
+    public interface IComputedLastLapConsumptionRepository : IMetricRepository, IMetricRepositoryV2<double?>
     {
     }
 }
