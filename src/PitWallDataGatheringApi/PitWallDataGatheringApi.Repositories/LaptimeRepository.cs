@@ -1,7 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PitWallDataGatheringApi.Repositories
 {
