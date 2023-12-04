@@ -9,14 +9,20 @@ namespace PitWallDataGatheringApi.Repositories.Tests
         private const string PilotName = "SomePilotName";
         private readonly double? Data = 1.0;
         private MetricData<double?> _target;
+        private MetricData<double?> _targetFromStrings;
 
         public MetricDataTest()
         {
 
             _target = new MetricData<double?>(
-                Data, 
-                new Models.CarName(CarName), 
-                new Models.PilotName(PilotName));
+                Data,
+                new Models.PilotName(PilotName),
+                new Models.CarName(CarName));
+
+            _targetFromStrings = new MetricData<double?>(
+                Data,
+                PilotName,
+                CarName);
         }
 
         [Fact]
@@ -26,9 +32,21 @@ namespace PitWallDataGatheringApi.Repositories.Tests
         }
 
         [Fact]
+        public void THEN_map_carName_fromString()
+        {
+            Check.That(_targetFromStrings.CarName.ToString()).IsEqualTo(CarName);
+        }
+
+        [Fact]
         public void THEN_map_PilotName()
         {
             Check.That(_target.PilotName.ToString()).IsEqualTo(PilotName);
+        }
+
+        [Fact]
+        public void THEN_map_PilotName_fromString()
+        {
+            Check.That(_targetFromStrings.PilotName.ToString()).IsEqualTo(PilotName);
         }
 
         [Fact]
@@ -38,12 +56,18 @@ namespace PitWallDataGatheringApi.Repositories.Tests
         }
 
         [Fact]
+        public void THEN_map_Data_fromString()
+        {
+            Check.That(_targetFromStrings.Data).IsEqualTo(Data);
+        }
+
+        [Fact]
         public void GIVEN_carName_pilotName_data_equal_THEN_equal()
         {
             var comparee = new MetricData<double?>(
                 DefaultData(),
-                DefaultCarName(),
-                DefaultPilotName());
+                DefaultPilotName(),
+                DefaultCarName());
 
             var actual = _target.Equals(comparee);
 
@@ -55,8 +79,8 @@ namespace PitWallDataGatheringApi.Repositories.Tests
         {
             var comparee = new MetricData<double?>(
                 DefaultData(),
-                new Models.CarName("OtherCarName"),
-                DefaultPilotName());
+                DefaultPilotName(),
+                new Models.CarName("OtherCarName"));
 
             var actual = _target.Equals(comparee);
 
@@ -68,8 +92,8 @@ namespace PitWallDataGatheringApi.Repositories.Tests
         {
             var comparee = new MetricData<double?>(
                 DefaultData(),
-                DefaultCarName(),
-                new PilotName("SomeOtherPilotName"));
+                new PilotName("SomeOtherPilotName"),
+                DefaultCarName());
 
             var actual = _target.Equals(comparee);
 

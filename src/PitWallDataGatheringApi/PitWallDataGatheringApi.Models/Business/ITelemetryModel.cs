@@ -4,7 +4,7 @@ public interface ITelemetryModel
 {
     double? LaptimeSeconds { get; }
 
-    string PilotName { get; }
+    PilotName PilotName { get; }
 
     CarName CarName { get; }
 

@@ -25,7 +25,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         private readonly IMaxFuelRepository _maxFuel;
         private IComputedRemainingLapsRepository _remainingLaps;
         private readonly IComputedRemainingTimeRepository _remainingTime;
-        private const string PilotName = "Pilot01";
+        private readonly PilotName PilotName = new PilotName("Pilot01");
         private readonly CarName CarName = new CarName("SomeCarName");
 
         public PitwallTelemetryServiceTest()
@@ -139,10 +139,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _tyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-            _tyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), CarName.Null());
-            _tyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-            _tyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
+            _tyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<double?>() , PilotName, CarName.Null());
+            _tyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<double?>(), PilotName, CarName.Null());
+            _tyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<double?>(), PilotName, CarName.Null());
+            _tyreWearRepository.Received(0).UpdateRearRight(Arg.Any<double?>(), PilotName, CarName.Null());
         }
 
         [Fact]

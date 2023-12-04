@@ -38,8 +38,8 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<double?>(), PilotName, Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateFrontRight(Arg.Any<double?>(), PilotName, Arg.Any<CarName>());
                 _context.TyreTemperature.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
                 _context.TyreTemperature.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
             }
@@ -66,8 +66,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateFrontLeft(
-                    Arg.Any<string>(),
                     Arg.Any<double?>(),
+                    Arg.Any<string>(),
                     Arg.Any<CarName>());
             }
 
@@ -91,8 +91,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontLeft(
-                    PilotName,
                     48.0,
+                    PilotName,
                     CarName);
             }
 
@@ -118,8 +118,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateFrontRight(
-                    Arg.Any<string>(),
                     Arg.Any<double?>(),
+                    Arg.Any<string>(),
                     Arg.Any<CarName>());
             }
 
@@ -143,8 +143,8 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(1).UpdateFrontRight(
-                    PilotName,
                     49.0,
+                    PilotName,
                     CarName);
             }
 

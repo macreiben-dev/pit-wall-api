@@ -84,132 +84,132 @@ namespace PitWallDataGatheringApi.Services
                 telemetry.PilotName,
                 telemetry.CarName);
 
-            _laptimeRepository.Update(
+            _laptimeRepository.Update(new MetricData<double?>(
                 telemetry.LaptimeSeconds,
                 telemetry.PilotName,
-                telemetry.CarName);
+                telemetry.CarName));
 
             telemetry.AvgWetness.WhenHasValue(() =>
-                _avgWetnessRepository.Update(
+                _avgWetnessRepository.Update(new MetricData<double?>(
                     telemetry.AvgWetness,
                     telemetry.PilotName,
                     telemetry.CarName
-                    )
+                    ))
                 );
 
             telemetry.AirTemperature.WhenHasValue(() =>
-                _airTemperatureRepository.Update(
+                _airTemperatureRepository.Update(new MetricData<double?>(
                     telemetry.AirTemperature,
                     telemetry.PilotName,
                     telemetry.CarName
-                    )
+                    ))
                 );
 
             telemetry.TrackTemperature.WhenHasValue(() =>
-                _trackTemperatureRepository.Update(
+                _trackTemperatureRepository.Update(new MetricData<double?>(
                     telemetry.TrackTemperature,
                     telemetry.PilotName,
                     telemetry.CarName
-                    )
+                    ))
                 );
         }
 
         private void UpdateVehicleConsumption(
             IVehicleConsumption vehicleConsumption,
-            string pilotName,
+            PilotName pilotName,
             CarName carName)
         {
             vehicleConsumption.ComputedLastLapConsumption.WhenHasValue(() =>
-                _lastLapConsumptionRepository.Update(
+                _lastLapConsumptionRepository.Update(new MetricData<double?>(
                     vehicleConsumption.ComputedLastLapConsumption,
                     pilotName,
-                    carName));
+                    carName)));
 
             vehicleConsumption.ComputedLiterPerLaps.WhenHasValue(() =>
-                _literPerLapsRepository.Update(
+                _literPerLapsRepository.Update(new MetricData<double?>(
                     vehicleConsumption.ComputedLiterPerLaps,
                     pilotName,
-                    carName));
+                    carName)));
 
             vehicleConsumption.ComputedRemainingLaps.WhenHasValue(() =>
-                _remainingLapsRepository.Update(
+                _remainingLapsRepository.Update(new MetricData<double?>(
                     vehicleConsumption.ComputedRemainingLaps,
                     pilotName,
-                    carName));
+                    carName)));
 
             vehicleConsumption.ComputedRemainingTime.WhenHasValue(() =>
-                _remainingTimeRepository.Update(
+                _remainingTimeRepository.Update(new MetricData<double?>(
                     vehicleConsumption.ComputedRemainingTime,
                     pilotName,
-                    carName));
+                    carName)));
 
             vehicleConsumption.Fuel.WhenHasValue(() =>
-                _fuelRepository.Update(
+                _fuelRepository.Update(new MetricData<double?>(
                     vehicleConsumption.Fuel,
                     pilotName,
                     carName
-                    ));
+                    )));
 
             vehicleConsumption.MaxFuel.WhenHasValue(() =>
-                _maxFuelRepository.Update(
+                _maxFuelRepository.Update(new MetricData<double?>(
                     vehicleConsumption.MaxFuel,
                     pilotName,
                     carName
-                    ));
+                    )));
         }
 
-        private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, string pilotName, CarName carName)
+        private void UpdateTyresTemperatures(ITyresTemperatures tyresTemperatures, PilotName pilotName, CarName carName)
         {
             tyresTemperatures.FrontLeftTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateFrontLeft(
-                    pilotName,
+                () => _tyresTemperaturesRepository.UpdateFrontLeft(new MetricData<double?>(
                     tyresTemperatures.FrontLeftTemp,
-                    carName));
+                    pilotName,
+                    carName)));
 
             tyresTemperatures.FrontRightTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateFrontRight(
-                    pilotName,
+                () => _tyresTemperaturesRepository.UpdateFrontRight(new MetricData<double?>(
                     tyresTemperatures.FrontRightTemp,
-                    carName));
+                    pilotName,
+                    carName)));
 
             tyresTemperatures.RearLeftTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateRearLeft(
-                    pilotName,
+                () => _tyresTemperaturesRepository.UpdateRearLeft(new MetricData<double?>(
                     tyresTemperatures.RearLeftTemp,
-                    carName));
+                    pilotName,
+                    carName)));
 
             tyresTemperatures.RearRightTemp.WhenHasValue(
-                () => _tyresTemperaturesRepository.UpdateRearRight(
-                    pilotName,
+                () => _tyresTemperaturesRepository.UpdateRearRight(new MetricData<double?>(
                     tyresTemperatures.RearRightTemp,
-                    carName));
+                    pilotName,
+                    carName)));
         }
 
-        private void UpdateTyreWear(ITyresWear tyresWears, string pilotName, CarName carName)
+        private void UpdateTyreWear(ITyresWear tyresWears, PilotName pilotName, CarName carName)
         {
             tyresWears.FrontLeftWear.WhenHasValue(() =>
-                _pitwallTyresPercentRepository.UpdateFrontLeft(
-                    pilotName,
+                _pitwallTyresPercentRepository.UpdateFrontLeft(new MetricData<double?>(
                     tyresWears.FrontLeftWear,
-                    carName));
+                    pilotName,
+                    carName)));
 
             tyresWears.FrontRightWear.WhenHasValue(() =>
-                _pitwallTyresPercentRepository.UpdateFrontRight(
-                    pilotName,
+                _pitwallTyresPercentRepository.UpdateFrontRight(new MetricData<double?>(
                     tyresWears.FrontRightWear,
-                    carName));
+                    pilotName,
+                    carName)));
 
             tyresWears.ReartLeftWear.WhenHasValue(() =>
-                _pitwallTyresPercentRepository.UpdateRearLeft(
-                    pilotName,
+                _pitwallTyresPercentRepository.UpdateRearLeft(new MetricData<double?>(
                     tyresWears.ReartLeftWear,
-                    carName));
+                    pilotName,
+                    carName)));
 
             tyresWears.RearRightWear.WhenHasValue(() =>
-                _pitwallTyresPercentRepository.UpdateRearRight(
-                    pilotName,
+                _pitwallTyresPercentRepository.UpdateRearRight(new MetricData<double?>(
                     tyresWears.RearRightWear,
-                    carName));
+                    pilotName,
+                    carName)));
         }
     }
 }

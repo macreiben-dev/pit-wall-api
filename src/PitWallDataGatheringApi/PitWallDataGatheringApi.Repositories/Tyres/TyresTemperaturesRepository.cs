@@ -5,7 +5,7 @@ using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public sealed class TyresTemperaturesRepository
-        : ITyresTemperaturesRepositoryLegacy, ITyresTemperaturesRepositoryV2
+        : ITyresTemperaturesRepositoryLegacy
     {
         private const string GaugeNameFrontLeft = "pitwall_tyres_temperatures_frontleft_celsius";
         private const string GaugeNameRearLeft = "pitwall_tyres_temperatures_rearleft_celsius";
@@ -25,7 +25,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
         }
 
-        public void UpdateFrontLeft(string pilotName, double? data, CarName carName)
+        public void UpdateFrontLeft(double? data, string pilotName, CarName carName)
         {
             UpdateFrontLeft(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
@@ -35,7 +35,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             MetricDataToGauge.Execute(_gaugeFrontLeft, metric);
         }
 
-        public void UpdateFrontRight(string pilotName, double? data, CarName carName)
+        public void UpdateFrontRight(double? data, string pilotName, CarName carName)
         {
             UpdateFrontRight(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
@@ -45,7 +45,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             MetricDataToGauge.Execute(_gaugeFrontRight, metric);
         }
 
-        public void UpdateRearLeft(string pilotName, double? data, CarName carName)
+        public void UpdateRearLeft(double? data, string pilotName, CarName carName)
         {
             UpdateRearLeft(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
@@ -55,7 +55,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             MetricDataToGauge.Execute(_gaugeRearLeft, metric);
         }
 
-        public void UpdateRearRight(string pilotName, double? data, CarName carName)
+        public void UpdateRearRight(double? data, string pilotName, CarName carName)
         {
             UpdateRearRight(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }

@@ -38,3 +38,12 @@ public struct CarName
         return carName.GetHashCode();
     }
 }
+
+
+public static class StringCarNameExtension
+{
+    public static CarName AsCarName(this string source)
+    {
+        return new CarName(source);
+    }
+}
