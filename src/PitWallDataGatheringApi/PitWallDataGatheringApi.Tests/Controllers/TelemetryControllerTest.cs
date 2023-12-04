@@ -8,6 +8,7 @@ using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.Telemetry
 using NFluent;
 using PitWallDataGatheringApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using PitWallDataGatheringApi.Controllers.v1;
 
 namespace PitWallDataGatheringApi.Tests.Controllers
 {

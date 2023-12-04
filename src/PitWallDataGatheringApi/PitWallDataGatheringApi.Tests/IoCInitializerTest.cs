@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NFluent;
 using PitWallDataGatheringApi.Controllers;
+using PitWallDataGatheringApi.Controllers.v1;
 
 namespace PitWallDataGatheringApi.Tests
 {

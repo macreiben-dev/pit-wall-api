@@ -5,7 +5,7 @@ using PitWallDataGatheringApi.Services;
 
 using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemetryModel;
 
-namespace PitWallDataGatheringApi.Controllers
+namespace PitWallDataGatheringApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]

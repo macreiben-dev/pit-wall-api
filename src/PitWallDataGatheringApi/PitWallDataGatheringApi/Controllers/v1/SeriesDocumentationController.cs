@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitWallDataGatheringApi.Repositories.Prom;
 
-namespace PitWallDataGatheringApi.Controllers
+namespace PitWallDataGatheringApi.Controllers.v1
 {
     [Route("api/v1/seriesdocumentation")]
     [ApiController]
