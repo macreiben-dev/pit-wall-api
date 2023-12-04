@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 {
-    public interface IMaxFuelRepository : IMetricRepository, IMetricRepositoryV2<double?>
+    public interface IMaxFuelRepository : IMetricRepositoryLegacy, IMetricRepository<double?>
     {
     }
 }

@@ -13,9 +13,9 @@ namespace PitWallDataGatheringApi.Tests.Services
     public sealed partial class PitwallTelemetryServiceTest
     {
         private readonly ILogger<PitwallTelemetryService> _logger;
-        private readonly ITyreWearRepository _tyreWearRepository;
+        private readonly ITyreWearRepositoryLegacy _tyreWearRepository;
         private readonly ILaptimeRepository _laptimeRepository;
-        private readonly ITyresTemperaturesRepository _tyreTemperature;
+        private readonly ITyresTemperaturesRepositoryLegacy _tyreTemperature;
         private readonly IAvgWetnessRepository _avgWetness;
         private readonly IAirTemperatureRepository _airTemperature;
         private readonly ITrackTemperatureRepository _trackTemperature;
@@ -32,11 +32,11 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             _logger = Substitute.For<ILogger<PitwallTelemetryService>>();
 
-            _tyreWearRepository = Substitute.For<ITyreWearRepository>();
+            _tyreWearRepository = Substitute.For<ITyreWearRepositoryLegacy>();
 
             _laptimeRepository = Substitute.For<ILaptimeRepository>();
 
-            _tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
+            _tyreTemperature = Substitute.For<ITyresTemperaturesRepositoryLegacy>();
 
             _avgWetness = Substitute.For<IAvgWetnessRepository>();
 
@@ -80,11 +80,11 @@ namespace PitWallDataGatheringApi.Tests.Services
         }
         public static TestContextPitwallTelemetryService GetTargetTestContext()
         {
-            var tyreWearRepository = Substitute.For<ITyreWearRepository>();
+            var tyreWearRepository = Substitute.For<ITyreWearRepositoryLegacy>();
 
             var laptimeRepository = Substitute.For<ILaptimeRepository>();
 
-            var tyreTemperature = Substitute.For<ITyresTemperaturesRepository>();
+            var tyreTemperature = Substitute.For<ITyresTemperaturesRepositoryLegacy>();
 
             var avgWetnessRepository = Substitute.For<IAvgWetnessRepository>();
 
@@ -236,7 +236,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         }
 
 
-        private void EnsureCalledWithValue(TelemetryModel source, IMetricRepository metricRepository)
+        private void EnsureCalledWithValue(TelemetryModel source, IMetricRepositoryLegacy metricRepository)
         {
             var target = GetTarget();
 

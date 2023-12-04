@@ -4,7 +4,7 @@ using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
-    public sealed class TyreWearRepository : ITyreWearRepository, ITyreWearRepositoryV2
+    public sealed class TyreWearRepository : ITyreWearRepositoryLegacy, ITyreWearRepositoryV2
     {
         private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
 

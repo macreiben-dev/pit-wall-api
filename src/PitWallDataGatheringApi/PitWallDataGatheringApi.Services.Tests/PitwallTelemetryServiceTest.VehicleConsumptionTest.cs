@@ -187,7 +187,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             private void EnsureRepoNotCalled(
                 TelemetryModel source,
-                Func<IMetricRepository> selectRepository)
+                Func<IMetricRepositoryLegacy> selectRepository)
             {
                 source.PilotName = PilotName;
 
@@ -206,7 +206,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             private void EnsureRepoCalledWithValue(
                 TelemetryModel source,
                 double? expectedValue,
-                Func<IMetricRepository> selectRepository)
+                Func<IMetricRepositoryLegacy> selectRepository)
             {
                 source.PilotName = PilotName;
                 source.CarName = CarName;

@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Repositories
 {
-    public interface ILaptimeRepository : IMetricRepository, IMetricRepositoryV2<double?>
+    public interface ILaptimeRepository : IMetricRepositoryLegacy, IMetricRepository<double?>
     {
     }
 }

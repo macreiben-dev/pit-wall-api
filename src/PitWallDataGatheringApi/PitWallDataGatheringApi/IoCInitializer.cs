@@ -19,9 +19,9 @@ namespace PitWallDataGatheringApi
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddSingleton<ITyreWearRepository, TyreWearRepository>();
+            services.AddSingleton<ITyreWearRepositoryLegacy, TyreWearRepository>();
             services.AddSingleton<ILaptimeRepository, LaptimeRepository>();
-            services.AddSingleton<ITyresTemperaturesRepository, TyresTemperaturesRepository>();
+            services.AddSingleton<ITyresTemperaturesRepositoryLegacy, TyresTemperaturesRepository>();
             services.AddSingleton<IAvgWetnessRepository, AvgWetnessRepository>();
             services.AddSingleton<IAirTemperatureRepository, AirTemperatureRepository>();
             services.AddSingleton<ITrackTemperatureRepository, TrackEmperatureRepository>();
