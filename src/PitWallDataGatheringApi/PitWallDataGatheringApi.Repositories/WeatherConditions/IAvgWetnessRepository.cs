@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public interface IAvgWetnessRepository : IMetricRepository
+    public interface IAvgWetnessRepository : IMetricRepository, IMetricRepositoryV2<double?>
     {
     }
 }
