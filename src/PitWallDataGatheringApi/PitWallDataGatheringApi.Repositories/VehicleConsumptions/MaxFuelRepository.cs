@@ -21,7 +21,12 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 
         public void Update(double? data, string pilotName, CarName carName)
         {
-            _gauge.Update(new[] { pilotName, carName.ToString() }, data);
+            Update(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+        }
+
+        public void Update(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gauge, metric);
         }
     }
 }
