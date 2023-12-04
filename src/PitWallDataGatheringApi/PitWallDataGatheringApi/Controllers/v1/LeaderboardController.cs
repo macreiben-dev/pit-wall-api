@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PitWallDataGatheringApi.Models.Apis.v1;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {
@@ -8,9 +9,10 @@ namespace PitWallDataGatheringApi.Controllers.v1
     {
         public LeaderboardController() { }
 
-        public ActionResult Post()
+        [HttpPost]
+        public ActionResult Post(LeaderboardModel model)
         {
-
+            return Ok();
         }
     }
 }

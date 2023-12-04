@@ -20,7 +20,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 ApiTelemetryModel source = new ApiTelemetryModel();
 
-                source.TyresTemperatures = new PitWallDataGatheringApi.Models.Apis.TyresTemperatures();
+                source.TyresTemperatures = new PitWallDataGatheringApi.Models.Apis.v1.TyresTemperatures();
 
                 source.TyresTemperatures.FrontLeftTemp = FrontLeftTemp;
                 source.TyresTemperatures.FrontRightTemp = FrontRightTemp;

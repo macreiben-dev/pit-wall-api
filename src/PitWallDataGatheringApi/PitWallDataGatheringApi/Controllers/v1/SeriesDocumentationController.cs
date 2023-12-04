@@ -3,7 +3,7 @@ using PitWallDataGatheringApi.Repositories.Prom;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {
-    [Route("api/v1/seriesdocumentation")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class SeriesDocumentationController : ControllerBase
     {
