@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NFluent;
 using NSubstitute;
 using PitWallDataGatheringApi.Repositories.Prom;

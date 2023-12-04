@@ -1,5 +1,4 @@
 ﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Models.Business;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {

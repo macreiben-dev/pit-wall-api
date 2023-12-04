@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace PitWallDataGatheringApi.Integration.Tests
+﻿namespace PitWallDataGatheringApi.Integration.Tests
 {
     [Serializable]
     internal class NoResultException : Exception

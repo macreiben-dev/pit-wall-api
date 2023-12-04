@@ -1,7 +1,6 @@
 ﻿using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
-using PitWallDataGatheringApi.Repositories;
 
 namespace PitWallDataGatheringApi.Tests.Services
 {

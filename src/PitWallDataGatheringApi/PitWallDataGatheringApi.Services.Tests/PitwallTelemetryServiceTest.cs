@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;

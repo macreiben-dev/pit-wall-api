@@ -1,7 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
@@ -49,7 +48,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateRearLeft(string pilotName, double? data, CarName carName)
         {
-            UpdateFrontRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            UpdateRearLeft(new MetricData<double?>(data, carName, new PilotName(pilotName)));
         }
 
         public void UpdateRearLeft(MetricData<double?> metric)
@@ -59,7 +58,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateRearRight(string pilotName, double? data, CarName carName)
         {
-            UpdateFrontRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            UpdateRearRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
         }
 
         public void UpdateRearRight(MetricData<double?> metric)
