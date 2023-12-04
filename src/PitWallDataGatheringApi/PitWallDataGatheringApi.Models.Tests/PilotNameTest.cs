@@ -3,42 +3,41 @@ using PitWallDataGatheringApi.Models;
 
 namespace PitWallDataGatheringApi.Tests.Models
 {
-    public sealed class CarNameTest
+    public class PilotNameTest
     {
         [Fact]
-        public void GIVEN_car_isNotNull_THEN_expose_carName()
+        public void GIVEN_pilotName_isNotNull_THEN_expose_pilotName()
         {
-            var target = new CarName("32");
+            var target = new PilotName("pilotName");
 
             string actual = target.ToString();
 
-            Check.That(actual).IsEqualTo("32");
+            Check.That(actual).IsEqualTo("pilotName");
         }
 
-
         [Fact]
-        public void GIVEN_car_isNull_THEN_expose_noCarNumber()
+        public void GIVENpilotName_isNull_THEN_expose_noPilotName()
         {
-            var target = new CarName(null);
+            var target = new PilotName(null);
 
             string actual = target.ToString();
 
-            Check.That(actual).IsEqualTo("NoCarNumber");
+            Check.That(actual).IsEqualTo("NoPilotName");
         }
 
         [Fact]
         public void WHEN_nullInvoked_THEN_return_null_equivalent()
         {
-            var actual = CarName.Null();
+            var actual = PilotName.Null();
 
-            Check.That(actual.ToString()).IsEqualTo("NoCarNumber");
+            Check.That(actual.ToString()).IsEqualTo("NoPilotName");
         }
 
         [Fact]
         public void GIVEN_pilotName_equal_pilotName_WHEN_equalOperator_THEN_true()
         {
-            var left = new CarName("32");
-            var right = new CarName("32");
+            var left = new PilotName("pilotName");
+            var right = new PilotName("pilotName");
 
             var actual = left == right;
 
@@ -48,8 +47,8 @@ namespace PitWallDataGatheringApi.Tests.Models
         [Fact]
         public void GIVEN_pilotName_notEqual_pilotName_WHEN_notEqualOperator_THEN_true()
         {
-            var left = new CarName("32");
-            var right = new CarName("322");
+            var left = new PilotName("pilotName");
+            var right = new PilotName("pilotName2");
 
             var actual = left != right;
 
@@ -60,12 +59,13 @@ namespace PitWallDataGatheringApi.Tests.Models
         [Fact]
         public void GIVEN_pilotName_notequal_pilotName_WHEN_equal_invoked_THEN_false()
         {
-            var left = new CarName("32");
-            CarName? right = null;
+            var left = new PilotName("pilotName");
+            PilotName? right = null;
 
             var actual = left.Equals(right);
 
             Check.That(actual).IsFalse();
         }
+
     }
 }

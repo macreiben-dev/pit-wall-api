@@ -50,7 +50,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             _mapper.Map(Arg.Any<ApiTelemetryModel>())
                 .Returns(c => new BusinessTelemetryModel()
                 {
-                    PilotName = c.Arg<ApiTelemetryModel>().PilotName
+                    PilotName = new Models.PilotName(c.Arg<ApiTelemetryModel>().PilotName)
                 });
 
             // ACT
@@ -60,7 +60,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
 
             _telemertryService
                 .Received(1)
-                .Update(Arg.Is<IBusinessTelemetryModel>(c => c.PilotName == "Pilot1"));
+                .Update(Arg.Is<IBusinessTelemetryModel>(c => c.PilotName.ToString() == "Pilot1"));
         }
 
         [Fact]

@@ -1,5 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories
 {
@@ -16,9 +17,14 @@ namespace PitWallDataGatheringApi.Repositories
                 ConstantLabels.Labels);
         }
 
-        public void Update(double? dataValue, string pilotName, CarName carName)
+        public void Update(double? data, string pilotName, CarName carName)
         {
-            _gaugeLapTimes.Update(new[] { pilotName, carName.ToString() }, dataValue);
+            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
+        }
+
+        public void Update(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gaugeLapTimes, metric);
         }
     }
 }

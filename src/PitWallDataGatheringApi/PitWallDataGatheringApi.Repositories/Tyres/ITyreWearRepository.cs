@@ -1,16 +1,13 @@
-﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Models.Business;
-
-namespace PitWallDataGatheringApi.Repositories.Tyres
+﻿namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public interface ITyreWearRepository
     {
-        void UpdateFrontLeft(string pilotName, double? frontLeftWear, CarName carName);
+        void UpdateFrontLeft(MetricData<double?> metric);
 
-        void UpdateFrontRight(string pilotName, double? frontRightWear, CarName carName);
+        void UpdateFrontRight(MetricData<double?> metric);
 
-        void UpdateRearLeft(string pilotName, double? reartLeftWear, CarName carName);
+        void UpdateRearLeft(MetricData<double?> metric);
 
-        void UpdateRearRight(string pilotName, double? rearRightWear, CarName carName);
+        void UpdateRearRight(MetricData<double?> metric);
     }
 }

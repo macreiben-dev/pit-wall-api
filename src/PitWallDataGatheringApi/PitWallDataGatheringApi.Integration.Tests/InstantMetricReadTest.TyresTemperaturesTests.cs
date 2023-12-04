@@ -1,6 +1,4 @@
-﻿using PitWallDataGatheringApi.Models;
-
-namespace PitWallDataGatheringApi.Integration.Tests
+﻿namespace PitWallDataGatheringApi.Integration.Tests
 {
     public partial class InstantMetricReadTest
     {

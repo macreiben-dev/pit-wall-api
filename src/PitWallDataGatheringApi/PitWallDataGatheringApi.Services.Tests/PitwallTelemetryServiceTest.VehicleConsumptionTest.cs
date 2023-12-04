@@ -9,7 +9,7 @@ namespace PitWallDataGatheringApi.Tests.Services
     {
         public class VehicleConsumptionTest
         {
-            private const string PilotName = "Pilot1";
+            private readonly PilotName PilotName = new PilotName("Pilot1");
             private readonly CarName CarName = new CarName("SomeCarName1");
 
             private TestContextPitwallTelemetryService _context;
@@ -31,7 +31,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.LastLapConsumptionRepository);
+                EnsureRepoNotCalledWithValue(original, () => _context.LastLapConsumptionRepository);
             }
 
             [Fact]
@@ -63,7 +63,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.LiterPerLapsRepository);
+                EnsureRepoNotCalledWithValue(original, () => _context.LiterPerLapsRepository);
             }
 
             [Fact]
@@ -96,7 +96,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.RemainingTimeRepository);
+                EnsureRepoNotCalledWithValue(original, () => _context.RemainingTimeRepository);
             }
 
             [Fact]
@@ -129,7 +129,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.FuelRepository);
+                EnsureRepoNotCalledWithValue(original, () => _context.FuelRepository);
             }
 
             [Fact]
@@ -162,7 +162,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 // ACT & ASSERT
-                EnsureRepoNotCalled(original, () => _context.MaxFuelRepository);
+                EnsureRepoNotCalledWithValue(original, () => _context.MaxFuelRepository);
             }
 
             [Fact]
@@ -185,28 +185,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             // ================================================================================
             // ================================================================================
 
-            private void EnsureRepoNotCalled(
-                TelemetryModel source,
-                Func<IMetricRepository> selectRepository)
-            {
-                source.PilotName = PilotName;
-
-                // ACT
-                var target = _context.Target;
-
-                target.Update(source);
-
-                // ASSERT
-                var metricRepo = selectRepository();
-
-                metricRepo.Received(0)
-                    .Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
-            }
-
             private void EnsureRepoCalledWithValue(
                 TelemetryModel source,
                 double? expectedValue,
-                Func<IMetricRepository> selectRepository)
+                Func<IMetricRepository<double?>> selectRepository)
             {
                 source.PilotName = PilotName;
                 source.CarName = CarName;
@@ -220,7 +202,28 @@ namespace PitWallDataGatheringApi.Tests.Services
                 var metricRepo = selectRepository();
 
                 metricRepo.Received(1)
-                    .Update(expectedValue, PilotName, CarName);
+                    .Update(
+                    new MetricData<double?>(
+                    expectedValue, PilotName, CarName));
+            }
+
+            private void EnsureRepoNotCalledWithValue(
+              TelemetryModel source,
+              Func<IMetricRepository<double?>> selectRepository)
+            {
+                source.PilotName = PilotName;
+                source.CarName = CarName;
+
+                // ACT
+                var target = _context.Target;
+
+                target.Update(source);
+
+                // ASSERT
+                var metricRepo = selectRepository();
+
+                metricRepo.Received(0)
+                    .Update(Arg.Any<MetricData<double?>>());
             }
         }
     }

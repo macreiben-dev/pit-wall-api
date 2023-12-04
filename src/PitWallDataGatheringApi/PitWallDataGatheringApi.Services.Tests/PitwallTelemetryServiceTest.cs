@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
@@ -26,7 +25,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         private readonly IMaxFuelRepository _maxFuel;
         private IComputedRemainingLapsRepository _remainingLaps;
         private readonly IComputedRemainingTimeRepository _remainingTime;
-        private const string PilotName = "Pilot01";
+        private readonly PilotName PilotName = new PilotName("Pilot01");
         private readonly CarName CarName = new CarName("SomeCarName");
 
         public PitwallTelemetryServiceTest()
@@ -140,10 +139,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _tyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-            _tyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), CarName.Null());
-            _tyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-            _tyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
+            _tyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<MetricData<double?>>());
+            _tyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<MetricData<double?>>());
+            _tyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<MetricData<double?>>());
+            _tyreWearRepository.Received(0).UpdateRearRight(Arg.Any<MetricData<double?>>());
         }
 
         [Fact]
@@ -155,7 +154,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _laptimeRepository.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
+            _laptimeRepository.Received(0).Update(Arg.Any<MetricData<double?>>());
         }
 
         [Fact]
@@ -165,7 +164,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.LaptimeSeconds = 10.0;
 
-            EnsureCalledWithValue(source, _laptimeRepository);
+            EnsureCalledWithValueV2(source, _laptimeRepository);
         }
 
 
@@ -188,7 +187,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.AvgWetness = 10.0;
 
-            EnsureCalledWithValue(source, _avgWetness);
+            EnsureCalledWithValueV2(source, _avgWetness);
         }
 
         [Fact]
@@ -211,7 +210,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.AirTemperature = 10.0;
 
-            EnsureCalledWithValue(source, _airTemperature);
+            EnsureCalledWithValueV2(source, _airTemperature);
         }
 
         [Fact]
@@ -233,11 +232,11 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.TrackTemperature = 10.0;
 
-            EnsureCalledWithValue(source, _trackTemperature);
+            EnsureCalledWithValueV2(source, _trackTemperature);
         }
 
 
-        private void EnsureCalledWithValue(TelemetryModel source, IMetricRepository metricRepository)
+        private void EnsureCalledWithValue(TelemetryModel source, IMetricRepositoryLegacy metricRepository)
         {
             var target = GetTarget();
 
@@ -245,7 +244,18 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(source);
 
             // ASSERT
-            metricRepository.Received(1).Update(10.0, PilotName, CarName);
+            metricRepository.Received(1).Update(10.0, PilotName.ToString(), CarName);
+        }
+
+        private void EnsureCalledWithValueV2(TelemetryModel source, IMetricRepository<double?> metricRepository)
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(source);
+
+            // ASSERT
+            metricRepository.Received(1).Update(new MetricData<double?>(10.0, PilotName, CarName));
         }
     }
 }

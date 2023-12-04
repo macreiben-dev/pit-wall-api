@@ -29,7 +29,7 @@ namespace PitWallDataGatheringApi.Services
             /**
              * correct this one in v2 API
              * */
-            model.PilotName = apiModel.PilotName;
+            model.PilotName = new PilotName(apiModel.PilotName);
             
             model.CarName = new CarName(apiModel.CarName);
 

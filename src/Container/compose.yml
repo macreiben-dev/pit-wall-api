@@ -26,8 +26,10 @@ services:
     container_name: pitwalldatagatheringapi
     environment:
       - VortexSimerKey=some_test_looking_value23
+      - ASPNETCORE_HTTP_PORTS=80
+      # - ASPNETCORE_HTTPS_PORTS=443
     ports:
-      - 32772:443
       - 32773:80
+     # - 32772:443
 volumes:
   prom_data:

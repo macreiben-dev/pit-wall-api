@@ -1,8 +1,6 @@
-﻿using PitWallDataGatheringApi.Models;
-
-namespace PitWallDataGatheringApi.Repositories
+﻿namespace PitWallDataGatheringApi.Repositories
 {
-    public interface ILaptimeRepository : IMetricRepository
+    public interface ILaptimeRepository : IMetricRepositoryLegacy, IMetricRepository<double?>
     {
     }
 }

@@ -12,7 +12,7 @@ public sealed class TelemetryModel : ITelemetryModel
         VehicleConsumption = new VehicleConsumption();
     }
 
-    public string PilotName { get; set; }
+    public PilotName PilotName { get; set; }
     
     public double? LaptimeSeconds { get; set; }
 

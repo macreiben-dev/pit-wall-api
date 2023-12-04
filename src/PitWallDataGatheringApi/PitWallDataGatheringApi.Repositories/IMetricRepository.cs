@@ -1,9 +1,7 @@
-﻿using PitWallDataGatheringApi.Models;
-
-namespace PitWallDataGatheringApi.Repositories
+﻿namespace PitWallDataGatheringApi.Repositories
 {
-    public interface IMetricRepository
+    public interface IMetricRepository<TData>
     {
-        void Update(double? laptime, string pilotName, CarName carName);
+        void Update(MetricData<TData> metric);
     }
 }

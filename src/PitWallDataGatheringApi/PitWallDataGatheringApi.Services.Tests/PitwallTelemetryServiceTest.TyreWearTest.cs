@@ -11,6 +11,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             private TestContextPitwallTelemetryService _context;
             private readonly CarName CarName = new CarName("SomeCarName1");
+            private readonly PilotName PilotName = new PilotName("SomePilotName");
 
             public TyreWearTest()
             {
@@ -28,10 +29,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-                _context.TyreWearRepository.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), CarName.Null());
-                _context.TyreWearRepository.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), CarName.Null());
-                _context.TyreWearRepository.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), CarName.Null());
+                _context.TyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<MetricData<double?>>());
+                _context.TyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<MetricData<double?>>());
+                _context.TyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<MetricData<double?>>());
+                _context.TyreWearRepository.Received(0).UpdateRearRight(Arg.Any<MetricData<double?>>());
             }
 
             // ------------------
@@ -55,10 +56,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                _context.TyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -80,10 +78,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateFrontLeft(
-                    PilotName,
+                _context.TyreWearRepository.Received(1).UpdateFrontLeft(new MetricData<double?>(
                     50.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             // ------------------
@@ -107,10 +105,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateFrontRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                _context.TyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -132,10 +127,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateFrontRight(
-                    PilotName,
+                _context.TyreWearRepository.Received(1).UpdateFrontRight(new MetricData<double?>(
                     51.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             // ------------------
@@ -159,10 +154,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateRearLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                _context.TyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -184,10 +176,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateRearLeft(
-                    PilotName,
+                _context.TyreWearRepository.Received(1).UpdateRearLeft(new MetricData<double?>(
                     52.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             // ------------------
@@ -211,10 +203,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(0).UpdateRearRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                _context.TyreWearRepository.Received(0).UpdateRearRight(Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -236,10 +225,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreWearRepository.Received(1).UpdateRearRight(
-                    PilotName,
+                _context.TyreWearRepository.Received(1).UpdateRearRight(new MetricData<double?>(
                     53.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             private TelemetryModel CreateModel()

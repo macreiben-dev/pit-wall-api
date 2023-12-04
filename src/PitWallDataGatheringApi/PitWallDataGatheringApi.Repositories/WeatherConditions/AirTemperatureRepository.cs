@@ -1,5 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
@@ -20,7 +21,12 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
         public void Update(double? data, string pilotName, CarName carName)
         {
-            _gauge.Update(new[] { pilotName, carName.ToString() }, data);
+            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
+        }
+
+        public void Update(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gauge, metric);
         }
     }
 }

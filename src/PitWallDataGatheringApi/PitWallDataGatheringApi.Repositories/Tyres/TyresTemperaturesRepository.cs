@@ -1,5 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
@@ -11,37 +12,57 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
         private const string GaugeNameFrontRight = "pitwall_tyres_temperatures_frontright_celsius";
         private const string GaugeNameRearRight = "pitwall_tyres_temperatures_rearright_celsius";
 
-        private readonly IGauge _gaugeFrontLeftTyre;
-        private readonly IGauge _gaugeRearLeftTyre;
-        private readonly IGauge _gaugeFrontRightTyre;
-        private readonly IGauge _gaugeRearRightTyre;
+        private readonly IGauge _gaugeFrontLeft;
+        private readonly IGauge _gaugeRearLeft;
+        private readonly IGauge _gaugeFrontRight;
+        private readonly IGauge _gaugeRearRight;
 
         public TyresTemperaturesRepository(IGaugeWrapperFactory gaugeFactory)
         {
-            _gaugeFrontLeftTyre = gaugeFactory.Create(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
-            _gaugeRearLeftTyre = gaugeFactory.Create(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
-            _gaugeFrontRightTyre = gaugeFactory.Create(GaugeNameFrontRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
-            _gaugeRearRightTyre = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeFrontLeft = gaugeFactory.Create(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeRearLeft = gaugeFactory.Create(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeFrontRight = gaugeFactory.Create(GaugeNameFrontRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
         }
 
-        public void UpdateFrontLeft(string pilotName, double? frontLeftTemp, CarName carName)
+        public void UpdateFrontLeft(double? data, string pilotName, CarName carName)
         {
-            _gaugeFrontLeftTyre.Update(new[] { pilotName, carName.ToString() }, frontLeftTemp);
+            UpdateFrontLeft(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
-        public void UpdateFrontRight(string pilotName, double? frontRightTemp, CarName carName)
+        public void UpdateFrontLeft(MetricData<double?> metric)
         {
-            _gaugeFrontRightTyre.Update(new[] { pilotName, carName.ToString() }, frontRightTemp);
+            MetricDataToGauge.Execute(_gaugeFrontLeft, metric);
         }
 
-        public void UpdateRearLeft(string pilotName, double? rearLeftTemp, CarName carName)
+        public void UpdateFrontRight(double? data, string pilotName, CarName carName)
         {
-            _gaugeRearLeftTyre.Update(new[] { pilotName, carName.ToString() }, rearLeftTemp);
+            UpdateFrontRight(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
-        public void UpdateRearRight(string pilotName, double? rearRightTemp, CarName carName)
+        public void UpdateFrontRight(MetricData<double?> metric)
         {
-            _gaugeRearRightTyre.Update(new[] { pilotName, carName.ToString() }, rearRightTemp);
+            MetricDataToGauge.Execute(_gaugeFrontRight, metric);
+        }
+
+        public void UpdateRearLeft(double? data, string pilotName, CarName carName)
+        {
+            UpdateRearLeft(new MetricData<double?>(data, new PilotName(pilotName), carName));
+        }
+
+        public void UpdateRearLeft(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gaugeRearLeft, metric);
+        }
+
+        public void UpdateRearRight(double? data, string pilotName, CarName carName)
+        {
+            UpdateRearRight(new MetricData<double?>(data, new PilotName(pilotName), carName));
+        }
+
+        public void UpdateRearRight(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gaugeRearRight, metric);
         }
     }
 }

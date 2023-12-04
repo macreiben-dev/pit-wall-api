@@ -1,6 +1,7 @@
 ﻿using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business;
+using PitWallDataGatheringApi.Repositories;
 
 namespace PitWallDataGatheringApi.Tests.Services
 {
@@ -10,7 +11,7 @@ namespace PitWallDataGatheringApi.Tests.Services
         {
             private TestContextPitwallTelemetryService _context;
 
-            private const string PilotName = "pilot01";
+            private readonly PilotName PilotName = new PilotName("pilot01");
             private readonly CarName CarName = new CarName("SomeCar2");
 
             private TelemetryModel CreateModel()
@@ -38,10 +39,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(0).UpdateFrontLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateFrontRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateRearLeft(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
-                _context.TyreTemperature.Received(0).UpdateRearRight(PilotName, Arg.Any<double?>(), Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateFrontLeft(Arg.Any<MetricData<double?>>());
+                _context.TyreTemperature.Received(0).UpdateFrontRight(Arg.Any<MetricData<double?>>());
+                _context.TyreTemperature.Received(0).UpdateRearLeft(Arg.Any<MetricData<double?>>());
+                _context.TyreTemperature.Received(0).UpdateRearRight(Arg.Any<MetricData<double?>>());
             }
 
             // ------------------
@@ -58,7 +59,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 original.TyresTemperatures = tyres;
-                
+
                 // ACT
                 var target = _context.Target;
 
@@ -66,9 +67,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateFrontLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                    Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -83,17 +82,17 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 original.TyresTemperatures = tyres;
-                
+
                 // ACT
                 var target = _context.Target;
 
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(1).UpdateFrontLeft(
-                    PilotName,
+                _context.TyreTemperature.Received(1).UpdateFrontLeft(new MetricData<double?>(
                     48.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             // ------------------
@@ -110,7 +109,7 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 original.TyresTemperatures = tyres;
-                
+
                 // ACT
                 var target = _context.Target;
 
@@ -118,9 +117,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateFrontRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                    Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -142,10 +139,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(1).UpdateFrontRight(
-                    PilotName,
+                _context.TyreTemperature.Received(1).UpdateFrontRight(new MetricData<double?>(
                     49.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             // ------------------
@@ -155,14 +152,14 @@ namespace PitWallDataGatheringApi.Tests.Services
             {
                 // ARRANGE
                 var original = CreateModel();
-                
+
                 var tyres = new TyresTemperatures()
                 {
                     RearLeftTemp = null
                 };
 
                 original.TyresTemperatures = tyres;
-                
+
                 // ACT
                 var target = _context.Target;
 
@@ -170,9 +167,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateRearLeft(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                    Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -194,10 +189,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(1).UpdateRearLeft(
-                    PilotName,
+                _context.TyreTemperature.Received(1).UpdateRearLeft(new MetricData<double?>(
                     50.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
 
             // ------------------
@@ -214,17 +209,14 @@ namespace PitWallDataGatheringApi.Tests.Services
                 };
 
                 original.TyresTemperatures = tyres;
-                
+
                 // ACT
                 var target = _context.Target;
 
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(0).UpdateRearRight(
-                    Arg.Any<string>(),
-                    Arg.Any<double?>(),
-                    Arg.Any<CarName>());
+                _context.TyreTemperature.Received(0).UpdateRearRight(Arg.Any<MetricData<double?>>());
             }
 
 
@@ -247,10 +239,10 @@ namespace PitWallDataGatheringApi.Tests.Services
                 target.Update(original);
 
                 // ASSERT
-                _context.TyreTemperature.Received(1).UpdateRearRight(
-                    PilotName,
+                _context.TyreTemperature.Received(1).UpdateRearRight(new MetricData<double?>(
                     51.0,
-                    CarName);
+                    PilotName,
+                    CarName));
             }
         }
     }

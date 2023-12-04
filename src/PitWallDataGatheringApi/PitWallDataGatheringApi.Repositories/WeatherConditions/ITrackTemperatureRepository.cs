@@ -1,8 +1,6 @@
-﻿using PitWallDataGatheringApi.Models;
-
-namespace PitWallDataGatheringApi.Repositories.WeatherConditions
+﻿namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 {
-    public interface ITrackTemperatureRepository : IMetricRepository
+    public interface ITrackTemperatureRepository : IMetricRepositoryLegacy, IMetricRepository<double?>
     {
     }
 }

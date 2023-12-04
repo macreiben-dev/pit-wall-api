@@ -187,6 +187,21 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 Check.That(actual.CarName).IsEqualTo(new CarName("SomeCarName"));
             }
+
+            [Fact]
+            public void GIVEN_pilotName_is_notNull_THEN_maPilotName()
+            {
+                ApiTelemetryModel source = new ApiTelemetryModel();
+
+                source.PilotName = "SomeName";
+
+                var target = GetTarget();
+
+                var actual = target.Map(source);
+
+                Check.That(actual.PilotName).IsEqualTo(new PilotName("SomeName"));
+            }
+
         }
     }
 }
