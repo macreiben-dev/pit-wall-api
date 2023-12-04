@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
-    public interface ITyreWearRepositoryLegacy : ITyreWearRepositoryV2
+    public interface ITyreWearRepositoryLegacy : ITyreWearRepository
     {
         void UpdateFrontLeft(double? frontLeftWear, string pilotName, CarName carName);
 

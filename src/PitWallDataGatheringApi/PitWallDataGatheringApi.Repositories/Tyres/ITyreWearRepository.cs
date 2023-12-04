@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Repositories.Tyres
 {
-    public interface ITyreWearRepositoryV2
+    public interface ITyreWearRepository
     {
         void UpdateFrontLeft(MetricData<double?> metric);
 

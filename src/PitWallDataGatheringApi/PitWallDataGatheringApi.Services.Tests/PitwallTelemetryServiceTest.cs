@@ -139,10 +139,10 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _tyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<double?>() , PilotName, CarName.Null());
-            _tyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<double?>(), PilotName, CarName.Null());
-            _tyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<double?>(), PilotName, CarName.Null());
-            _tyreWearRepository.Received(0).UpdateRearRight(Arg.Any<double?>(), PilotName, CarName.Null());
+            _tyreWearRepository.Received(0).UpdateFrontLeft(Arg.Any<MetricData<double?>>());
+            _tyreWearRepository.Received(0).UpdateFrontRight(Arg.Any<MetricData<double?>>());
+            _tyreWearRepository.Received(0).UpdateRearLeft(Arg.Any<MetricData<double?>>());
+            _tyreWearRepository.Received(0).UpdateRearRight(Arg.Any<MetricData<double?>>());
         }
 
         [Fact]
@@ -164,7 +164,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.LaptimeSeconds = 10.0;
 
-            EnsureCalledWithValue(source, _laptimeRepository);
+            EnsureCalledWithValueV2(source, _laptimeRepository);
         }
 
 
@@ -187,7 +187,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.AvgWetness = 10.0;
 
-            EnsureCalledWithValue(source, _avgWetness);
+            EnsureCalledWithValueV2(source, _avgWetness);
         }
 
         [Fact]
@@ -210,7 +210,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.AirTemperature = 10.0;
 
-            EnsureCalledWithValue(source, _airTemperature);
+            EnsureCalledWithValueV2(source, _airTemperature);
         }
 
         [Fact]
@@ -232,7 +232,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
             source.TrackTemperature = 10.0;
 
-            EnsureCalledWithValue(source, _trackTemperature);
+            EnsureCalledWithValueV2(source, _trackTemperature);
         }
 
 
@@ -244,7 +244,18 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(source);
 
             // ASSERT
-            metricRepository.Received(1).Update(10.0, PilotName, CarName);
+            metricRepository.Received(1).Update(10.0, PilotName.ToString(), CarName);
+        }
+
+        private void EnsureCalledWithValueV2(TelemetryModel source, IMetricRepository<double?> metricRepository)
+        {
+            var target = GetTarget();
+
+            // ACT
+            target.Update(source);
+
+            // ASSERT
+            metricRepository.Received(1).Update(new MetricData<double?>(10.0, PilotName, CarName));
         }
     }
 }

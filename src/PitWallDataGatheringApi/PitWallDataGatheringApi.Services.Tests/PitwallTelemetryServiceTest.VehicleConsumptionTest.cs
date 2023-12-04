@@ -9,7 +9,7 @@ namespace PitWallDataGatheringApi.Tests.Services
     {
         public class VehicleConsumptionTest
         {
-            private const string PilotName = "Pilot1";
+            private readonly PilotName PilotName = new PilotName("Pilot1");
             private readonly CarName CarName = new CarName("SomeCarName1");
 
             private TestContextPitwallTelemetryService _context;
@@ -206,7 +206,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             private void EnsureRepoCalledWithValue(
                 TelemetryModel source,
                 double? expectedValue,
-                Func<IMetricRepositoryLegacy> selectRepository)
+                Func<IMetricRepository<double?>> selectRepository)
             {
                 source.PilotName = PilotName;
                 source.CarName = CarName;
@@ -220,7 +220,11 @@ namespace PitWallDataGatheringApi.Tests.Services
                 var metricRepo = selectRepository();
 
                 metricRepo.Received(1)
-                    .Update(expectedValue, PilotName, CarName);
+                    .Update(
+                    new MetricData<double?>(
+                    expectedValue, PilotName, CarName));
+
+
             }
         }
     }
