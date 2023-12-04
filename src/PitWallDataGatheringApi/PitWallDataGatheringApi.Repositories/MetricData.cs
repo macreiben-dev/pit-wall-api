@@ -5,11 +5,19 @@ namespace PitWallDataGatheringApi.Repositories
 {
     public readonly struct MetricData<TData>
     {
-        public MetricData(TData? data, CarName carName, PilotName pilotName)
+        public MetricData(TData? data, PilotName pilotName, CarName carName)
         {
             Data = data;
             CarName = carName;
             PilotName = pilotName;
+        }
+
+        public MetricData(TData? data, string pilotName, string carName)
+            : this(
+                  data,
+                  new PilotName(pilotName),
+                  new CarName(carName))
+        {
         }
 
         public TData? Data { get; }

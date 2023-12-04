@@ -28,7 +28,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateFrontLeft(string pilotName, double? data, CarName carName)
         {
-            UpdateFrontLeft(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            UpdateFrontLeft(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void UpdateFrontLeft(MetricData<double?> metric)
@@ -38,7 +38,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateFrontRight(string pilotName, double? data, CarName carName)
         {
-            UpdateFrontRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            UpdateFrontRight(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void UpdateFrontRight(MetricData<double?> metric)
@@ -48,7 +48,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateRearLeft(string pilotName, double? data, CarName carName)
         {
-            UpdateRearLeft(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            UpdateRearLeft(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void UpdateRearLeft(MetricData<double?> metric)
@@ -58,7 +58,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public void UpdateRearRight(string pilotName, double? data, CarName carName)
         {
-            UpdateRearRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            UpdateRearRight(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void UpdateRearRight(MetricData<double?> metric)

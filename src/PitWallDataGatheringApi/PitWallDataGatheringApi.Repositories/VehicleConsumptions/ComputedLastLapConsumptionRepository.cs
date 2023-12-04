@@ -21,7 +21,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 
         public void Update(double? data, string pilotName, CarName carName)
         {
-            Update(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void Update(MetricData<double?> metric)
