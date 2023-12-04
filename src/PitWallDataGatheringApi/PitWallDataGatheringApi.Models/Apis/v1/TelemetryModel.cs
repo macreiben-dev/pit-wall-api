@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Models.Apis.v1;
 
-public sealed class TelemetryModel
+public sealed class TelemetryModel : ICallerInfos
 {
     public TelemetryModel()
     {

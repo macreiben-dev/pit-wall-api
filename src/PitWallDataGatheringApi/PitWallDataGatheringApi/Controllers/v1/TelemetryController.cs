@@ -28,16 +28,18 @@ namespace PitWallDataGatheringApi.Controllers.v1
         [HttpPost]
         public IActionResult Post(TelemetryModel telemetry)
         {
-            if (telemetry.SimerKey != _simerKeyRepository.Key)
+            try
             {
-                return Unauthorized();
+                var badRequestMessages = ValidatePayload(telemetry, _simerKeyRepository);
+                
+                if (badRequestMessages.Any())
+                {
+                    return BadRequest(new ErrorMessages(telemetry, badRequestMessages));
+                }
             }
-
-            var badRequestMessages = ValidatePayload(telemetry);
-
-            if (badRequestMessages.Any())
+            catch (PostMetricDeniedException ex)
             {
-                return BadRequest(new ErrorMessages(telemetry, badRequestMessages));
+                return Unauthorized(ex.Message);
             }
 
             IBusinessTelemetryModel mapped = _mapper.Map(telemetry);
@@ -47,8 +49,17 @@ namespace PitWallDataGatheringApi.Controllers.v1
             return Ok();
         }
 
-        private static IList<string> ValidatePayload(TelemetryModel telemetry)
+        private static IList<string> ValidatePayload(ICallerInfos telemetry, ISimerKeyRepository simerKeyRepository)
         {
+            /**
+             * Should add a mecanism to block unauthorized attempt for some time.
+             * */
+
+            if (telemetry.SimerKey != simerKeyRepository.Key)
+            {
+                throw new PostMetricDeniedException(telemetry);
+            }
+
             IList<string> badRequestMessages = new List<string>();
 
             if (telemetry.PilotName == null)

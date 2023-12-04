@@ -77,7 +77,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
 
             var intermediary = target.Post(original);
 
-            var actual = (StatusCodeResult)intermediary;
+            var actual = (UnauthorizedObjectResult)intermediary;
 
             Check.That(actual.StatusCode).IsEqualTo(401);
         }
