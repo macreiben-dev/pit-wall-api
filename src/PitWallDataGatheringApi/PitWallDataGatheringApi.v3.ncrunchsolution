@@ -10,7 +10,7 @@
     <EngineMode>
       <Name>Integration on demands impacted auto</Name>
       <Settings>
-        <TestsToExecuteAutomatically>(ProjectNameDoesNotMatchRegex '*Integration.Tests' AND IsImpacted)</TestsToExecuteAutomatically>
+        <TestsToExecuteAutomatically>ProjectNameDoesNotMatchRegex '*Integration.Tests'</TestsToExecuteAutomatically>
       </Settings>
     </EngineMode>
   </EngineModes>

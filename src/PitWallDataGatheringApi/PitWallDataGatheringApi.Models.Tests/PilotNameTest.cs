@@ -32,5 +32,40 @@ namespace PitWallDataGatheringApi.Tests.Models
 
             Check.That(actual.ToString()).IsEqualTo("NoPilotName");
         }
+
+        [Fact]
+        public void GIVEN_pilotName_equal_pilotName_WHEN_equalOperator_THEN_true()
+        {
+            var left = new PilotName("pilotName");
+            var right = new PilotName("pilotName");
+
+            var actual = left == right;
+
+            Check.That(actual).IsTrue();
+        }
+
+        [Fact]
+        public void GIVEN_pilotName_notEqual_pilotName_WHEN_notEqualOperator_THEN_true()
+        {
+            var left = new PilotName("pilotName");
+            var right = new PilotName("pilotName2");
+
+            var actual = left != right;
+
+            Check.That(actual).IsTrue();
+        }
+
+
+        [Fact]
+        public void GIVEN_pilotName_notequal_pilotName_WHEN_equal_invoked_THEN_false()
+        {
+            var left = new PilotName("pilotName");
+            PilotName? right = null;
+
+            var actual = left.Equals(right);
+
+            Check.That(actual).IsFalse();
+        }
+
     }
 }

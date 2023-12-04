@@ -1,4 +1,6 @@
-﻿namespace PitWallDataGatheringApi.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace PitWallDataGatheringApi.Models;
 
 public struct CarName
 {
@@ -9,19 +11,30 @@ public struct CarName
 
     public override string ToString() => carName;
     
-
     public static CarName Null() => new CarName(null);
+    public static bool operator ==(CarName left, CarName right)
+    {
+        return left.Equals(right);
+    }
 
-}
+    public static bool operator !=(CarName left, CarName right)
+    {
+        return !left.Equals(right);
+    }
+    public override bool Equals([NotNullWhen(true)] object? obj)
+    {
+        var comparee = obj as CarName?;
 
-public struct PilotName
-{
-    private const string NoPilotName = "NoPilotName";
-    private string pilotName;
+        if(!comparee.HasValue)
+        {
+            return false;
+        }
 
-    public PilotName(string? pilotName) => this.pilotName = pilotName ?? NoPilotName;
+        return comparee.Value.ToString() == this.carName;
+    }
 
-    public override string ToString() => pilotName;
-
-    public static PilotName Null() => new PilotName(null);
+    public override int GetHashCode()
+    {
+        return carName.GetHashCode();
+    }
 }

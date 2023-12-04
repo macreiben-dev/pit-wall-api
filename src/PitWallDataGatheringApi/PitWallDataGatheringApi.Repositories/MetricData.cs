@@ -1,4 +1,5 @@
 ﻿using PitWallDataGatheringApi.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PitWallDataGatheringApi.Repositories
 {
@@ -16,5 +17,18 @@ namespace PitWallDataGatheringApi.Repositories
         public CarName CarName { get; }
 
         public PilotName PilotName { get; }
+
+        public override bool Equals([NotNullWhen(true)] object? obj)
+        {
+            var comparee = obj as MetricData<TData>?;
+
+            var intermediary = comparee.Value;
+
+            var isEqual = intermediary.Data.Equals(Data)
+                && intermediary.PilotName == PilotName
+                && intermediary.CarName == CarName;
+
+            return isEqual;
+        }
     }
 }
