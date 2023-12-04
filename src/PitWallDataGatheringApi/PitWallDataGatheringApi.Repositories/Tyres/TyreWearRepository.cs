@@ -1,9 +1,11 @@
 ﻿using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
-    public sealed class TyreWearRepository : ITyreWearRepository
+    public sealed class TyreWearRepository : ITyreWearRepository, ITyreWearRepositoryV2
     {
         private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
 
@@ -25,24 +27,44 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
             _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Tyres wear front left in percent.", ConstantLabels.Labels);
         }
 
-        public void UpdateFrontLeft(string pilotName, double? frontLeftWear, CarName carName)
+        public void UpdateFrontLeft(string pilotName, double? data, CarName carName)
         {
-            _gaugeFrontLeft.Update(new[] { pilotName,  carName.ToString() }, frontLeftWear);
+            UpdateFrontLeft(new MetricData<double?>(data, carName, new PilotName(pilotName)));
         }
 
-        public void UpdateFrontRight(string pilotName, double? frontRightWear, CarName carName)
+        public void UpdateFrontLeft(MetricData<double?> metric)
         {
-            _gaugeFrontRight.Update(new[] { pilotName,  carName.ToString() }, frontRightWear);
+            MetricDataToGauge.Execute(_gaugeFrontLeft, metric);
         }
 
-        public void UpdateRearLeft(string pilotName, double? reartLeftWear, CarName carName)
+        public void UpdateFrontRight(string pilotName, double? data, CarName carName)
         {
-            _gaugeRearLeft.Update(new[] { pilotName, carName.ToString() }, reartLeftWear);
+            UpdateFrontRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
         }
 
-        public void UpdateRearRight(string pilotName, double? rearRightWear, CarName carName)
+        public void UpdateFrontRight(MetricData<double?> metric)
         {
-            _gaugeRearRight.Update(new[] { pilotName, carName.ToString() }, rearRightWear);
+            MetricDataToGauge.Execute(_gaugeFrontRight, metric);
+        }
+
+        public void UpdateRearLeft(string pilotName, double? data, CarName carName)
+        {
+            UpdateFrontRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+        }
+
+        public void UpdateRearLeft(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gaugeRearLeft, metric);
+        }
+
+        public void UpdateRearRight(string pilotName, double? data, CarName carName)
+        {
+            UpdateFrontRight(new MetricData<double?>(data, carName, new PilotName(pilotName)));
+        }
+
+        public void UpdateRearRight(MetricData<double?> metric)
+        {
+            MetricDataToGauge.Execute(_gaugeRearRight, metric);
         }
     }
 }
