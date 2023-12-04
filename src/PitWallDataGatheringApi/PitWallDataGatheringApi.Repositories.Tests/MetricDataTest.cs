@@ -100,6 +100,26 @@ namespace PitWallDataGatheringApi.Repositories.Tests
             Check.That(actual).IsFalse();
         }
 
+
+        [Fact]
+        public void GIVEN_null_data_AND_all_pilotCarName_identical_THEN_equal()
+        {
+            var left = new MetricData<double?>(
+                null,
+                DefaultPilotName(),
+                DefaultCarName());
+
+            var right = new MetricData<double?>(
+                null,
+                DefaultPilotName(),
+                DefaultCarName());
+
+            var actual = left.Equals(right);
+
+            Check.That(actual).IsTrue();
+        }
+
+
         private static PilotName DefaultPilotName()
         {
             return new Models.PilotName(PilotName);
