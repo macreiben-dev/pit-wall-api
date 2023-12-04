@@ -67,9 +67,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateFrontLeft(
-                    Arg.Any<double?>(),
-                    Arg.Any<string>(),
-                    Arg.Any<CarName>());
+                    Arg.Any<MetricData<double?>>());
             }
 
             [Fact]
@@ -169,9 +167,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 // ASSERT
                 _context.TyreTemperature.Received(0).UpdateRearLeft(
-                    Arg.Any<double?>(),
-                    Arg.Any<string>(),
-                    Arg.Any<CarName>());
+                    Arg.Any<MetricData<double?>>());
             }
 
             [Fact]

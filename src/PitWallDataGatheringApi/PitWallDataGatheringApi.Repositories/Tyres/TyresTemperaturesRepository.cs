@@ -5,7 +5,7 @@ using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public sealed class TyresTemperaturesRepository
-        : ITyresTemperaturesRepositoryLegacy
+        : ITyresTemperaturesRepository
     {
         private const string GaugeNameFrontLeft = "pitwall_tyres_temperatures_frontleft_celsius";
         private const string GaugeNameRearLeft = "pitwall_tyres_temperatures_rearleft_celsius";

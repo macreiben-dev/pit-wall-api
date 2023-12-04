@@ -9,8 +9,8 @@ namespace PitWallDataGatheringApi.Tests.Services
     public class TestContextPitwallTelemetryService
     {
         public TestContextPitwallTelemetryService(PitwallTelemetryService target,
-            ITyreWearRepositoryLegacy tyreWearRepository,
-            ITyresTemperaturesRepositoryLegacy tyreTemperature,
+            ITyreWearRepository tyreWearRepository,
+            ITyresTemperaturesRepository tyreTemperature,
             ILaptimeRepository laptimeRepository,
             IAvgWetnessRepository wetnessRepository,
             IAirTemperatureRepository airTemperature, 
@@ -38,8 +38,8 @@ namespace PitWallDataGatheringApi.Tests.Services
         }
 
         public PitwallTelemetryService Target { get; }
-        public ITyreWearRepositoryLegacy TyreWearRepository { get; }
-        public ITyresTemperaturesRepositoryLegacy TyreTemperature { get; }
+        public ITyreWearRepository TyreWearRepository { get; }
+        public ITyresTemperaturesRepository TyreTemperature { get; }
         public ILaptimeRepository LaptimeRepository { get; }
         public IAvgWetnessRepository AvgWetnessRepository { get; }
         public IAirTemperatureRepository AirTemperature { get; }

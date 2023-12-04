@@ -10,9 +10,9 @@ namespace PitWallDataGatheringApi.Services
 {
     public sealed class PitwallTelemetryService : IPitwallTelemetryService
     {
-        private readonly ITyreWearRepositoryLegacy _pitwallTyresPercentRepository;
+        private readonly ITyreWearRepository _pitwallTyresPercentRepository;
         private readonly ILaptimeRepository _laptimeRepository;
-        private readonly ITyresTemperaturesRepositoryLegacy _tyresTemperaturesRepository;
+        private readonly ITyresTemperaturesRepository _tyresTemperaturesRepository;
         private readonly IAvgWetnessRepository _avgWetnessRepository;
         private readonly IAirTemperatureRepository _airTemperatureRepository;
         private readonly ITrackTemperatureRepository _trackTemperatureRepository;
@@ -25,9 +25,9 @@ namespace PitWallDataGatheringApi.Services
         private readonly ILogger<PitwallTelemetryService> _logger;
 
         public PitwallTelemetryService(
-            ITyreWearRepositoryLegacy pitwallTyresPercentRepository,
+            ITyreWearRepository pitwallTyresPercentRepository,
             ILaptimeRepository laptimeRepository,
-            ITyresTemperaturesRepositoryLegacy tyresTemperatures,
+            ITyresTemperaturesRepository tyresTemperatures,
             IAvgWetnessRepository avgWetnessRepository,
             IAirTemperatureRepository airTemperatureRepository,
             ITrackTemperatureRepository trackTemperatureRepository,
