@@ -4,7 +4,6 @@
       <NamedTestSelector>
         <TestName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest.GIVEN_metric_THEN_read_from_timeSerie</TestName>
       </NamedTestSelector>
-      <AllTestsSelector />
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>
