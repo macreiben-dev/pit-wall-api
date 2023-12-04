@@ -3,7 +3,7 @@ using PitWallDataGatheringApi.Controllers;
 using PitWallDataGatheringApi.Services;
 
 using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemetryModel;
-using ApiTelemetryModel = PitWallDataGatheringApi.Models.Apis.TelemetryModel;
+using ApiTelemetryModel = PitWallDataGatheringApi.Models.Apis.v1.TelemetryModel;
 using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.TelemetryModel;
 using NFluent;
 using PitWallDataGatheringApi.Repositories;

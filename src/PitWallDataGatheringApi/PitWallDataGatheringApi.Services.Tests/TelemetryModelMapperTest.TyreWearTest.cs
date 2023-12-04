@@ -1,4 +1,4 @@
-﻿using ApiTelemetryModel = PitWallDataGatheringApi.Models.Apis.TelemetryModel;
+﻿using ApiTelemetryModel = PitWallDataGatheringApi.Models.Apis.v1.TelemetryModel;
 using PitWallDataGatheringApi.Services;
 using NFluent;
 

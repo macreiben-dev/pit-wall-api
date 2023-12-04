@@ -8,6 +8,9 @@ namespace PitWallDataGatheringApi.Controllers.v1
     {
         public LeaderboardController() { }
 
+        public ActionResult Post()
+        {
 
+        }
     }
 }

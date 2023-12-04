@@ -2,7 +2,7 @@
 using Newtonsoft.Json.Linq;
 using NFluent;
 using PitWallDataGatheringApi.Integration.Tests;
-using PitWallDataGatheringApi.Models.Apis;
+using PitWallDataGatheringApi.Models.Apis.v1;
 using System.Net;
 using System.Text;
 

@@ -1,4 +1,4 @@
-﻿using PitWallDataGatheringApi.Models.Apis;
+﻿using PitWallDataGatheringApi.Models.Apis.v1;
 
 namespace PitWallDataGatheringApi.Integration.Tests
 {

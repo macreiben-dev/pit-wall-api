@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NFluent;
-using PitWallDataGatheringApi.Models.Apis;
+using PitWallDataGatheringApi.Models.Apis.v1;
 using System.Diagnostics;
 using System.Globalization;
 using System.Net;

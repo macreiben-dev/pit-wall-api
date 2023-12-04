@@ -4,6 +4,6 @@ namespace PitWallDataGatheringApi.Services
 {
     public interface ITelemetryModelMapper
     {
-        ITelemetryModel Map(Models.Apis.TelemetryModel apiModel);
+        ITelemetryModel Map(Models.Apis.v1.TelemetryModel apiModel);
     }
 }

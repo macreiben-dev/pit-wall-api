@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PitWallDataGatheringApi.Models.Apis;
+using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 

@@ -1,6 +1,4 @@
-﻿using PitWallDataGatheringApi.Models.Apis;
-
-using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.TelemetryModel;
+﻿using BusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.TelemetryModel;
 using BusinessTyresWear = PitWallDataGatheringApi.Models.Business.TyresWear;
 using BusinessTyresTemperatures = PitWallDataGatheringApi.Models.Business.TyresTemperatures;
 using BusinessVehicleConsumption = PitWallDataGatheringApi.Models.Business.VehicleConsumption;
@@ -9,6 +7,7 @@ using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemet
 using IBusinessTyresTemperatures = PitWallDataGatheringApi.Models.Business.ITyresTemperatures;
 using IBusinessVehicleConsumption = PitWallDataGatheringApi.Models.Business.IVehicleConsumption;
 using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Models.Apis.v1;
 
 namespace PitWallDataGatheringApi.Services
 {

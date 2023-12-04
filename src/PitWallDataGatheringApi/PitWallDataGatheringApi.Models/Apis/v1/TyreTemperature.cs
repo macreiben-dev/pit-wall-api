@@ -1,4 +1,4 @@
-﻿namespace PitWallDataGatheringApi.Models.Apis;
+﻿namespace PitWallDataGatheringApi.Models.Apis.v1;
 
 public class TyresTemperatures
 {
