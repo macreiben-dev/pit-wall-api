@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PitWallDataGatheringApi.Models.Apis.v1
+﻿namespace PitWallDataGatheringApi.Models.Apis.v1.Leaderboards
 {
     /*
 GarySwallowDataPlugin.Leaderboard.Position10.DriverName
@@ -37,11 +31,12 @@ GarySwallowDataPlugin.Leaderboard.Position10.InPitLane
 
         public string CarClass { get; set; }
 
-        public string CarNumber { get; set; }
+        public int CarNumber { get; set; }
+        public string CarName { get; set; }
 
         public double? LastLapInSeconds { get; set; }
 
-        public string LastPitLap { get; set; }
+        public int  LastPitLap { get; set; }
 
         public int PitCount { get; set; }
 

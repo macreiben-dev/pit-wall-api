@@ -1,5 +1,4 @@
 ﻿using PitWallDataGatheringApi.Models.Apis.v1;
-using System.Runtime.Serialization;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {
