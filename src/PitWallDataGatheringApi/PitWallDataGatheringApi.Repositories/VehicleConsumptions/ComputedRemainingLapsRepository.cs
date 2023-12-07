@@ -11,7 +11,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
         private string Description => "Computed - remaining lap given current fuel volume.";
 
 
-        public ComputedRemainingLapsRepository(IGaugeWrapperFactory _gaugeFactory)
+        public ComputedRemainingLapsRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

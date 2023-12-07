@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Repositories.Prom
 {
-    public sealed class GaugeWrapperFactory : IGaugeWrapperFactory
+    public sealed class GaugeWrapperFactory : IGaugeFactory
     {
         private readonly Dictionary<string, IGauge> _allGauges = new();
         private ILogger<GaugeWrapperFactory> _logger;

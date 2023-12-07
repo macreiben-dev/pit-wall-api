@@ -11,7 +11,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
 
         private string Description => "Air temperature in celsius.";
 
-        public AirTemperatureRepository(IGaugeWrapperFactory _gaugeFactory)
+        public AirTemperatureRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

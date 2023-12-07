@@ -11,7 +11,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
         private string Description => "Computed - last lap consumption.";
 
 
-        public ComputedLastLapConsumptionRepository(IGaugeWrapperFactory _gaugeFactory)
+        public ComputedLastLapConsumptionRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

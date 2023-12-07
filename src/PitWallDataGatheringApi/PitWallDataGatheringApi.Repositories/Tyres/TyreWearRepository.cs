@@ -18,7 +18,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
         private readonly IGauge _gaugeFrontRight;
         private readonly IGauge _gaugeRearRight;
 
-        public TyreWearRepository(IGaugeWrapperFactory gaugeFactory)
+        public TyreWearRepository(IGaugeFactory gaugeFactory)
         {
             _gaugeFrontLeft = gaugeFactory.Create(GaugeNameFrontLeft, "Tyres wear front left in percent.", ConstantLabels.Labels);
             _gaugeRearLeft = gaugeFactory.Create(GaugeNameRearLeft, "Tyres wear front left in percent.", ConstantLabels.Labels);

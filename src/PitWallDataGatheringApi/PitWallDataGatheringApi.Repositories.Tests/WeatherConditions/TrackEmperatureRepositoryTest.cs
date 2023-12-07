@@ -8,13 +8,13 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
 {
     public class TrackEmperatureRepositoryTest
     {
-        private IGaugeWrapperFactory _gaugeFactory;
+        private IGaugeFactory _gaugeFactory;
         private IGauge _gaugeWrapper;
 
         public TrackEmperatureRepositoryTest()
         {
 
-            _gaugeFactory = Substitute.For<IGaugeWrapperFactory>();
+            _gaugeFactory = Substitute.For<IGaugeFactory>();
 
             _gaugeWrapper = Substitute.For<IGauge>();
 

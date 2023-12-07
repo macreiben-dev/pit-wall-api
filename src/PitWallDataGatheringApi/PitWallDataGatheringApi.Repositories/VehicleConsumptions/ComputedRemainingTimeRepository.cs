@@ -10,7 +10,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 
         private string Description => "Computed - remaining duration until fuel runs out.";
 
-        public ComputedRemainingTimeRepository(IGaugeWrapperFactory _gaugeFactory)
+        public ComputedRemainingTimeRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

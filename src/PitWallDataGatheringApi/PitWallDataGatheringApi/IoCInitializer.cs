@@ -33,7 +33,7 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<IFuelRepository, FuelRepository>();
             services.AddSingleton<IMaxFuelRepository, MaxFuelRepository>();
 
-            services.AddSingleton<IGaugeWrapperFactory, GaugeWrapperFactory>();
+            services.AddSingleton<IGaugeFactory, GaugeWrapperFactory>();
 
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
             services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();

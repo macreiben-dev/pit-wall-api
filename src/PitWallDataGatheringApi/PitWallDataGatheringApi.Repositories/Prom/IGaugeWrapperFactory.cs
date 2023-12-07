@@ -1,6 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Repositories.Prom
 {
-    public interface IGaugeWrapperFactory
+    public interface IGaugeFactory
     {
         IGauge Create(
             string serieName,

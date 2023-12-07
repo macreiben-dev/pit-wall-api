@@ -7,10 +7,10 @@ namespace PitWallDataGatheringApi.Controllers.v1
     [ApiController]
     public class SeriesDocumentationController : ControllerBase
     {
-        private IGaugeWrapperFactory _gaugeFactory;
+        private IGaugeFactory _gaugeFactory;
 
         public SeriesDocumentationController(
-            IGaugeWrapperFactory gaugeFactory)
+            IGaugeFactory gaugeFactory)
         {
             _gaugeFactory = gaugeFactory;
         }

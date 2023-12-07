@@ -11,7 +11,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
         private string Description => "Computed - consumed fuel volume per lap.";
 
 
-        public ComputedLiterPerLapsRepository(IGaugeWrapperFactory _gaugeFactory)
+        public ComputedLiterPerLapsRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

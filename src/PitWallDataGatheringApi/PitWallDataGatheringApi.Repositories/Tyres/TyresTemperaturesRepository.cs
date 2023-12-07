@@ -17,7 +17,7 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
         private readonly IGauge _gaugeFrontRight;
         private readonly IGauge _gaugeRearRight;
 
-        public TyresTemperaturesRepository(IGaugeWrapperFactory gaugeFactory)
+        public TyresTemperaturesRepository(IGaugeFactory gaugeFactory)
         {
             _gaugeFrontLeft = gaugeFactory.Create(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
             _gaugeRearLeft = gaugeFactory.Create(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);

@@ -11,7 +11,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
         private string Description => "MaxFuel volume of the tank.";
 
 
-        public MaxFuelRepository(IGaugeWrapperFactory _gaugeFactory)
+        public MaxFuelRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,
