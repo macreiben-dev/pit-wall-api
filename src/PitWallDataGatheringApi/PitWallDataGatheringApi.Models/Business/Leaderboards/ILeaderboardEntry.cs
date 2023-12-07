@@ -10,6 +10,9 @@
         {
             get;
         }
+
         int CarNumber { get; }
+
+        int Position { get; }
     }
 }

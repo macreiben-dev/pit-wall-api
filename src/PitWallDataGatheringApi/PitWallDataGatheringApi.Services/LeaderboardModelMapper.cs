@@ -18,7 +18,8 @@ namespace PitWallDataGatheringApi.Services
                 {
                     LastPitLap = item.LastPitLap,
                     CarClass = item.CarClass,
-                    CarNumber = item.CarNumber
+                    CarNumber = item.CarNumber,
+                    Position = item.Position,
                 };
 
                 output.Add(entry);
