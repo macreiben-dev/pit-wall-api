@@ -31,6 +31,19 @@ namespace PitWallDataGatheringApi.Repositories.Prom
             return created;
         }
 
+        public IGauge CreateLeaderboardGauge(
+            string serieNameFormat,
+            string description,
+            int positionInRace,
+            IEnumerable<string> labels)
+        {
+            /**
+             * Enforce serieNameFormat check with regex
+             * */
+
+            throw new NotImplementedException();
+        }
+
         private IGauge CreateGauge(string serieName, string description, IEnumerable<string> labels)
         {
             if (_allGauges.TryGetValue(serieName, out IGauge? result))
