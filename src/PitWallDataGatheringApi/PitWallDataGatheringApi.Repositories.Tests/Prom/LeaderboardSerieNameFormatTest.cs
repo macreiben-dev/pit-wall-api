@@ -6,10 +6,11 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
     {
         private const string DescriptionValue = "SomeDescription";
         private const int FirstInLeaderboard = 1;
+        private const string MetricFirstInLeaderBoardCarNumberValue = "pitwall_leaderboard_position01_carNumber";
 
         private static LearderboardSerieName GetTarget()
         {
-            return new LearderboardSerieName(DescriptionValue, FirstInLeaderboard);
+            return new LearderboardSerieName(DescriptionValue, FirstInLeaderboard, MetricFirstInLeaderBoardCarNumberValue);
         }
 
         [Fact]
@@ -24,7 +25,7 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
         [Fact]
         public void GIVEN_description_isNull_THEN_fail()
         {
-            Check.ThatCode(() => new LearderboardSerieName(null, FirstInLeaderboard))
+            Check.ThatCode(() => new LearderboardSerieName(null, FirstInLeaderboard, MetricFirstInLeaderBoardCarNumberValue))
                 .Throws<ArgumentNullException>();
         }
 
@@ -36,7 +37,7 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
         [InlineData(-254123)]
         public void GIVEN_position_isNegativ_OR_zero_THEN_expose999(int position)
         {
-            var target = new LearderboardSerieName(DescriptionValue, position);
+            var target = new LearderboardSerieName(DescriptionValue, position, MetricFirstInLeaderBoardCarNumberValue);
 
             Check.That(target.Position).IsEqualTo(999);
         }
@@ -49,35 +50,20 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
         [InlineData(254123)]
         public void GIVEN_position_isPositiv_THEN_expose_position(int position)
         {
-            var target = new LearderboardSerieName(DescriptionValue, position);
+            var target = new LearderboardSerieName(DescriptionValue, position, MetricFirstInLeaderBoardCarNumberValue);
 
             Check.That(target.Position).IsEqualTo(position);
         }
-    }
 
-    public struct LearderboardSerieName
-    {
-        private const int DefaultPositionLast = 999;
-
-        public LearderboardSerieName(string description, int position)
+        [Theory]
+        [InlineData("pitwall_leaderboard_position{0}_carNumber", "pitwall_leaderboard_position01_carNumber")]
+        [InlineData("pitwall_leaderboard_position{0}_carClass",  "pitwall_leaderboard_position01_carClass")]
+        [InlineData("pitwall_leaderboard_position{0}_position",  "pitwall_leaderboard_position01_position")]
+        public void GIVEN_metricFomrat_THEN_ensure_position_positioner_exists(string metricFormat, string expected)
         {
-            if (description == null) throw new ArgumentNullException(nameof(description));
+            var target = new LearderboardSerieName(DescriptionValue, FirstInLeaderboard, metricFormat);
 
-            Description = description;
-
-            Position = position;
-
-            if (position < 1)
-            {
-                Position = DefaultPositionLast;
-            }
-            else
-            {
-                Position = position;
-            }
+            Check.That(target.MetricName).IsEqualTo(expected);
         }
-
-        public string Description { get; }
-        public int Position { get; }
     }
 }
