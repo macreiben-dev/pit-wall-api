@@ -76,5 +76,21 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
                 .Throws<MetricNameFormatInvalidException>()
                 .WithProperty("MetricName", metricFormat);
         }
+
+        [Fact]
+        public void GIVEN_metricName_isEmpty_THEN_fail()
+        {
+            Check.ThatCode(() => new LearderboardSerieName(DescriptionValue, FirstInLeaderboard, string.Empty))
+              .Throws<ArgumentException>()
+              .WithProperty("Message", "metricFormat");
+        }
+
+        [Fact]
+        public void GIVEN_metricName_isNull_THEN_fail()
+        {
+            Check.ThatCode(() => new LearderboardSerieName(DescriptionValue, FirstInLeaderboard, null))
+              .Throws<ArgumentNullException>()
+              .WithProperty("Message", "Value cannot be null. (Parameter 'metricFormat')");
+        }
     }
 }

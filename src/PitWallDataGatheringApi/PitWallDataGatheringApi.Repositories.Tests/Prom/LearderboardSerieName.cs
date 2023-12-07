@@ -5,24 +5,21 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
     public struct LearderboardSerieName
     {
         private const int DefaultPositionLast = 999;
-
+        private const int FirstPosition = 1;
+        private const string IntegerFormat2LeadingZeros = "D2";
         private static readonly Regex _metricMatcher = new Regex("pitwall_leaderboard_position(\\{0\\})_.*", RegexOptions.Compiled);
 
-        //pitwall_leaderboard_position(\{0\})_.*
         public LearderboardSerieName(string description, int position, string metricFormat)
         {
-            /**
-             * Sanitize metric format null check + not empty
-             * 
-             * */
-
             if (description == null) throw new ArgumentNullException(nameof(description));
+
+            if(metricFormat == string.Empty) throw new ArgumentException(nameof(metricFormat));
+
+            if (metricFormat == null) throw new ArgumentNullException(nameof(metricFormat));
 
             Description = description;
 
-            Position = position;
-
-            if (position < 1)
+            if (position < FirstPosition)
             {
                 Position = DefaultPositionLast;
             }
@@ -31,6 +28,11 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
                 Position = position;
             }
 
+            /**
+             * thought : no limit for the moment on the max number of pilots in a race.
+             * 
+             * */
+
             var matches = _metricMatcher.Matches(description);
 
             if(!_metricMatcher.IsMatch(metricFormat))
@@ -38,7 +40,7 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
                 throw new MetricNameFormatInvalidException(metricFormat);
             }
 
-            MetricName = string.Format(metricFormat, Position.ToString("D2"));
+            MetricName = string.Format(metricFormat, Position.ToString(IntegerFormat2LeadingZeros));
         }
 
         public string Description { get; }
