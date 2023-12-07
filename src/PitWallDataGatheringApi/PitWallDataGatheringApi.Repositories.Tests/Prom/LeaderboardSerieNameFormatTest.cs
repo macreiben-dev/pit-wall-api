@@ -6,7 +6,7 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
     {
         private const string DescriptionValue = "SomeDescription";
         private const int FirstInLeaderboard = 1;
-        private const string MetricFirstInLeaderBoardCarNumberValue = "pitwall_leaderboard_position01_carNumber";
+        private const string MetricFirstInLeaderBoardCarNumberValue = "pitwall_leaderboard_position{0}_carNumber";
 
         private static LearderboardSerieName GetTarget()
         {
@@ -64,6 +64,17 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
             var target = new LearderboardSerieName(DescriptionValue, FirstInLeaderboard, metricFormat);
 
             Check.That(target.MetricName).IsEqualTo(expected);
+        }
+
+        [Theory]
+        [InlineData("pitwall_leaderboard_position01_carNumber")]
+        [InlineData("pitwall_leaderboard_position01_carClass")]
+        [InlineData("pitwall_leaderboard_position01_position")]
+        public void GIVEN_metricName_withNoFormat_positioner_THEN_fail(string metricFormat)
+        {
+            Check.ThatCode(() => new LearderboardSerieName(DescriptionValue, FirstInLeaderboard, metricFormat))
+                .Throws<MetricNameFormatInvalidException>()
+                .WithProperty("MetricName", metricFormat);
         }
     }
 }
