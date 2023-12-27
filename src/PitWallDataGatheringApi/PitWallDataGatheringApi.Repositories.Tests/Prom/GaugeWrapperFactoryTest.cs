@@ -42,7 +42,7 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
                 Labels = new[] { "label3", "label4" }
             };
 
-            foreach ( var serie in new[] { serie1, serie2})
+            foreach (var serie in new[] { serie1, serie2 })
             {
                 target.Create(serie.SerieName,
                     serie.SerieDescription,
@@ -80,13 +80,37 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 
             var actualInitial = target.Create(serie.SerieName,
                 serie.SerieDescription,
-                serie.Labels); 
-            
+                serie.Labels);
+
             var actualSecond = target.Create(serie.SerieName,
                 serie.SerieDescription,
                 serie.Labels);
 
             Check.That(actualSecond.GetHashCode()).IsEqualTo(actualInitial.GetHashCode());
+        }
+
+        [Theory]
+        [InlineData(1, "some_position01_inrace_metric")]
+        [InlineData(2, "some_position02_inrace_metric")]
+        [InlineData(33, "some_position33_inrace_metric")]
+        [InlineData(999, "some_position999_inrace_metric")]
+        public void GIVEN_serieNameFormat_AND_description_AND_positionInRace_THEN_generate_one_gauge_AND_metricName_contains_position(
+            int position, 
+            string expected)
+        {
+            string originalFormat = "some_position{0}_inrace_metric";
+            string description = "some description";
+            int positionInRace = position;
+
+            var target = GetTarget();
+
+            var actual = target.CreateLeaderboardGauge(
+                 originalFormat,
+                 description,
+                 positionInRace,
+                 new[] { "label1", "label2" });
+
+            Check.That(actual.SerieName).IsEqualTo(expected);
         }
     }
 

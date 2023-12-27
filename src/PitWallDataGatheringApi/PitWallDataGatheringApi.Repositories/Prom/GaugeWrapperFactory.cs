@@ -41,7 +41,20 @@ namespace PitWallDataGatheringApi.Repositories.Prom
              * Enforce serieNameFormat check with regex
              * */
 
-            throw new NotImplementedException();
+            var actualSerie = new GaugeWrapper(
+                string.Format(
+                    serieNameFormat,
+                    FormatPositionOneLeadingZero(positionInRace)),
+                    description,
+                    labels,
+                    _gaugeLogger);
+
+            return actualSerie;
+        }
+
+        private static string FormatPositionOneLeadingZero(int positionInRace)
+        {
+            return positionInRace.ToString("D2");
         }
 
         private IGauge CreateGauge(string serieName, string description, IEnumerable<string> labels)

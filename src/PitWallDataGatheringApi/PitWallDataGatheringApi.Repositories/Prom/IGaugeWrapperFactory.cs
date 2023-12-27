@@ -8,7 +8,7 @@
         /// <param name="serieName">The name of the serie.</param>
         /// <param name="description">The description for the documentation entry point.</param>
         /// <param name="labels">The labels to add to the gauge.</param>
-        /// <returns></returns>
+        /// <returns>one <see cref="IGauge"/></returns>
         IGauge Create(
             string serieName,
             string description,
