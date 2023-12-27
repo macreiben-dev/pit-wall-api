@@ -2,11 +2,6 @@
 using NSubstitute;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PitWallDataGatheringApi.Services.Tests
 {

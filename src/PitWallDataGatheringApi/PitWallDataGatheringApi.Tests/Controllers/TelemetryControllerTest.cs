@@ -50,7 +50,6 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             original.SimerKey = "OkKey";
             original.CarName = "SomeCarName";
 
-            // a fake mapper with nsubstitute
             _mapper.Map(Arg.Any<ApiTelemetryModel>())
                 .Returns(c => new BusinessTelemetryModel()
                 {
