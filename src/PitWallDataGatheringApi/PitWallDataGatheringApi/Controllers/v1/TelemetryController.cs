@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Writers;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
@@ -13,16 +14,17 @@ namespace PitWallDataGatheringApi.Controllers.v1
     {
         private readonly IPitwallTelemetryService _pitwallTelemetryService;
         private readonly ITelemetryModelMapper _mapper;
-        private readonly ISimerKeyRepository _simerKeyRepository;
+        private readonly IAuthenticatePayloadService _authenticatePayloadService;
 
         public TelemetryController(
             IPitwallTelemetryService pitwallTelemetryService,
             ITelemetryModelMapper mapper,
-            ISimerKeyRepository simerKeyRepository)
+            IAuthenticatePayloadService authenticatePayload)
         {
             _pitwallTelemetryService = pitwallTelemetryService;
             _mapper = mapper;
-            _simerKeyRepository = simerKeyRepository;
+
+            _authenticatePayloadService = authenticatePayload;
         }
 
         [HttpPost]
@@ -30,8 +32,8 @@ namespace PitWallDataGatheringApi.Controllers.v1
         {
             try
             {
-                var badRequestMessages = ValidatePayload(telemetry, _simerKeyRepository);
-                
+                var badRequestMessages = _authenticatePayloadService.ValidatePayload(telemetry);
+
                 if (badRequestMessages.Any())
                 {
                     return BadRequest(new ErrorMessages(telemetry, badRequestMessages));
@@ -47,32 +49,6 @@ namespace PitWallDataGatheringApi.Controllers.v1
             _pitwallTelemetryService.Update(mapped);
 
             return Ok();
-        }
-
-        private static IList<string> ValidatePayload(ICallerInfos telemetry, ISimerKeyRepository simerKeyRepository)
-        {
-            /**
-             * Should add a mecanism to block unauthorized attempt for some time.
-             * */
-
-            if (telemetry.SimerKey != simerKeyRepository.Key)
-            {
-                throw new PostMetricDeniedException(telemetry);
-            }
-
-            IList<string> badRequestMessages = new List<string>();
-
-            if (telemetry.PilotName == null)
-            {
-                badRequestMessages.Add("Pilot name is mandatory.");
-            }
-
-            if (telemetry.CarName == null)
-            {
-                badRequestMessages.Add("Car name is mandatory.");
-            }
-
-            return badRequestMessages;
         }
     }
 }

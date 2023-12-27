@@ -27,15 +27,12 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Prom
             {
                 Position = position;
             }
-
             /**
              * thought : no limit for the moment on the max number of pilots in a race.
              * 
              * */
 
-            var matches = _metricMatcher.Matches(description);
-
-            if(!_metricMatcher.IsMatch(metricFormat))
+            if (!_metricMatcher.IsMatch(metricFormat))
             {
                 throw new MetricNameFormatInvalidException(metricFormat);
             }

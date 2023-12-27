@@ -38,6 +38,8 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
             services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
 
+            services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
+
             services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
         }
     }

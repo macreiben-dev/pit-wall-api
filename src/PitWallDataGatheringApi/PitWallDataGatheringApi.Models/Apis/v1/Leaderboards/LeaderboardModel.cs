@@ -1,7 +1,7 @@
 ﻿
 namespace PitWallDataGatheringApi.Models.Apis.v1.Leaderboards
 {
-    public sealed class LeaderboardModel
+    public sealed class LeaderboardModel : ICallerInfos
     {
         public string? PilotName { get; set; }
 

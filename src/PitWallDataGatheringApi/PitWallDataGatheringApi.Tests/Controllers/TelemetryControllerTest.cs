@@ -9,6 +9,8 @@ using NFluent;
 using PitWallDataGatheringApi.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using PitWallDataGatheringApi.Controllers.v1;
+using PitWallDataGatheringApi.Models.Apis.v1;
+using NSubstitute.ExceptionExtensions;
 
 namespace PitWallDataGatheringApi.Tests.Controllers
 {
@@ -17,22 +19,25 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         private IPitwallTelemetryService _telemertryService;
         private ITelemetryModelMapper _mapper;
         private ISimerKeyRepository _simerKeyReposity;
+        private IAuthenticatePayloadService _authenticatePayload;
 
         public TelemetryControllerTest()
         {
             _telemertryService = Substitute.For<IPitwallTelemetryService>();
-            
+
             _mapper = Substitute.For<ITelemetryModelMapper>();
 
             _simerKeyReposity = Substitute.For<ISimerKeyRepository>();
+
+            _authenticatePayload = Substitute.For<IAuthenticatePayloadService>();
         }
 
         private TelemetryController GetTarget()
         {
             return new TelemetryController(
-                _telemertryService, 
-                _mapper, 
-                _simerKeyReposity);
+                _telemertryService,
+                _mapper,
+                _authenticatePayload);
         }
 
         [Fact]
@@ -44,8 +49,6 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             original.PilotName = "Pilot1";
             original.SimerKey = "OkKey";
             original.CarName = "SomeCarName";
-
-            _simerKeyReposity.Key.Returns("OkKey");
 
             // a fake mapper with nsubstitute
             _mapper.Map(Arg.Any<ApiTelemetryModel>())
@@ -67,11 +70,12 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         [Fact]
         public void GIVEN_simerKey_received_equals_simerKey_configured_THEN_return_denied()
         {
-            _simerKeyReposity.Key.Returns("other");
-
             var original = new ApiTelemetryModel();
 
             original.SimerKey = "Key1";
+
+            _authenticatePayload.ValidatePayload(Arg.Is<ICallerInfos>(arg => arg.SimerKey == "Key1"))
+                .Throws(new PostMetricDeniedException(original));
 
             var target = GetTarget();
 
@@ -92,6 +96,13 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             original.SimerKey = "Key1";
             original.PilotName = null;
 
+            _authenticatePayload.ValidatePayload(
+                 Arg.Is<ICallerInfos>(
+                     arg => arg.SimerKey == "Key1"
+                     && arg.PilotName == null)
+             )
+             .Returns(new List<string> { "Pilot name is mandatory." });
+
             var target = GetTarget();
 
             var intermediary = target.Post(original);
@@ -100,7 +111,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             var payload = (ErrorMessages)actual.Value;
 
             Check.That(actual.StatusCode).IsEqualTo(400);
-            
+
             Check.That(payload.Errors.FirstOrDefault()).IsEqualTo("Pilot name is mandatory.");
 
             Check.That(payload.Source.PilotName).IsNull();
@@ -117,6 +128,14 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             original.SimerKey = "Key1";
             original.PilotName = "somePilot";
             original.CarName = null;
+
+            _authenticatePayload.ValidatePayload(
+                    Arg.Is<ICallerInfos>(
+                        arg => arg.SimerKey == "Key1" 
+                        && arg.PilotName == "somePilot"
+                        && arg.CarName == null)
+                )
+                .Returns(new List<string> { "Car name is mandatory." });
 
             var target = GetTarget();
 
