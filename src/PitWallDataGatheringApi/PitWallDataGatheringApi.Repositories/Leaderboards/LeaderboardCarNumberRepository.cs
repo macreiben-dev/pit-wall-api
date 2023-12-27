@@ -5,10 +5,10 @@ using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {
-    public class LeaderboardCarNumberRepository : ILeaderboardCarNumberRepository
+    public sealed class LeaderboardCarNumberRepository : ILeaderboardCarNumberRepository
     {
         private const string LocalSerieNameFormat = "pitwall_leaderboard_position{0}_carnumber";
-        private const string LocalDescrptionFormat = "Entry information for position {0}";
+        private const string LocalDescrptionFormat = "Entry information for position {0}.";
         private IGaugeFactory _gaugeFactory;
 
         public LeaderboardCarNumberRepository(IGaugeFactory gaugeFactory)

@@ -202,7 +202,6 @@ namespace PitWallDataGatheringApi.Tests.Services
             _airTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), Arg.Any<CarName>());
         }
 
-
         [Fact]
         public void GIVEN_telemetry_isNotNull_THEN_update_airTemperature()
         {
