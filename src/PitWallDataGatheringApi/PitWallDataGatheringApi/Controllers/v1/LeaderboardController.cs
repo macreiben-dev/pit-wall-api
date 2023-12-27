@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
-using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 
 namespace PitWallDataGatheringApi.Controllers.v1
@@ -12,14 +11,18 @@ namespace PitWallDataGatheringApi.Controllers.v1
     {
         private ILeaderboardModelMapper _mapper;
         private IAuthenticatePayloadService _authenticatePayload;
+        private ILeaderBoardService _service;
 
         public LeaderboardController(
             ILeaderboardModelMapper mapper,
-            IAuthenticatePayloadService authenticatePayload)
+            IAuthenticatePayloadService authenticatePayload, 
+            ILeaderBoardService service)
         {
             _mapper = mapper;
 
             _authenticatePayload = authenticatePayload;
+
+            _service = service;
         }
 
         [HttpPost]
@@ -39,6 +42,9 @@ namespace PitWallDataGatheringApi.Controllers.v1
                 return Unauthorized(ex.Message);
             }
 
+            var actual = _mapper.Map(model);
+
+            _service.Update(actual);
 
             return Ok();
         }

@@ -9,7 +9,10 @@ using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
 using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
-using BusinessLeaderboardModel = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardModel;
+using ApiModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
+using BusinessModel = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardModel;
+using IBusinessModel = PitWallDataGatheringApi.Models.Business.Leaderboards.ILeaderboardModel;
+
 
 namespace PitWallDataGatheringApi.Tests.Controllers
 {
@@ -17,7 +20,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
     {
         private ILeaderboardModelMapper _mapper;
         private ISimerKeyRepository _simerKeyReposity;
-        private ILeaderBoardService _leaderboardService;
+        private ILeaderBoardService _service;
         private IAuthenticatePayloadService _authenticatePayload;
 
         public LeaderboardControllerTest()
@@ -26,14 +29,40 @@ namespace PitWallDataGatheringApi.Tests.Controllers
 
             _simerKeyReposity = Substitute.For<ISimerKeyRepository>();
 
-            _leaderboardService = Substitute.For<ILeaderBoardService>();
+            _service = Substitute.For<ILeaderBoardService>();
 
             _authenticatePayload = Substitute.For<IAuthenticatePayloadService>();
         }
 
         private LeaderboardController GetTarget()
         {
-            return new LeaderboardController(_mapper, _authenticatePayload);
+            return new LeaderboardController(_mapper, _authenticatePayload, _service);
+        }
+
+        [Fact]
+        public void Should_post_metrics_without_failing()
+        {
+            // ARRANGE
+            var original = new ApiModel();
+
+            original.PilotName = "Pilot1";
+            original.SimerKey = "OkKey";
+            original.CarName = "SomeCarName";
+
+            _mapper.Map(Arg.Any<ApiModel>())
+                .Returns(c => new BusinessModel()
+                {
+                    PilotName = new Models.PilotName(c.Arg<ApiModel>().PilotName)
+                });
+
+            // ACT
+            var target = GetTarget();
+
+            target.Post(original);
+
+            _service
+                .Received(1)
+                .Update(Arg.Is<IBusinessModel>(c => c.PilotName.ToString() == "Pilot1"));
         }
 
         [Fact]

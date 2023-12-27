@@ -8,6 +8,10 @@ namespace PitWallDataGatheringApi.Models.Business.Leaderboards
     {
         private readonly List<IBusinessLeaderBoardEntry> _source;
 
+        public PilotName PilotName { get; set; }
+
+        public CarName CarName { get; set; }
+
         public LeaderboardModel()
         {
 
