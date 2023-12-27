@@ -1,8 +1,8 @@
 ﻿using ApiTelemetryModel = PitWallDataGatheringApi.Models.Apis.v1.TelemetryModel;
 using ApiVehicleConsumption = PitWallDataGatheringApi.Models.Apis.v1.VehicleConsumption;
-using PitWallDataGatheringApi.Services;
 using NFluent;
 using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Services.Telemetries;
 
 namespace PitWallDataGatheringApi.Tests.Services
 {

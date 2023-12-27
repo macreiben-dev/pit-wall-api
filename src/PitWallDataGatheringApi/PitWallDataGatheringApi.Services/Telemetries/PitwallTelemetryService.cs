@@ -6,7 +6,7 @@ using PitWallDataGatheringApi.Repositories.Tyres;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 
-namespace PitWallDataGatheringApi.Services
+namespace PitWallDataGatheringApi.Services.Telemetries
 {
     public sealed class PitwallTelemetryService : IPitwallTelemetryService
     {

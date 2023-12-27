@@ -9,7 +9,7 @@ using IBusinessVehicleConsumption = PitWallDataGatheringApi.Models.Business.IVeh
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Apis.v1;
 
-namespace PitWallDataGatheringApi.Services
+namespace PitWallDataGatheringApi.Services.Telemetries
 {
     public sealed class TelemetryModelMapper : ITelemetryModelMapper
     {
@@ -18,22 +18,22 @@ namespace PitWallDataGatheringApi.Services
             BusinessTelemetryModel model = new BusinessTelemetryModel();
 
             model.AirTemperature = apiModel.AirTemperature;
-            
+
             model.AvgWetness = apiModel.AvgWetness;
 
             model.TrackTemperature = apiModel.TrackTemperature;
-            
+
             model.LaptimeSeconds = apiModel.LaptimeSeconds;
-            
+
             /**
              * correct this one in v2 API
              * */
             model.PilotName = new PilotName(apiModel.PilotName);
-            
+
             model.CarName = new CarName(apiModel.CarName);
 
             model.TyresWear = Map(apiModel.TyresWear);
-            
+
             model.TyresTemperatures = Map(apiModel.TyresTemperatures);
 
             model.VehicleConsumption = Map(apiModel.VehicleConsumption);

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using PitWallDataGatheringApi.Controllers.v1;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using NSubstitute.ExceptionExtensions;
+using PitWallDataGatheringApi.Services.Telemetries;
 
 namespace PitWallDataGatheringApi.Tests.Controllers
 {

@@ -1,6 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models.Business.Leaderboards;
 
-namespace PitWallDataGatheringApi.Services
+namespace PitWallDataGatheringApi.Services.Leaderboards
 {
     public interface ILeaderBoardService
     {

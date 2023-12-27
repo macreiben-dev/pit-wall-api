@@ -3,7 +3,7 @@ using BusinessLeaderBoardModel = PitWallDataGatheringApi.Models.Business.Leaderb
 using IBusinessLeaderBoardModel = PitWallDataGatheringApi.Models.Business.Leaderboards.ILeaderboardModel;
 using BusinessLeaderBoardEntry = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardEntry;
 
-namespace PitWallDataGatheringApi.Services
+namespace PitWallDataGatheringApi.Services.Leaderboards
 {
     public class LeaderboardModelMapper : ILeaderboardModelMapper
     {

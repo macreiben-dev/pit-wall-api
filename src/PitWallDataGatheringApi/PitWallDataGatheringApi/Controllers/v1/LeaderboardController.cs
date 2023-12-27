@@ -2,6 +2,7 @@
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
 using PitWallDataGatheringApi.Services;
+using PitWallDataGatheringApi.Services.Leaderboards;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {

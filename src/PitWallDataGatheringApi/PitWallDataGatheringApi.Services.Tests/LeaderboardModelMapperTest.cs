@@ -4,6 +4,7 @@ using ApiLeaderboardEntry = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.
 using BusinessLeaderboardModel = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardModel;
 using BusinessLeaderboardEntry = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardEntry;
 using NFluent;
+using PitWallDataGatheringApi.Services.Leaderboards;
 
 namespace PitWallDataGatheringApi.Services.Tests
 {

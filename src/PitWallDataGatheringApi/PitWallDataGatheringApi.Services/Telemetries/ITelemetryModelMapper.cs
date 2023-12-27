@@ -1,6 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models.Business;
 
-namespace PitWallDataGatheringApi.Services
+namespace PitWallDataGatheringApi.Services.Telemetries
 {
     public interface ITelemetryModelMapper
     {
