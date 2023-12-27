@@ -112,6 +112,30 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 
             Check.That(actual.SerieName).IsEqualTo(expected);
         }
+
+        [Theory]
+        [InlineData(1, "some_description01")]
+        [InlineData(2, "some_description02")]
+        [InlineData(33, "some_description33")]
+        [InlineData(999, "some_description999")]
+        public void GIVEN_serieNameFormat_AND_description_AND_positionInRace_THEN_generate_one_gauge_AND_description_contains_position(
+            int position,
+            string expected)
+        {
+            string originalFormat = "some_position{0}_inrace_metric";
+            string description = "some_description{0}";
+            int positionInRace = position;
+
+            var target = GetTarget();
+
+            var actual = target.CreateLeaderboardGauge(
+                 originalFormat,
+                 description,
+                 positionInRace,
+                 new[] { "label1", "label2" });
+
+            Check.That(actual.Description).IsEqualTo(expected);
+        }
     }
 
     public readonly record struct SerieDescriptor(
