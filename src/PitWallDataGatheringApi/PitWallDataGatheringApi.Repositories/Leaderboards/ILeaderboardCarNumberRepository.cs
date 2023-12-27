@@ -7,6 +7,5 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
     public interface ILeaderboardCarNumberRepository
     {
         void Update(ILeaderboardEntry entry, PilotName pilotName, CarName carName);
-        void Update(MetricData<double?> metric, IGauge gauge);
     }
 }

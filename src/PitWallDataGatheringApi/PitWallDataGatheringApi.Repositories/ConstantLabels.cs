@@ -1,7 +1,7 @@
 ﻿namespace PitWallDataGatheringApi.Repositories
 {
-    internal class ConstantLabels
+    public static class ConstantLabels
     {
-        public static readonly IEnumerable<string> Labels =  new[] { "Pilot", "Car" };
-}
+        public static readonly IEnumerable<string> Labels = new[] { "Pilot", "Car" };
+    }
 }

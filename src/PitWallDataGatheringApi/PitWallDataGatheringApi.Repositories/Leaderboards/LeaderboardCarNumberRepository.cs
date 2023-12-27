@@ -27,7 +27,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
             Update(new MetricData<double?>(entry.CarNumber, pilotName, carName), gauge);
         }
 
-        public void Update(MetricData<double?> metric, IGauge gauge)
+        private void Update(MetricData<double?> metric, IGauge gauge)
         {
             MetricDataToGauge.Execute(gauge, metric);
         }
