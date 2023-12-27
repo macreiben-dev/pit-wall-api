@@ -1,35 +1,35 @@
 ﻿using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {
-    public class LeaderboardCarNumberRepository
+    public class LeaderboardCarNumberRepository : ILeaderboardCarNumberRepository
     {
         private const string LocalSerieNameFormat = "pitwall_leaderboard_position{0}_carnumber";
-        private readonly IGauge _gaugeLapTimes;
+        private const string LocalDescrptionFormat = "Entry information for position {0}";
+        private IGaugeFactory _gaugeFactory;
 
         public LeaderboardCarNumberRepository(IGaugeFactory gaugeFactory)
         {
-            //_gaugeLapTimes = gaugeFactory.Create(
-            //    LocalSerieName,
-            //    "Car laptimes in seconds.",
-            //    ConstantLabels.Labels);
+            _gaugeFactory = gaugeFactory;
         }
 
-        public void Update(double? data, string pilotName, CarName carName)
+        public void Update(ILeaderboardEntry entry, PilotName pilotName, CarName carName)
         {
-            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
+            var gauge = _gaugeFactory.CreateLeaderboardGauge(
+                     LocalSerieNameFormat,
+                     LocalDescrptionFormat,
+                     entry.Position,
+                     ConstantLabels.Labels);
+
+            Update(new MetricData<double?>(entry.CarNumber, pilotName, carName), gauge);
         }
 
-        public void Update(MetricData<double?> metric)
+        public void Update(MetricData<double?> metric, IGauge gauge)
         {
-            MetricDataToGauge.Execute(_gaugeLapTimes, metric);
+            MetricDataToGauge.Execute(gauge, metric);
         }
     }
 }
