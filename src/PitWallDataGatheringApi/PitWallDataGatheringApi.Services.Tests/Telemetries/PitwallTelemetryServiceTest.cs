@@ -222,7 +222,7 @@ namespace PitWallDataGatheringApi.Tests.Services
             target.Update(null);
 
             // ASSERT
-            _trackTemperature.Received(0).Update(Arg.Any<double?>(), Arg.Any<string>(), new CarName(null));
+            _trackTemperature.Received(0).Update(Arg.Any<MetricData<double?>>());
         }
 
         [Fact]
@@ -233,18 +233,6 @@ namespace PitWallDataGatheringApi.Tests.Services
             source.TrackTemperature = 10.0;
 
             EnsureCalledWithValueV2(source, _trackTemperature);
-        }
-
-
-        private void EnsureCalledWithValue(TelemetryModel source, IMetricRepositoryLegacy metricRepository)
-        {
-            var target = GetTarget();
-
-            // ACT
-            target.Update(source);
-
-            // ASSERT
-            metricRepository.Received(1).Update(10.0, PilotName.ToString(), CarName);
         }
 
         private void EnsureCalledWithValueV2(TelemetryModel source, IMetricRepository<double?> metricRepository)
