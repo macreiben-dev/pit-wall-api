@@ -16,11 +16,6 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
                 ConstantLabels.Labels);
         }
 
-        public void Update(double? data, string pilotName, CarName carName)
-        {
-            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
-        }
-
         public void Update(MetricData<double?> metric)
         {
             MetricDataToGauge.Execute(_gauge, metric);
