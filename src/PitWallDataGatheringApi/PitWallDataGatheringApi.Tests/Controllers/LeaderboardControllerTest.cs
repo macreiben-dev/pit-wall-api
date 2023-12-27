@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NFluent;
 using NSubstitute;
+using NSubstitute.ExceptionExtensions;
 using PitWallDataGatheringApi.Controllers;
 using PitWallDataGatheringApi.Controllers.v1;
+using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
+using PitWallDataGatheringApi.Models.Business;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
+using BusinessLeaderboardModel = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardModel;
 
 namespace PitWallDataGatheringApi.Tests.Controllers
 {
@@ -14,6 +18,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         private ILeaderboardModelMapper _mapper;
         private ISimerKeyRepository _simerKeyReposity;
         private ILeaderBoardService _leaderboardService;
+        private IAuthenticatePayloadService _authenticatePayload;
 
         public LeaderboardControllerTest()
         {
@@ -22,11 +27,13 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             _simerKeyReposity = Substitute.For<ISimerKeyRepository>();
 
             _leaderboardService = Substitute.For<ILeaderBoardService>();
+
+            _authenticatePayload = Substitute.For<IAuthenticatePayloadService>();
         }
 
         private LeaderboardController GetTarget()
         {
-            return new LeaderboardController(_simerKeyReposity, _mapper);
+            return new LeaderboardController(_mapper, _authenticatePayload);
         }
 
         [Fact]
@@ -37,6 +44,9 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             var original = new LeaderboardModel();
 
             original.SimerKey = "Key1";
+
+            _authenticatePayload.ValidatePayload(Arg.Is<ICallerInfos>(arg => arg.SimerKey == "Key1"))
+              .Throws(new PostMetricDeniedException(original));
 
             var target = GetTarget();
 
@@ -56,6 +66,13 @@ namespace PitWallDataGatheringApi.Tests.Controllers
 
             original.SimerKey = "Key1";
             original.PilotName = null;
+
+            _authenticatePayload.ValidatePayload(
+                 Arg.Is<ICallerInfos>(
+                     arg => arg.SimerKey == "Key1"
+                     && arg.PilotName == null)
+             )
+             .Returns(new List<string> { "Pilot name is mandatory." });
 
             var target = GetTarget();
 
@@ -82,6 +99,14 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             original.SimerKey = "Key1";
             original.PilotName = "somePilot";
             original.CarName = null;
+
+            _authenticatePayload.ValidatePayload(
+                    Arg.Is<ICallerInfos>(
+                        arg => arg.SimerKey == "Key1"
+                        && arg.PilotName == "somePilot"
+                        && arg.CarName == null)
+                )
+                .Returns(new List<string> { "Car name is mandatory." });
 
             var target = GetTarget();
 

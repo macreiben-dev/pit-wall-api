@@ -10,15 +10,16 @@ namespace PitWallDataGatheringApi.Controllers.v1
     [ApiController]
     public class LeaderboardController : ControllerBase
     {
-        private ISimerKeyRepository _simerKeys;
         private ILeaderboardModelMapper _mapper;
+        private IAuthenticatePayloadService _authenticatePayload;
 
         public LeaderboardController(
-            ISimerKeyRepository simerKeyReposity, 
-            ILeaderboardModelMapper mapper)
+            ILeaderboardModelMapper mapper,
+            IAuthenticatePayloadService authenticatePayload)
         {
-            _simerKeys = simerKeyReposity;
             _mapper = mapper;
+
+            _authenticatePayload = authenticatePayload;
         }
 
         [HttpPost]
@@ -26,7 +27,7 @@ namespace PitWallDataGatheringApi.Controllers.v1
         {
             try
             {
-                var badRequestMessages = ValidatePayload(model, _simerKeys);
+                var badRequestMessages = _authenticatePayload.ValidatePayload(model);
 
                 if (badRequestMessages.Any())
                 {
@@ -40,32 +41,6 @@ namespace PitWallDataGatheringApi.Controllers.v1
 
 
             return Ok();
-        }
-
-        private static IList<string> ValidatePayload(ICallerInfos telemetry, ISimerKeyRepository simerKeyRepository)
-        {
-            /**
-             * Should add a mecanism to block unauthorized attempt for some time.
-             * */
-
-            if (telemetry.SimerKey != simerKeyRepository.Key)
-            {
-                throw new PostMetricDeniedException(telemetry);
-            }
-
-            IList<string> badRequestMessages = new List<string>();
-
-            if (telemetry.PilotName == null)
-            {
-                badRequestMessages.Add("Pilot name is mandatory.");
-            }
-
-            if (telemetry.CarName == null)
-            {
-                badRequestMessages.Add("Car name is mandatory.");
-            }
-
-            return badRequestMessages;
         }
     }
 }
