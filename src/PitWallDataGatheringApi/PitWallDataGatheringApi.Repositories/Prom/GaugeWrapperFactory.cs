@@ -41,13 +41,15 @@ namespace PitWallDataGatheringApi.Repositories.Prom
              * Enforce serieNameFormat check with regex
              * */
 
+            string formatedPositionInRace = FormatWithPositionOneLeadingZero(positionInRace);
+
             string formatedSerieName = string.Format(
                 serieNameFormat,
-                FormatWithPositionOneLeadingZero(positionInRace));
+                formatedPositionInRace);
 
             string formatedDescription = string.Format(
                 description,
-                FormatWithPositionOneLeadingZero(positionInRace));
+                formatedPositionInRace);
 
             var actualSerie = new GaugeWrapper(
                 formatedSerieName,
