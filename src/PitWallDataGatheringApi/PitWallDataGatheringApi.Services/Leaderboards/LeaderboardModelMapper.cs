@@ -11,6 +11,10 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
         {
             BusinessLeaderBoardModel output = new BusinessLeaderBoardModel();
 
+            output.PilotName = new Models.PilotName(source.PilotName);
+
+            output.CarName = new Models.CarName(source.CarName);
+
             foreach (var item in source.Entries)
             {
                 var entry = new BusinessLeaderBoardEntry()

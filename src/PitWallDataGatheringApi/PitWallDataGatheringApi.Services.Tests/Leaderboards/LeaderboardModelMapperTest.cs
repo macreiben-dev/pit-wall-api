@@ -5,8 +5,9 @@ using BusinessLeaderboardModel = PitWallDataGatheringApi.Models.Business.Leaderb
 using BusinessLeaderboardEntry = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardEntry;
 using NFluent;
 using PitWallDataGatheringApi.Services.Leaderboards;
+using PitWallDataGatheringApi.Models;
 
-namespace PitWallDataGatheringApi.Services.Tests
+namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 {
     public sealed class LeaderboardModelMapperTest
     {
@@ -14,27 +15,34 @@ namespace PitWallDataGatheringApi.Services.Tests
         private const string CarClassValue = "GTE";
         private const int CarNumberValue = 13;
         private const int PositionValue = 5;
+        private const string PilotName = "somePilotName";
+        private const string CarName = "someCarName";
         private ApiLeaderboardModel _source;
 
         public LeaderboardModelMapperTest()
         {
             ApiLeaderboardModel source = new ApiLeaderboardModel();
 
-            source.Entries = new List<ApiLeaderboardEntry>();
+            source.PilotName = PilotName;
 
-            source.Entries.Add(new ApiLeaderboardEntry()
+            source.CarName = CarName;
+
+            source.Entries = new List<ApiLeaderboardEntry>
             {
-                CarClass = CarClassValue,
-                CarNumber = CarNumberValue,
-                CarName = "SomeCarName",
-                LastLapInSeconds = 122.0,
-                PitCount = 3,
-                LastPitLap = LastPitLapValue,
-                Position = PositionValue,
-                LastSector1InSeconds = 123.3,
-                LastSector2InSeconds = 124.4,
-                LastSector3InSeconds = 125.5,
-            });
+                new ApiLeaderboardEntry()
+                {
+                    CarClass = CarClassValue,
+                    CarNumber = CarNumberValue,
+                    CarName = "SomeCarName",
+                    LastLapInSeconds = 122.0,
+                    PitCount = 3,
+                    LastPitLap = LastPitLapValue,
+                    Position = PositionValue,
+                    LastSector1InSeconds = 123.3,
+                    LastSector2InSeconds = 124.4,
+                    LastSector3InSeconds = 125.5,
+                }
+            };
 
             _source = source;
         }
@@ -42,6 +50,26 @@ namespace PitWallDataGatheringApi.Services.Tests
         private LeaderboardModelMapper GetTarget()
         {
             return new LeaderboardModelMapper();
+        }
+
+        [Fact]
+        public void GIVEN_pilotName_THEN_map()
+        {
+            var expected = new PilotName(PilotName);
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.PilotName).IsEqualTo(expected);
+        }
+
+        [Fact]
+        public void GIVEN_carName_THEN_map()
+        {
+            var expected = new CarName(CarName);
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.CarName).IsEqualTo(expected);
         }
 
         [Fact]
