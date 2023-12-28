@@ -59,7 +59,7 @@ internal static class InstantMetricReadTestHelpers
         return intermediary;
     }
 
-    public static async Task<HttpResponseMessage> SendToApi(object model, string targetApi)
+    public static async Task<HttpResponseMessage> SendToApi(object model, string targetApi, string requestUri)
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri(targetApi);
@@ -74,7 +74,7 @@ internal static class InstantMetricReadTestHelpers
             Encoding.UTF8,
             "application/json");
 
-        var response = await client.PostAsync("/api/v1/Leaderboard", content);
+        var response = await client.PostAsync(requestUri, content);
         return response;
     }
 }

@@ -4,15 +4,12 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 {
     public sealed class LeaderboardContext
     {
-        public const string TimeSerieUri = "http://localhost:10100";
-        public const string TargetApi = "http://localhost:32773";
-        public const string SimerKey = "some_test_looking_value23";
+        public string TimeSerieUri => "http://localhost:10100";
+        public string TargetApi => "http://localhost:32773";
+        public string SimerKey => "some_test_looking_value23";
+        public string RequestUri => "api/v1/leaderboard";
 
         private readonly IList<LeaderboardEntry> _entries = new List<LeaderboardEntry>();
-
-        public LeaderboardContext()
-        {
-        }
 
         public string PilotName { get; set; }
 

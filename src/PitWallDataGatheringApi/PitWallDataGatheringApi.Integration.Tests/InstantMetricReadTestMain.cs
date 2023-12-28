@@ -28,7 +28,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
             testContext.SetFieldValue(model);
 
             {
-                Task<HttpResponseMessage> curent = InstantMetricReadTestHelpers.SendToApi(model, targetApi);
+                Task<HttpResponseMessage> curent = InstantMetricReadTestHelpers.SendToApi(model, targetApi, "/api/v1/Telemetry");
 
                 Task.WaitAll(curent);
 

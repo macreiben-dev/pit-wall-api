@@ -26,13 +26,14 @@ namespace PitWallDataGatheringApi.Integration.Tests
                     })
                     .ShouldAssertMetric("pitwall_leaderboard_position22_carnumber", 53.0);
 
-                GIVEN_metric_THEN_read_from_timeSerie(context, LeaderboardContext.TargetApi, LeaderboardContext.TimeSerieUri);
+                GIVEN_metric_THEN_read_from_timeSerie(context);
             }
 
             private const string PilotLabel = "Pilot";
             private const string CarLabel = "Car";
 
-            public static void GIVEN_metric_THEN_read_from_timeSerie(LeaderboardContext testContext, string targetApi, string timeSerieUri)
+            public static void GIVEN_metric_THEN_read_from_timeSerie(
+                LeaderboardContext testContext)
             {
                 Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + testContext);
                 Trace.WriteLine("");
@@ -40,7 +41,10 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 var model = testContext.AsApiModel();
 
                 {
-                    Task<HttpResponseMessage> curent = InstantMetricReadTestHelpers.SendToApi(model, targetApi);
+                    Task<HttpResponseMessage> curent = InstantMetricReadTestHelpers.SendToApi(
+                        model,
+                        testContext.TargetApi,
+                        testContext.RequestUri);
 
                     Task.WaitAll(curent);
 
@@ -65,13 +69,13 @@ namespace PitWallDataGatheringApi.Integration.Tests
                        testContext.MetricNameToAssert,
                        PilotLabel,
                        testContext.PilotName,
-                       timeSerieUri);
+                      testContext.TimeSerieUri);
 
                     Task<string> readCar = InstantMetricReadTestHelpers.ReadInstantQueryResult(
                        testContext.MetricNameToAssert,
                        CarLabel,
                        testContext.CarName,
-                       timeSerieUri);
+                       testContext.TimeSerieUri);
 
                     ExecuteAndAssert(readPilot, testContext.MetricValueToAssert);
 
