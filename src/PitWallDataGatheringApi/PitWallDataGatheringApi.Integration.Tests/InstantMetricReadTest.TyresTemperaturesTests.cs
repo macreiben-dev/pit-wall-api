@@ -11,7 +11,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_temperatures_rearright_celsius_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_temperatures_rearright_celsius",
                     PilotName = "IntegrationTest_ttemp_rearright",
@@ -27,7 +27,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_temperatures_rearleft_celsius_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_temperatures_rearleft_celsius",
                     PilotName = "IntegrationTest_ttemp_rearleft",
@@ -43,7 +43,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_temperatures_frontright_celsius_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_temperatures_frontright_celsius",
                     PilotName = "IntegrationTest_ttemp_frontright",
@@ -59,7 +59,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_temperatures_frontleft_celsius_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_temperatures_frontleft_celsius",
                     PilotName = "IntegrationTest_ttemp_frontleft",

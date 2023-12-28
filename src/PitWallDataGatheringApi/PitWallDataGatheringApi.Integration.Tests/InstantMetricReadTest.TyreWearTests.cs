@@ -9,7 +9,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_wear_rearleft_percent_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_wear_rearleft_percent",
                     PilotName = "IntegrationTest_twear_rearleft",
@@ -25,7 +25,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_wear_rearright_percent_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_wear_rearright_percent",
                     PilotName = "IntegrationTest_twear_rearright",
@@ -41,7 +41,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_wear_frontright_percent_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_wear_frontright_percent",
                     PilotName = "IntegrationTest_twear_frontright",
@@ -57,7 +57,7 @@
             [Fact]
             public void GIVEN_pitwall_tyres_wear_frontleft_percent_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_tyres_wear_frontleft_percent",
                     PilotName = "IntegrationTest_twear_frontleft",

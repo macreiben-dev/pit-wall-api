@@ -11,7 +11,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
     {
         private const string PilotLabel = "Pilot";
 
-        public static void GIVEN_metric_THEN_read_from_timeSerie(IContext testContext, string targetApi, string timeSerieUri)
+        public static void GIVEN_metric_THEN_read_from_timeSerie(ITelemetryContext testContext, string targetApi, string timeSerieUri)
         {
 
             Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + testContext);

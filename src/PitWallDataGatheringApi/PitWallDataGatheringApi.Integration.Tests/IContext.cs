@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Integration.Tests
 {
-    public interface IContext
+    public interface ITelemetryContext
     {
         object Expected { get; }
         string MetricName { get; }

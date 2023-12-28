@@ -136,6 +136,34 @@ namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 
             Check.That(actual.Description).IsEqualTo(expected);
         }
+
+        [Fact]
+        public void GIVEN_gauge_create_AND_serieNameFormat_toBeCreated_THEN_return_previously_created_gauge()
+        {
+            var target = GetTarget();
+
+            var serie = new SerieDescriptor()
+            {
+                SerieName = "Serie01",
+                SerieDescription = "Some serie description",
+                Labels = new[] { "label1", "label2" }
+            };
+
+            string originalFormat = "some_position{0}_inrace_metric";
+            string description = "some_description{0}";
+
+            var actualInitial = target.CreateLeaderboardGauge(originalFormat,
+                description,
+                13,
+                serie.Labels);
+
+            var actualSecond = target.CreateLeaderboardGauge(originalFormat,
+                description,
+                13,
+                serie.Labels);
+
+            Check.That(actualSecond.GetHashCode()).IsEqualTo(actualInitial.GetHashCode());
+        }
     }
 
     public readonly record struct SerieDescriptor(

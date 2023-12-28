@@ -11,7 +11,7 @@
             [Fact]
             public void GIVEN_pitwall_road_wetness_avg_percent_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_road_wetness_avg_percent",
                     PilotName = "IntegrationTest_roadWetness",
@@ -27,7 +27,7 @@
             [Fact]
             public void GIVEN_pitwall_laptimes_seconds_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_laptimes_seconds",
                     PilotName = "IntegrationTest_laptime",
@@ -43,7 +43,7 @@
             [Fact]
             public void GIVEN_pitwall_air_temperature_celsius_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_air_temperature_celsius",
                     PilotName = "IntegrationTest_airTemp",
@@ -59,7 +59,7 @@
             [Fact]
             public void GIVEN_pitwall_track_temperature_celsius_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_track_temperature_celsius",
                     PilotName = "IntegrationTest_trackTemp",

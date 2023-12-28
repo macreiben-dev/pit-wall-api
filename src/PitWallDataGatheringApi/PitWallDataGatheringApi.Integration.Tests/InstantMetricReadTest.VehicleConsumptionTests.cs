@@ -9,7 +9,7 @@
             [Fact]
             public void GIVEN_pitwall_computed_lastlapconsumption_volume_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_computed_lastlapconsumption_volume",
                     PilotName = "IntegrationTest_lastlapconsumption",
@@ -25,7 +25,7 @@
             [Fact]
             public void GIVEN_pitwall_computed_consumedfuelperlap_volume_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_computed_consumedfuelperlap_volume",
                     PilotName = "IntegrationTest_consumerfuelperlap",
@@ -41,7 +41,7 @@
             [Fact]
             public void GIVEN_pitwall_computed_remaininglap_volume_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_computed_remaininglap_volume",
                     PilotName = "IntegrationTest_remaininglap_volume",
@@ -57,7 +57,7 @@
             [Fact]
             public void GIVEN_pitwall_fuel_volume_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_fuel_volume",
                     PilotName = "IntegrationTest_fuelvol",
@@ -73,7 +73,7 @@
             [Fact]
             public void GIVEN_pitwall_maxfuel_volume_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_maxfuel_volume",
                     PilotName = "IntegrationTest_maxfuelvol",
@@ -89,7 +89,7 @@
             [Fact]
             public void GIVEN_pitwall_computed_remainingtimeonfuel_seconds_THEN_read_from_timeSerie()
             {
-                var context = new Context(SimerKey)
+                var context = new TelemetryContext(SimerKey)
                 {
                     MetricName = "pitwall_computed_remainingtimeonfuel_seconds",
                     PilotName = "IntegrationTest_rtimefuel",

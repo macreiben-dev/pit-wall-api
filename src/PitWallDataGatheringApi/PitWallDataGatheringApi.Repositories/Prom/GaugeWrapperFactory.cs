@@ -24,10 +24,6 @@ namespace PitWallDataGatheringApi.Repositories.Prom
                 description,
                 labels);
 
-            string concatedLabels = string.Join(",", labels);
-
-            _logger.LogInformation($"Prom gauge created - [{serieName}] - [{concatedLabels}] - [{description}]");
-
             return created;
         }
 
@@ -51,13 +47,9 @@ namespace PitWallDataGatheringApi.Repositories.Prom
                 description,
                 formatedPositionInRace);
 
-            var actualSerie = new GaugeWrapper(
-                formatedSerieName,
-                formatedDescription,
-                labels,
-                _gaugeLogger);
+            var created = CreateGauge(formatedSerieName, formatedDescription, labels);
 
-            return actualSerie;
+            return created;
         }
 
         private static string FormatWithPositionOneLeadingZero(int positionInRace)
@@ -75,6 +67,10 @@ namespace PitWallDataGatheringApi.Repositories.Prom
             var actualSerie = new GaugeWrapper(serieName, description, labels, _gaugeLogger);
 
             _allGauges.Add(serieName, actualSerie);
+
+            string concatedLabels = string.Join(",", labels);
+
+            _logger.LogInformation($"Prom gauge created - [{serieName}] - [{concatedLabels}] - [{description}]");
 
             return _allGauges[serieName];
         }

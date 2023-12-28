@@ -5,6 +5,8 @@ using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Services.Telemetries;
+using PitWallDataGatheringApi.Services.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards;
 
 namespace PitWallDataGatheringApi
 {
@@ -38,6 +40,10 @@ namespace PitWallDataGatheringApi
 
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
             services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
+
+            services.AddSingleton<ILeaderBoardService, LeaderboardService>();
+            services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
+            services.AddSingleton<ILeaderboardCarNumberRepository, LeaderboardCarNumberRepository>();
 
             services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
 

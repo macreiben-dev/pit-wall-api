@@ -2,11 +2,11 @@
 
 namespace PitWallDataGatheringApi.Integration.Tests
 {
-    public sealed class Context : IContext
+    public sealed class TelemetryContext : ITelemetryContext
     {
         public string _simerKey = null;
 
-        public Context(string simerKey)
+        public TelemetryContext(string simerKey)
         {
             _simerKey = simerKey;
         }

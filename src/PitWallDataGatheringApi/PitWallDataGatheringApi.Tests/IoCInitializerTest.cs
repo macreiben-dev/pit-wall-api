@@ -18,6 +18,7 @@ namespace PitWallDataGatheringApi.Tests
             builder.Services.AddSingleton<SeriesDocumentationController>();
             builder.Services.AddSingleton<TelemetryController>();
             builder.Services.AddSingleton<HealthCheckController>();
+            builder.Services.AddSingleton<LeaderboardController>();
 
             IoCInitializer.Initialize(builder.Services);
 
