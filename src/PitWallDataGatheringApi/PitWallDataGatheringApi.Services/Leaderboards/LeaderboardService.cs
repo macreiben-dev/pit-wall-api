@@ -19,7 +19,13 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                 throw new ArgumentNullException(nameof(leaderboardModel));
             }
 
-            _carNumberRepo.Update(leaderboardModel.First(), leaderboardModel.PilotName, leaderboardModel.CarName);
+            foreach(var entry in leaderboardModel)
+            {
+                _carNumberRepo.Update(
+                    entry, 
+                    leaderboardModel.PilotName, 
+                    leaderboardModel.CarName);
+            }
         }
     }
 }

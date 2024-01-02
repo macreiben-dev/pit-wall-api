@@ -16,7 +16,10 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
             _gaugeFactory = gaugeFactory;
         }
 
-        public void Update(ILeaderboardEntry entry, PilotName pilotName, CarName carName)
+        public void Update(
+            ILeaderboardEntry entry, 
+            PilotName pilotName, 
+            CarName carName)
         {
             var gauge = _gaugeFactory.CreateLeaderboardGauge(
                      LocalSerieNameFormat,
