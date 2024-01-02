@@ -16,7 +16,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                     MetricName = "pitwall_tyres_wear_rearleft_percent",
                     PilotName = "IntegrationTest_twear_rearleft",
                     CarName = CarName,
-                    SetFieldValue = t => t.TyresWear.ReartLeftWear = 60.0,
+                    SetFieldValue = t => t.TyresWear.RearLeftWear = 60.0,
                     GetApiModelInstance = () => ModelWithTyreWear(),
                     Expected = 60.0
                 };

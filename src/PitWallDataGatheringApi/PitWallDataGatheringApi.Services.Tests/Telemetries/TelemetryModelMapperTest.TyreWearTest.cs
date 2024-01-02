@@ -52,7 +52,7 @@ namespace PitWallDataGatheringApi.Tests.Services
 
                 double expected = 52.0;
 
-                source.TyresWear.ReartLeftWear = expected;
+                source.TyresWear.RearLeftWear = expected;
 
                 var target = GetTarget();
 
