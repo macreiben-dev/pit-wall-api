@@ -8,17 +8,12 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
     {
         private readonly IGauge _gauge;
 
-        public TrackEmperatureRepository(IGaugeWrapperFactory _gaugeFactory)
+        public TrackEmperatureRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
                 "pitwall_track_temperature_celsius",
                 "Track temperature in celsius",
                 ConstantLabels.Labels);
-        }
-
-        public void Update(double? data, string pilotName, CarName carName)
-        {
-            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void Update(MetricData<double?> metric)

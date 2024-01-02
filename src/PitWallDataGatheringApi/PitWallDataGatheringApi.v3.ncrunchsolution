@@ -3,6 +3,10 @@
     <AllowParallelTestExecution>True</AllowParallelTestExecution>
     <MetricsExclusionList>
       <Value>PitWallDataGatheringApi.Tests\PitWallDataGatheringApi.Tests.csproj</Value>
+      <Value>PitWallDataGatheringApi.Repositories.Tests\PitWallDataGatheringApi.Repositories.Tests.csproj</Value>
+      <Value>PitWallDataGatheringApi.Models.Tests\PitWallDataGatheringApi.Models.Tests.csproj</Value>
+      <Value>PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj</Value>
+      <Value>PitWallDataGatheringApi.Services.Tests\PitWallDataGatheringApi.Services.Tests.csproj</Value>
     </MetricsExclusionList>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>

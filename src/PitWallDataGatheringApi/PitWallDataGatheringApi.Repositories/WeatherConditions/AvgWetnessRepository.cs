@@ -9,7 +9,7 @@ namespace PitWallDataGatheringApi.Repositories.WeatherConditions
         private const string LocalSerieName = "pitwall_road_wetness_avg_percent";
         private readonly IGauge _gauge;
 
-        public AvgWetnessRepository(IGaugeWrapperFactory gaugeFactory)
+        public AvgWetnessRepository(IGaugeFactory gaugeFactory)
         {
             _gauge = gaugeFactory.Create(
                LocalSerieName,

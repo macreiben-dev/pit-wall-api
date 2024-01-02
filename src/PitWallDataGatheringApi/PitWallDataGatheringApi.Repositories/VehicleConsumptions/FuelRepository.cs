@@ -10,7 +10,7 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 
         private string Description => "Fuel volume in tank.";
 
-        public FuelRepository(IGaugeWrapperFactory _gaugeFactory)
+        public FuelRepository(IGaugeFactory _gaugeFactory)
         {
             _gauge = _gaugeFactory.Create(
               LocalSerieName,

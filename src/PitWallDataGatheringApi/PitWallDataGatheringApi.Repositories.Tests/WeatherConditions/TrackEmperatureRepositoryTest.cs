@@ -1,6 +1,7 @@
 ﻿using NFluent;
 using NSubstitute;
 using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 
@@ -8,13 +9,13 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
 {
     public class TrackEmperatureRepositoryTest
     {
-        private IGaugeWrapperFactory _gaugeFactory;
+        private IGaugeFactory _gaugeFactory;
         private IGauge _gaugeWrapper;
 
         public TrackEmperatureRepositoryTest()
         {
 
-            _gaugeFactory = Substitute.For<IGaugeWrapperFactory>();
+            _gaugeFactory = Substitute.For<IGaugeFactory>();
 
             _gaugeWrapper = Substitute.For<IGauge>();
 
@@ -49,7 +50,9 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
             // ACT
             var target = GetTarget();
 
-            target.Update(13.3, "thePilotName01", new CarName("32"));
+            var metric = new MetricData<double?>(13.3, new PilotName("thePilotName01"), new CarName("32"));
+
+            target.Update(metric);
 
             // ASSERT
             Check.That(actualLabels).ContainsExactly(originalLabels);
@@ -75,7 +78,9 @@ namespace PitWallDataGatheringApi.Tests.Repositories.WeatherConditions
             // ACT
             var target = GetTarget();
 
-            target.Update(13.3, "thePilotName01", new CarName(null));
+            var metric = new MetricData<double?>(13.3, new PilotName("thePilotName01"), CarName.Null());
+
+            target.Update(metric);
 
             // ASSERT
             Check.That(actualLabels).ContainsExactly(originalLabels);

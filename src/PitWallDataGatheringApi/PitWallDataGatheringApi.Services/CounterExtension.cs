@@ -10,14 +10,5 @@
                 action();
             }
         }
-
-        public static void WhenHasValue(this object source, Action action)
-
-        {
-            if (source != null)
-            {
-                action();
-            }
-        }
     }
 }

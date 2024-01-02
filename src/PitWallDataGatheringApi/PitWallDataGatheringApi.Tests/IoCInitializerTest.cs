@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using NFluent;
 using PitWallDataGatheringApi.Controllers;
+using PitWallDataGatheringApi.Controllers.v1;
 
 namespace PitWallDataGatheringApi.Tests
 {
@@ -17,6 +18,7 @@ namespace PitWallDataGatheringApi.Tests
             builder.Services.AddSingleton<SeriesDocumentationController>();
             builder.Services.AddSingleton<TelemetryController>();
             builder.Services.AddSingleton<HealthCheckController>();
+            builder.Services.AddSingleton<LeaderboardController>();
 
             IoCInitializer.Initialize(builder.Services);
 
