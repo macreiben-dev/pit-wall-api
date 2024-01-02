@@ -9,6 +9,8 @@ namespace PitWallDataGatheringApi.Integration.Tests
         public TelemetryContext(string simerKey)
         {
             _simerKey = simerKey;
+            MetricName = null;
+            PilotName = null;
         }
 
         public string? MetricName { get; set; }

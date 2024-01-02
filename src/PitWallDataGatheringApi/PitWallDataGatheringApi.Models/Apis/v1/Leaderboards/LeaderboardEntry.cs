@@ -29,10 +29,10 @@ GarySwallowDataPlugin.Leaderboard.Position10.InPitLane
     {
         public int Position { get; set; }
 
-        public string CarClass { get; set; }
+        public string? CarClass { get; set; }
 
         public int CarNumber { get; set; }
-        public string CarName { get; set; }
+        public string? CarName { get; set; }
 
         public double? LastLapInSeconds { get; set; }
 

@@ -1,6 +1,8 @@
-﻿namespace PitWallDataGatheringApi.Integration.Tests
+﻿using PitWallDataGatheringApi.Integration.Tests.Telemetries;
+
+namespace PitWallDataGatheringApi.Integration.Tests
 {
-    public partial class InstantMetricReadTest
+    public partial class InstantMetricLeaderboardReadTest
     {
         public class VehicleConsumptionTests
         {

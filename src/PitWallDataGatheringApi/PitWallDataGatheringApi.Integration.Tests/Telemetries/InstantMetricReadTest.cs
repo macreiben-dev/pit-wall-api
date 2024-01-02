@@ -2,7 +2,7 @@ using PitWallDataGatheringApi.Models.Apis.v1;
 
 namespace PitWallDataGatheringApi.Integration.Tests
 {
-    public partial class InstantMetricReadTest
+    public partial class InstantMetricLeaderboardReadTest
     {
         private const string TimeSerieUri = "http://localhost:10100";
         private const string TargetApi = "http://localhost:32773";
