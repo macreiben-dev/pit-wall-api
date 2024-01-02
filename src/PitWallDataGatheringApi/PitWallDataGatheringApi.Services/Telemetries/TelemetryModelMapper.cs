@@ -85,7 +85,7 @@ namespace PitWallDataGatheringApi.Services.Telemetries
                 {
                     FrontLeftWear = source.FrontLeftWear,
                     FrontRightWear = source.FrontRightWear,
-                    ReartLeftWear = source.ReartLeftWear,
+                    ReartLeftWear = source.RearLeftWear,
                     RearRightWear = source.RearRightWear,
                 };
             }
@@ -110,7 +110,7 @@ namespace PitWallDataGatheringApi.Services.Telemetries
             return source != null && (
                 source.FrontLeftWear.HasValue
                 || source.FrontRightWear.HasValue
-                || source.ReartLeftWear.HasValue
+                || source.RearLeftWear.HasValue
                 || source.RearRightWear.HasValue);
         }
 
