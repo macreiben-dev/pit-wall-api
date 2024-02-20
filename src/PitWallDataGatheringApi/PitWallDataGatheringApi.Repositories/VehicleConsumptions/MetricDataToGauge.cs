@@ -1,4 +1,4 @@
-﻿using PitWallDataGatheringApi.Repositories.Prom;
+﻿using PitWallDataGatheringApi.Repositories.Gauges.Prom;
 
 namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 {

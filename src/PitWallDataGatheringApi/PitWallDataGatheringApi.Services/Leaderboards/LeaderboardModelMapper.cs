@@ -7,6 +7,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
 {
     public class LeaderboardModelMapper : ILeaderboardModelMapper
     {
+        private const string NOT_AVAILABLE = "NA";
+
         public IBusinessLeaderBoardModel Map(LeaderboardModel source)
         {
             BusinessLeaderBoardModel output = new BusinessLeaderBoardModel();
@@ -20,8 +22,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                 var entry = new BusinessLeaderBoardEntry()
                 {
                     LastPitLap = item.LastPitLap,
-                    CarClass = item.CarClass,
-                    CarNumber = item.CarNumber,
+                    CarClass = item.CarClass ?? NOT_AVAILABLE,
+                    CarNumber = item.CarNumber ?? "NA",
                     Position = item.Position,
                 };
 

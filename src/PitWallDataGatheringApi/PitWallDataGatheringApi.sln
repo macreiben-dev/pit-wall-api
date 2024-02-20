@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Mod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{800D3DA2-3631-4B83-BDA0-0099497C9043}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Repositories.Integration.Tests", "PitWallDataGatheringApi.Repositories.Integration.Tests\PitWallDataGatheringApi.Repositories.Integration.Tests.csproj", "{886D859F-6C2F-4002-B0DA-44AFE3E38176}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{4C8248FA-0B12-4D00-8B1E-113942520405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C8248FA-0B12-4D00-8B1E-113942520405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C8248FA-0B12-4D00-8B1E-113942520405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D2C8222F-B531-40A4-A43A-A1F4543557EB} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 		{1C844491-3CE5-4D9B-89E7-86BE8C27CE9E} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
+		{886D859F-6C2F-4002-B0DA-44AFE3E38176} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6974FC9E-EA8C-4D88-A746-EA0D485A72F0}

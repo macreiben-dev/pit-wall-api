@@ -9,7 +9,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus
-      - prom_data:/prometheus
+      - /mnt/pitwall/prometheus:/prometheus
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -21,6 +21,19 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
+  sqldatabase:
+    image: mysql
+    command: --default-authentication-plugin caching_sha2_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - /mnt/databases/mysql:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
   vortex:
     image: pitwalldatagatheringapi:latest
     container_name: pitwalldatagatheringapi
@@ -31,5 +44,3 @@ services:
     ports:
       - 32773:80
      # - 32772:443
-volumes:
-  prom_data:

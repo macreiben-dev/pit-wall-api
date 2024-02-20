@@ -11,7 +11,7 @@
             get;
         }
 
-        int CarNumber { get; }
+        string CarNumber { get; }
 
         int Position { get; }
     }

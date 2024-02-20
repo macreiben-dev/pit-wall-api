@@ -5,11 +5,11 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
 {
     public sealed class LeaderboardService : ILeaderBoardService
     {
-        private ILeaderboardCarNumberRepository _carNumberRepo;
+        private ILeaderboardRepository _leaderboardRepo;
 
-        public LeaderboardService(ILeaderboardCarNumberRepository leaderboardCarNumberRepository)
+        public LeaderboardService(ILeaderboardRepository leaderboardCarNumberRepository)
         {
-            _carNumberRepo = leaderboardCarNumberRepository;
+            _leaderboardRepo = leaderboardCarNumberRepository;
         }
 
         public void Update(ILeaderboardModel leaderboardModel)
@@ -19,13 +19,7 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                 throw new ArgumentNullException(nameof(leaderboardModel));
             }
 
-            foreach(var entry in leaderboardModel)
-            {
-                _carNumberRepo.Update(
-                    entry, 
-                    leaderboardModel.PilotName, 
-                    leaderboardModel.CarName);
-            }
+            _leaderboardRepo.Update(leaderboardModel);
         }
     }
 }

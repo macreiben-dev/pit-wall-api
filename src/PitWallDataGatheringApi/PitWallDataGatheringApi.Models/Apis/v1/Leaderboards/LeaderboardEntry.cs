@@ -31,7 +31,7 @@ GarySwallowDataPlugin.Leaderboard.Position10.InPitLane
 
         public string? CarClass { get; set; }
 
-        public int CarNumber { get; set; }
+        public string? CarNumber { get; set; }
         public string? CarName { get; set; }
 
         public double? LastLapInSeconds { get; set; }

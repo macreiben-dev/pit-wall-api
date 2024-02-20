@@ -21,7 +21,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                     {
                         CarClass = "GTE",
                         CarName = "some_CarNumber",
-                        CarNumber = 53,
+                        CarNumber = "53",
                         Position = 22
                     })
                     .ShouldAssertMetric("pitwall_leaderboard_position22_carnumber", 53.0);

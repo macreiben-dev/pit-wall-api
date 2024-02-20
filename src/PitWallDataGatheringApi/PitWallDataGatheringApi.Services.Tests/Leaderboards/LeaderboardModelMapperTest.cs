@@ -13,7 +13,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
     {
         private const int LastPitLapValue = 4;
         private const string CarClassValue = "GTE";
-        private const int CarNumberValue = 13;
+        private const string CarNumberValue = "13";
         private const int PositionValue = 5;
         private const string PilotName = "somePilotName";
         private const string CarName = "someCarName";
@@ -110,6 +110,16 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             var intermediary = actual.FirstOrDefault(c => c.Position == PositionValue);
 
             Check.That(intermediary).IsNotNull();
+        }
+
+        [Fact]
+        public void GIVEN_carClass_isNull_THEN_map_NA()
+        {
+            _source.Entries.First().CarClass = null;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().CarClass).IsEqualTo("NA");
         }
     }
 }

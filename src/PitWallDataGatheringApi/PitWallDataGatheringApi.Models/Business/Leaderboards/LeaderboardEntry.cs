@@ -6,7 +6,7 @@
 
         public string CarClass { get; set; }
 
-        public int CarNumber { get; set; }
+        public string CarNumber { get; set; }
 
         public int Position { get; set; }
     }

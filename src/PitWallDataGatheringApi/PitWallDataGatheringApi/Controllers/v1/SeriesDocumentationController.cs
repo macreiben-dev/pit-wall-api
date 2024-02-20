@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.Gauges;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {

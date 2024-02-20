@@ -3,10 +3,11 @@ using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
-using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Services.Telemetries;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Gauges;
+using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 
 namespace PitWallDataGatheringApi
 {
@@ -43,7 +44,7 @@ namespace PitWallDataGatheringApi
 
             services.AddSingleton<ILeaderBoardService, LeaderboardService>();
             services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
-            services.AddSingleton<ILeaderboardCarNumberRepository, LeaderboardCarNumberRepository>();
+            services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
 
             services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
 
