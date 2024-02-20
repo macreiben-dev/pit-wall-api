@@ -49,6 +49,8 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
 
             services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
+
+            services.AddSingleton<ILeaderboardConnectionString, LeaderboardConnectionString>();
         }
     }
 }
