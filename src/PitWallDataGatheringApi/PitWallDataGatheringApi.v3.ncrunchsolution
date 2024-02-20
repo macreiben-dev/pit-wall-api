@@ -12,9 +12,9 @@
   </Settings>
   <EngineModes>
     <EngineMode>
-      <Name>Integration on demands impacted auto</Name>
+      <Name>Impacted, no integration tests</Name>
       <Settings>
-        <TestsToExecuteAutomatically>ProjectNameDoesNotMatchRegex '*Integration.Tests'</TestsToExecuteAutomatically>
+        <TestsToExecuteAutomatically>(ProjectNameDoesNotMatchRegex 'Integration\\.Tests$' AND IsImpacted)</TestsToExecuteAutomatically>
       </Settings>
     </EngineMode>
   </EngineModes>
