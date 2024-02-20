@@ -1,7 +1,9 @@
 ﻿<ProjectConfiguration>
   <Settings>
     <IgnoredTests>
-      <AllTestsSelector />
+      <FixtureTestSelector>
+        <FixtureName>PitWallDataGatheringApi.Repositories.Integration.Tests.UnitTest1</FixtureName>
+      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

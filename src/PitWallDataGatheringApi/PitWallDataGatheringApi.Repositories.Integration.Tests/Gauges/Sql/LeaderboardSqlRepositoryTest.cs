@@ -6,15 +6,13 @@ namespace PitWallDataGatheringApi.Repositories.Integration.Tests.Gauges.Sql
 {
     public class LeaderboardSqlRepositoryTest
     {
-        private const string LocalSerieNameFormat = "pitwall_leaderboard_position{0}_carnumber";
-        private const string LocalDescrptionFormat = "Entry information for position {0}.";
         private const int EntryPosition = 13;
 
-        private const string SqlConnectionString = "Server=localhost;Database=YourDatabaseName;User=root;Password=some_password;ConvertZeroDateTime=True;";
+        private const string SqlConnectionString = "Server=localhost;Port=3306;Database=pitwall_leaderboard;User=root;Password=password;ConvertZeroDateTime=True;";
 
         private LeaderboardSqlRepository GetTarget()
         {
-            return new LeaderboardSqlRepository();
+            return new LeaderboardSqlRepository(new FakeConnectionString(SqlConnectionString));
         }
 
         public LeaderboardSqlRepositoryTest() {
@@ -60,7 +58,7 @@ namespace PitWallDataGatheringApi.Repositories.Integration.Tests.Gauges.Sql
             target.Update(model);
 
             // ASSERT
-            throw new NotImplementedException();
+            var actual = GetFrom(model);
         }
 
 
