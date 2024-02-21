@@ -7,6 +7,7 @@ using PitWallDataGatheringApi.Controllers.v1;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using ApiModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
@@ -22,6 +23,7 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         private ISimerKeyRepository _simerKeyReposity;
         private ILeaderBoardService _service;
         private IAuthenticatePayloadService _authenticatePayload;
+        private IReadLeaderboardRepository _repoReadLeaderboardRepo;
 
         public LeaderboardControllerTest()
         {
@@ -32,11 +34,13 @@ namespace PitWallDataGatheringApi.Tests.Controllers
             _service = Substitute.For<ILeaderBoardService>();
 
             _authenticatePayload = Substitute.For<IAuthenticatePayloadService>();
+
+            _repoReadLeaderboardRepo = Substitute.For<IReadLeaderboardRepository>();
         }
 
         private LeaderboardController GetTarget()
         {
-            return new LeaderboardController(_mapper, _authenticatePayload, _service);
+            return new LeaderboardController(_mapper, _authenticatePayload, _service, _repoReadLeaderboardRepo);
         }
 
         [Fact]

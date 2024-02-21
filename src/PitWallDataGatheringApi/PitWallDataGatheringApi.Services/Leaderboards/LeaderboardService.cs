@@ -12,6 +12,11 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             _leaderboardRepo = leaderboardCarNumberRepository;
         }
 
+        public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(ILeaderboardModel leaderboardModel)
         {
             if(leaderboardModel == null)

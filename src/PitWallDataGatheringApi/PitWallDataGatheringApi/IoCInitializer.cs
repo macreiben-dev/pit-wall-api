@@ -46,6 +46,8 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
             services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
 
+            services.AddSingleton<IReadLeaderboardRepository, ReadLeaderboardRepository>();
+
             services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
 
             services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
