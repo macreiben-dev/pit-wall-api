@@ -1,6 +1,5 @@
 ﻿using NFluent;
 using NSubstitute;
-using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Services.Leaderboards;
 

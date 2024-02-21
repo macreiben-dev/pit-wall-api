@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks.Dataflow;
-
-namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
+﻿namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 {
     public sealed class LeaderboardReadData
     {

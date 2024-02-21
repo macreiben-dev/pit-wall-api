@@ -1,8 +1,5 @@
 ﻿using ApiLeaderboardModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
 using ApiLeaderboardEntry = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardEntry;
-
-using BusinessLeaderboardModel = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardModel;
-using BusinessLeaderboardEntry = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardEntry;
 using NFluent;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using PitWallDataGatheringApi.Models;

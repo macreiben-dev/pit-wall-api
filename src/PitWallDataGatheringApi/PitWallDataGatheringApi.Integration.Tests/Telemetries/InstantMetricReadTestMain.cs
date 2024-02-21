@@ -1,8 +1,6 @@
-﻿using Newtonsoft.Json;
-using NFluent;
+﻿using NFluent;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using System.Diagnostics;
-using System.Globalization;
 using System.Net;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Telemetries

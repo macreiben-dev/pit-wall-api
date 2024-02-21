@@ -36,7 +36,6 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
             Check.That(_actual.Count()).IsEqualTo(2);
         }
 
-
         [Fact]
         public async void GIVEN_pitwall_leaderboard_THEN_persisted_metric_carClass_is_valid()
         {

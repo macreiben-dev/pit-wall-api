@@ -2,8 +2,6 @@
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using System.Data;
-using System.Reflection.Metadata.Ecma335;
-using ZstdSharp.Unsafe;
 
 namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {

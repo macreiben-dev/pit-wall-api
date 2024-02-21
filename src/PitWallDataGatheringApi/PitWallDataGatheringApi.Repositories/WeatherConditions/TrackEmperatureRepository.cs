@@ -1,5 +1,4 @@
-﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Repositories.Gauges;
+﻿using PitWallDataGatheringApi.Repositories.Gauges;
 using PitWallDataGatheringApi.Repositories.Gauges.Prom;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
