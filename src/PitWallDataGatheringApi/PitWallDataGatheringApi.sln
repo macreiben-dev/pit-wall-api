@@ -29,7 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Mod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{800D3DA2-3631-4B83-BDA0-0099497C9043}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitWallDataGatheringApi.Repositories.Integration.Tests", "PitWallDataGatheringApi.Repositories.Integration.Tests\PitWallDataGatheringApi.Repositories.Integration.Tests.csproj", "{886D859F-6C2F-4002-B0DA-44AFE3E38176}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Repositories.Integration.Tests", "PitWallDataGatheringApi.Repositories.Integration.Tests\PitWallDataGatheringApi.Repositories.Integration.Tests.csproj", "{886D859F-6C2F-4002-B0DA-44AFE3E38176}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +84,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{022A3D3D-47EB-41C2-A9B0-A2EA52EE3D38} = {78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}
+		{29DE70B4-13DE-4D0A-8E37-2E9EAB252395} = {78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}
+		{9D914C92-ED59-481A-9114-06C849A33B3C} = {78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}
 		{D2C8222F-B531-40A4-A43A-A1F4543557EB} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 		{1C844491-3CE5-4D9B-89E7-86BE8C27CE9E} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 		{886D859F-6C2F-4002-B0DA-44AFE3E38176} = {800D3DA2-3631-4B83-BDA0-0099497C9043}

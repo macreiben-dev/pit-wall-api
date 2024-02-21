@@ -1,4 +1,6 @@
-﻿namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
+﻿using PitWallDataGatheringApi.Repositories.Gauges.Sql;
+
+namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {
     public sealed class MetricNameFromPositionBuilder
     {

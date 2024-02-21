@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards;
 using System.Data;
 
 namespace PitWallDataGatheringApi.Repositories.Gauges.Sql

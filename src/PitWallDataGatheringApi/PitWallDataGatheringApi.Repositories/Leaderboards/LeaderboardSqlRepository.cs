@@ -1,11 +1,11 @@
 ﻿using MySql.Data.MySqlClient;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using System.Data;
 using System.Reflection.Metadata.Ecma335;
 using ZstdSharp.Unsafe;
 
-namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
+namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {
     public sealed class LeaderboardSqlRepository : ILeaderboardRepository
     {
@@ -27,7 +27,7 @@ namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
             {
                 connection.Open();
 
-                using (var transaction = connection.BeginTransaction(System.Data.IsolationLevel.ReadUncommitted))
+                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted))
                 {
 
                     var sql = @"INSERT INTO metric_leaderboard(pilot_name, car_name, data_tick, metric_name, metric_value) 
