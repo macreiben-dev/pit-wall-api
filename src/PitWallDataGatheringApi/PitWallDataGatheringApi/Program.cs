@@ -1,5 +1,6 @@
 using PitWallDataGatheringApi;
 using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Leaderboards;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,9 @@ var app = builder.Build();
 
 var simerKey = app.Services.GetService<ISimerKeyRepository>()
     .Key;
+
+app.Services.GetService<ILeaderboardDatabaseInitializer>().Init();
+
 
 if (string.IsNullOrEmpty(simerKey))
 {

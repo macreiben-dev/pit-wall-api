@@ -53,6 +53,8 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
 
             services.AddSingleton<ILeaderboardConnectionString, LeaderboardConnectionString>();
+
+            services.AddSingleton<ILeaderboardDatabaseInitializer, LeaderboardDatabaseInitializer>();
         }
     }
 }

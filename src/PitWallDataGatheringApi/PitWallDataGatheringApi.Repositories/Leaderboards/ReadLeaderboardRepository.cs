@@ -20,6 +20,8 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
             {
                 connection.Open();
 
+                connection.ChangeDatabase("pitwall_leaderboard");
+
                 var query = @"
                     SELECT 
                         metric_name MetricName, 

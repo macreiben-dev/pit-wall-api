@@ -28,7 +28,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted))
                 {
 
-                    var sql = @"INSERT INTO metric_leaderboard(pilot_name, car_name, data_tick, metric_name, metric_value) 
+                    var sql = @"INSERT INTO pitwall_leaderboard.metric_leaderboard(pilot_name, car_name, data_tick, metric_name, metric_value) 
                     VALUES(@pilot_name, @car_name, @data_tick, @metric_name, @metric_value)";
 
                     foreach (var entry in model)
