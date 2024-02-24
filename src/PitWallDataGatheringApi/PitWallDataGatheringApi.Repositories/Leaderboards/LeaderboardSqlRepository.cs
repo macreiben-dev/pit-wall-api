@@ -34,7 +34,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
                     foreach (var entry in model)
                     {
                         {
-                            var commandBuilder = new DbCommandBuilder(model, actualTick, connection, sql);
+                            var commandBuilder = new DbMetricCommandBuilder(model, actualTick, connection, sql);
 
                             commandBuilder.WithMetricNameFormat(SerieNameCarNumberFormat)
                                 .AndPositionValue(entry.Position)
@@ -46,7 +46,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
                         }
 
                         {
-                            var commandBuilder = new DbCommandBuilder(model, actualTick, connection, sql);
+                            var commandBuilder = new DbMetricCommandBuilder(model, actualTick, connection, sql);
 
                             commandBuilder.WithMetricNameFormat(SerieNameCarClassFormat)
                                 .AndPositionValue(entry.Position)

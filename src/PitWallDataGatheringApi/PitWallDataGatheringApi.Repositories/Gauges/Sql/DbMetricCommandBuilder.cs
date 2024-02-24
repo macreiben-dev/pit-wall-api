@@ -5,7 +5,7 @@ using System.Data;
 
 namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
 {
-    public class DbCommandBuilder
+    public class DbMetricCommandBuilder
     {
         private const string ParameterPilotName = "pilot_name";
         private const string ParameterCarName = "car_name";
@@ -19,7 +19,7 @@ namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
         private MetricNameFromPositionBuilder _metricNameFromPosition;
         private string _metricValue;
 
-        public DbCommandBuilder(
+        public DbMetricCommandBuilder(
             ILeaderboardModel model,
             long actualTick,
             MySqlConnection connection,
@@ -33,14 +33,14 @@ namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
             return new MetricNameFromPositionBuilder(this, metricNameFormat);
         }
 
-        public DbCommandBuilder WithMetricFormatNameBuilder(MetricNameFromPositionBuilder metricNameFromPosition)
+        public DbMetricCommandBuilder WithMetricFormatNameBuilder(MetricNameFromPositionBuilder metricNameFromPosition)
         {
             _metricNameFromPosition = metricNameFromPosition;
 
             return this;
         }
 
-        public DbCommandBuilder WithMetricValue(string metricValue)
+        public DbMetricCommandBuilder WithMetricValue(string metricValue)
         {
             _metricValue = metricValue;
 

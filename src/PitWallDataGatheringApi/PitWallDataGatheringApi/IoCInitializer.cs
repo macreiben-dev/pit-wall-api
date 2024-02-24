@@ -45,6 +45,7 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<ILeaderBoardService, LeaderboardService>();
             services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
             services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
+            services.AddSingleton<ILeaderboardLivetimingSqlRepository, LeaderboardLivetimingSqlRepository>();
 
             services.AddSingleton<IReadLeaderboardRepository, ReadLeaderboardRepository>();
 

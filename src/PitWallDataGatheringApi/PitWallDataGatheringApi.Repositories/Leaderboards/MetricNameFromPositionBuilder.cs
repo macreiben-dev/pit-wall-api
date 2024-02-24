@@ -4,17 +4,17 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {
     public sealed class MetricNameFromPositionBuilder
     {
-        private readonly DbCommandBuilder commandbuilder;
+        private readonly DbMetricCommandBuilder commandbuilder;
         private readonly string metricNameFormat;
         private int _positionValue;
 
-        public MetricNameFromPositionBuilder(DbCommandBuilder commandbuilder, string metricNameFormat)
+        public MetricNameFromPositionBuilder(DbMetricCommandBuilder commandbuilder, string metricNameFormat)
         {
             this.commandbuilder = commandbuilder;
             this.metricNameFormat = metricNameFormat;
         }
 
-        public DbCommandBuilder AndPositionValue(int positionValue)
+        public DbMetricCommandBuilder AndPositionValue(int positionValue)
         {
             _positionValue = positionValue;
 

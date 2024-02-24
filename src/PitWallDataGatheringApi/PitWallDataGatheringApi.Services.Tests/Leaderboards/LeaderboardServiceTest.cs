@@ -8,16 +8,19 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
     public partial class LeaderboardServiceTest
     {
         private ILeaderboardRepository _repo;
+        private ILeaderboardLivetimingSqlRepository _liveRepo;
 
         public LeaderboardServiceTest()
         {
 
             _repo = Substitute.For<ILeaderboardRepository>();
+
+            _liveRepo = Substitute.For<ILeaderboardLivetimingSqlRepository>();
         }
 
         private ILeaderBoardService GetTarget()
         {
-            return new LeaderboardService(_repo);
+            return new LeaderboardService(_repo, _liveRepo);
         }
 
         [Fact]

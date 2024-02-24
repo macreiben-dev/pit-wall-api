@@ -6,10 +6,13 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
     public sealed class LeaderboardService : ILeaderBoardService
     {
         private ILeaderboardRepository _leaderboardRepo;
+        private ILeaderboardLivetimingSqlRepository _leaderboardLivetimingRepo;
 
-        public LeaderboardService(ILeaderboardRepository leaderboardCarNumberRepository)
+        public LeaderboardService(ILeaderboardRepository leaderboardCarNumberRepository, ILeaderboardLivetimingSqlRepository leaderboardLivetiming)
         {
             _leaderboardRepo = leaderboardCarNumberRepository;
+
+            _leaderboardLivetimingRepo = leaderboardLivetiming;
         }
 
         public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
@@ -25,6 +28,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             }
 
             _leaderboardRepo.Update(leaderboardModel);
+
+            _leaderboardLivetimingRepo.Update(leaderboardModel);
         }
     }
 }

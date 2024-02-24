@@ -46,6 +46,26 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
 
                 Task.WaitAll(connection.ExecuteAsync(sql));
             }
+
+            {
+                var sql = @"
+                CREATE TABLE IF NOT EXISTS pitwall_leaderboard.metric_leaderboard_livetiming(
+                    source_pilot_name VARCHAR(50) NOT NULL,
+                    source_car_name VARCHAR(50) NOT NULL,
+                    data_tick BIGINT NOT NULL,
+                    metric_car_class VARCHAR(50) NULL,
+                    metric_car_number VARCHAR(50) NULL,
+                    metric_position VARCHAR(2) NULL
+                );";
+
+                Task.WaitAll(connection.ExecuteAsync(sql));
+            }
+
+            {
+                var sql  = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming ADD INDEX idx_metric_leaderboard_data_query (data_tick, source_pilot_name, source_car_name);";
+
+                Task.WaitAll(connection.ExecuteAsync(sql));
+            }
             _logger.LogInformation("Creating Leaderboard Tables ... DONE");
         }
     }
