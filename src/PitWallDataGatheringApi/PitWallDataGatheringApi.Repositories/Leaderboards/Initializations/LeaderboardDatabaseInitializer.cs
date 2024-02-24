@@ -3,7 +3,7 @@ using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using Dapper;
 using Microsoft.Extensions.Logging;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
 {
     public class LeaderboardDatabaseInitializer : ILeaderboardDatabaseInitializer
     {
@@ -62,7 +62,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
             }
 
             {
-                var sql  = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming ADD INDEX idx_metric_leaderboard_data_query (data_tick, source_pilot_name, source_car_name);";
+                var sql = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming ADD INDEX idx_metric_leaderboard_data_query (data_tick, source_pilot_name, source_car_name);";
 
                 Task.WaitAll(connection.ExecuteAsync(sql));
             }

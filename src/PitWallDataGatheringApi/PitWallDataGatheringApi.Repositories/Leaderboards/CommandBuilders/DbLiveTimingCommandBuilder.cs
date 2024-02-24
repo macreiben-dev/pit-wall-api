@@ -3,7 +3,7 @@ using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using System.Data;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
 {
     public class DbLiveTimingCommandBuilder
     {
@@ -29,7 +29,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
             string sql)
         {
 
-            _command = BuildCommand(model, position, actualTick, connection, sql) ;
+            _command = BuildCommand(model, position, actualTick, connection, sql);
         }
 
         private static IDbCommand BuildCommand(
@@ -72,7 +72,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
 
         public IDbCommand AsCommand()
         {
-            
+
             _command.Parameters.Add(
                 new MySqlParameter(
                     ParameterMetricCarClass,

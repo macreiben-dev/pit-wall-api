@@ -5,9 +5,11 @@ using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 using PitWallDataGatheringApi.Services.Telemetries;
 using PitWallDataGatheringApi.Services.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Reads;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Initializations;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
 namespace PitWallDataGatheringApi
 {

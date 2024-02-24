@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
 using NFluent;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
 namespace PitWallDataGatheringApi.Repositories.Integration.Tests.Gauges.Sql
 {

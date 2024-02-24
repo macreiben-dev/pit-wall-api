@@ -1,4 +1,4 @@
-﻿namespace PitWallDataGatheringApi.Repositories.Leaderboards
+﻿namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
 {
     public interface ILeaderboardDatabaseInitializer
     {

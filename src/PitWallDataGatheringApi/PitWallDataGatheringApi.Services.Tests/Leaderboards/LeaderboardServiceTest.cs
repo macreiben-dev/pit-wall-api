@@ -1,6 +1,6 @@
 ﻿using NFluent;
 using NSubstitute;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 using PitWallDataGatheringApi.Services.Leaderboards;
 
 namespace PitWallDataGatheringApi.Services.Tests.Leaderboards

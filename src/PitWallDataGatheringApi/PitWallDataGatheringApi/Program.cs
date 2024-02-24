@@ -1,6 +1,6 @@
 using PitWallDataGatheringApi;
 using PitWallDataGatheringApi.Repositories;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Initializations;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);

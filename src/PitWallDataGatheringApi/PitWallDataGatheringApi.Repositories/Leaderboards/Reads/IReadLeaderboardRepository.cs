@@ -1,6 +1,6 @@
 ﻿using PitWallDataGatheringApi.Services.Leaderboards;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.Reads
 {
     public interface IReadLeaderboardRepository
     {

@@ -1,9 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
 using System.Data;
 
-namespace PitWallDataGatheringApi.Repositories.Gauges.Sql
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
 {
     public class DbMetricCommandBuilder
     {

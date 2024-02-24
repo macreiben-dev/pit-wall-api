@@ -1,12 +1,28 @@
 ﻿using MySql.Data.MySqlClient;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
+using PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes;
 using System.Data;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
 {
     public sealed class LeaderboardLivetimingSqlRepository : ILeaderboardLivetimingSqlRepository
     {
+        private const string InsertStatement = @"INSERT INTO pitwall_leaderboard.metric_leaderboard_livetiming(
+                        source_pilot_name, 
+                        source_car_name, 
+                        data_tick, 
+                        metric_car_number,
+                        metric_car_class,
+                        metric_position) 
+                    VALUES(
+                        @source_pilot_name, 
+                        @source_car_name, 
+                        @data_tick, 
+                        @metric_car_number,  
+                        @metric_car_class, 
+                        @metric_position)";
+
         private readonly ILeaderboardConnectionString _connectionString;
 
         public LeaderboardLivetimingSqlRepository(ILeaderboardConnectionString connectionString)
@@ -24,20 +40,10 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
 
                 using (var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted))
                 {
-
-                    var sql = @"INSERT INTO pitwall_leaderboard.metric_leaderboard_livetiming(
-                        source_pilot_name, 
-                        source_car_name, 
-                        data_tick, 
-                        metric_car_number,
-                        metric_car_class,
-                        metric_position) 
-                    VALUES(@source_pilot_name, @source_car_name, @data_tick, @metric_car_number,  @metric_car_class, @metric_position)";
-
                     foreach (var entry in model)
                     {
                         {
-                            var commandBuilder = new DbLiveTimingCommandBuilder(model, actualTick, entry.Position, connection, sql);
+                            var commandBuilder = new DbLiveTimingCommandBuilder(model, actualTick, entry.Position, connection, InsertStatement);
 
                             commandBuilder
                                 .WithCarNumber(entry.CarNumber)

@@ -1,5 +1,5 @@
 ﻿using PitWallDataGatheringApi.Models.Business.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
 namespace PitWallDataGatheringApi.Services.Leaderboards
 {

@@ -1,8 +1,8 @@
 ﻿using PitWallDataGatheringApi.Models.Business.Leaderboards;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
 {
-    public interface ILeaderboardLivetimingSqlRepository
+    public interface ILeaderboardRepository
     {
         void Update(ILeaderboardModel model);
     }

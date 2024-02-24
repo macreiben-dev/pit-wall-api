@@ -3,7 +3,7 @@ using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using Dapper;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.Reads
 {
     public sealed class ReadLeaderboardRepository : IReadLeaderboardRepository
     {

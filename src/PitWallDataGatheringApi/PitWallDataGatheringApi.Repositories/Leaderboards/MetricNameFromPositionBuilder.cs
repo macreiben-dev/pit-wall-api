@@ -1,4 +1,4 @@
-﻿using PitWallDataGatheringApi.Repositories.Gauges.Sql;
+﻿using PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes;
 
 namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {

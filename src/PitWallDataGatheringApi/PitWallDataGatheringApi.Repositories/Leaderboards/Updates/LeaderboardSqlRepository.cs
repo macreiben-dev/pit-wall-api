@@ -1,9 +1,10 @@
 ﻿using MySql.Data.MySqlClient;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
+using PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes;
 using System.Data;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
 {
     public sealed class LeaderboardSqlRepository : ILeaderboardRepository
     {
