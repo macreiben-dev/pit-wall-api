@@ -7,8 +7,6 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 {
     public sealed class TyreWearRepository : ITyreWearRepository
     {
-        private const string GaugeNamePitwallTyreWearPercent = "pitwall_tyreswear_percent";
-
         private const string GaugeNameFrontLeft = "pitwall_tyres_wear_frontleft_percent";
         private const string GaugeNameRearLeft = "pitwall_tyres_wear_rearleft_percent";
         private const string GaugeNameFrontRight = "pitwall_tyres_wear_frontright_percent";
