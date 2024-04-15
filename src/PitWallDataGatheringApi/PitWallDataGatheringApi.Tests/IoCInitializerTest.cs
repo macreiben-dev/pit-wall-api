@@ -31,7 +31,9 @@ namespace PitWallDataGatheringApi.Tests
         public void WHEN_iocPart_defined_THEN_doNot_fail()
         {
             var services = _services
-                .Where(c => c.ServiceType.AssemblyQualifiedName.StartsWith("PitWallDataGatheringApi"));
+                .Where(c =>
+                    c.ServiceType.AssemblyQualifiedName != null  
+                    && c.ServiceType.AssemblyQualifiedName.StartsWith("PitWallDataGatheringApi"));
 
             foreach (var service in services)
             {

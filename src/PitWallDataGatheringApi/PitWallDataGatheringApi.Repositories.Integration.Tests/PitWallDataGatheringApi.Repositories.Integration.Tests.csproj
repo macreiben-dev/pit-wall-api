@@ -28,4 +28,8 @@
     <ProjectReference Include="..\PitWallDataGatheringApi.Repositories\PitWallDataGatheringApi.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Leaderboards\" />
+  </ItemGroup>
+
 </Project>

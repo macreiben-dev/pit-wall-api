@@ -3,18 +3,11 @@ using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
 namespace PitWallDataGatheringApi.Services.Leaderboards
 {
-    public sealed class LeaderboardService : ILeaderBoardService
+    public sealed class LeaderboardService(
+        ILeaderboardRepository leaderboardCarNumberRepository,
+        ILeaderboardLivetimingSqlRepository leaderboardLivetiming)
+        : ILeaderBoardService
     {
-        private ILeaderboardRepository _leaderboardRepo;
-        private ILeaderboardLivetimingSqlRepository _leaderboardLivetimingRepo;
-
-        public LeaderboardService(ILeaderboardRepository leaderboardCarNumberRepository, ILeaderboardLivetimingSqlRepository leaderboardLivetiming)
-        {
-            _leaderboardRepo = leaderboardCarNumberRepository;
-
-            _leaderboardLivetimingRepo = leaderboardLivetiming;
-        }
-
         public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
         {
             throw new NotImplementedException();
@@ -27,9 +20,9 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                 throw new ArgumentNullException(nameof(leaderboardModel));
             }
 
-            _leaderboardRepo.Update(leaderboardModel);
+            leaderboardCarNumberRepository.Update(leaderboardModel);
 
-            _leaderboardLivetimingRepo.Update(leaderboardModel);
+            leaderboardLivetiming.Update(leaderboardModel);
         }
     }
 }
