@@ -18,7 +18,7 @@ namespace PitWallDataGatheringApi.Repositories.Tests.Leaderboards
             _gauge = Substitute.For<IGauge>();
 
             _gaugeFactory.Create(
-                "pitwall_leaderaboard_is_pitlane",
+                "pitwall_leaderboard_isinpitlane",
                 "Leaderboard 'is in pitlane flag'.",
                 Arg.Is<string[]>(args => args.SequenceEqual(_labels))).Returns(_gauge);
         }

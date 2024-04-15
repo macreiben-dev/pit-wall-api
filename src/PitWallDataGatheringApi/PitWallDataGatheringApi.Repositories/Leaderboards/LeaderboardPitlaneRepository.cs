@@ -5,7 +5,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards
 {
     public sealed class LeaderboardPitlaneRepository : ILeaderboardPitlaneRepository
     {
-        private const string GaugeName = "pitwall_leaderaboard_is_pitlane";
+        private const string GaugeName = "pitwall_leaderboard_isinpitlane";
         private readonly IGauge _gauge;
 
         public LeaderboardPitlaneRepository(IGaugeFactory gaugeFactory)
