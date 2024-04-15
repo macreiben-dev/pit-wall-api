@@ -11,6 +11,10 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
         private const string SerieNameCarNumberFormat = "pitwall_leaderboard_position{0}_carnumber";
         private const string SerieNameCarClassFormat = "pitwall_leaderboard_position{0}_carclass";
 
+        private const string Sql =
+            @"INSERT INTO pitwall_leaderboard.metric_leaderboard(pilot_name, car_name, data_tick, metric_name, metric_value) 
+                    VALUES(@pilot_name, @car_name, @data_tick, @metric_name, @metric_value)";
+
         private readonly ILeaderboardConnectionString _connectionString;
 
         public LeaderboardSqlRepository(ILeaderboardConnectionString connectionString)
@@ -22,46 +26,39 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
         {
             var actualTick = DateTime.Now.Ticks;
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString.ToString()))
+            using MySqlConnection connection = new MySqlConnection(_connectionString.ToString());
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+            
+            foreach (var entry in model)
             {
-                connection.Open();
-
-                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted))
                 {
+                    var commandBuilder = new DbMetricCommandBuilder(model, actualTick, connection, Sql);
 
-                    var sql = @"INSERT INTO pitwall_leaderboard.metric_leaderboard(pilot_name, car_name, data_tick, metric_name, metric_value) 
-                    VALUES(@pilot_name, @car_name, @data_tick, @metric_name, @metric_value)";
+                    commandBuilder.WithMetricNameFormat(SerieNameCarNumberFormat)
+                        .AndPositionValue(entry.Position)
+                        .WithMetricValue(entry.CarNumber);
 
-                    foreach (var entry in model)
-                    {
-                        {
-                            var commandBuilder = new DbMetricCommandBuilder(model, actualTick, connection, sql);
+                    commandBuilder
+                        .AsCommand()
+                        .ExecuteNonQuery();
+                }
 
-                            commandBuilder.WithMetricNameFormat(SerieNameCarNumberFormat)
-                                .AndPositionValue(entry.Position)
-                                .WithMetricValue(entry.CarNumber);
+                {
+                    var commandBuilder = new DbMetricCommandBuilder(model, actualTick, connection, Sql);
 
-                            commandBuilder
-                                .AsCommand()
-                                .ExecuteNonQuery();
-                        }
+                    commandBuilder.WithMetricNameFormat(SerieNameCarClassFormat)
+                        .AndPositionValue(entry.Position)
+                        .WithMetricValue(entry.CarClass);
 
-                        {
-                            var commandBuilder = new DbMetricCommandBuilder(model, actualTick, connection, sql);
-
-                            commandBuilder.WithMetricNameFormat(SerieNameCarClassFormat)
-                                .AndPositionValue(entry.Position)
-                                .WithMetricValue(entry.CarClass);
-
-                            commandBuilder
-                                .AsCommand()
-                                .ExecuteNonQuery();
-                        }
-                    }
-
-                    transaction.Commit();
+                    commandBuilder
+                        .AsCommand()
+                        .ExecuteNonQuery();
                 }
             }
+
+            transaction.Commit();
         }
     }
 }

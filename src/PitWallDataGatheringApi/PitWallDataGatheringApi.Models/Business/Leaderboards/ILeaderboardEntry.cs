@@ -14,5 +14,7 @@
         string CarNumber { get; }
 
         int Position { get; }
+        
+        bool InPitLane { get; }
     }
 }

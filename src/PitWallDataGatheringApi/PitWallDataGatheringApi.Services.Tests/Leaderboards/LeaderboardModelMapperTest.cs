@@ -118,5 +118,15 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
             Check.That(actual.First().CarClass).IsEqualTo("NA");
         }
+
+        [Fact]
+        public void GIVEN_inPitlane_is_true_THEN_map()
+        {
+            _source.Entries.First().InPitLane = true;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().InPitLane).IsTrue();
+        }
     }
 }

@@ -18,5 +18,7 @@ namespace PitWallDataGatheringApi.Repositories.Integration.Tests
         public string CarNumber { get; set; }
 
         public int Position { get; set; }
+
+        public bool InPitLane { get; set; }
     }
 }

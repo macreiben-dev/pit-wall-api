@@ -6,7 +6,8 @@ using System.Data;
 
 namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
 {
-    public sealed class LeaderboardLivetimingSqlRepository : ILeaderboardLivetimingSqlRepository
+    public sealed class LeaderboardLivetimingSqlRepository(ILeaderboardConnectionString connectionString)
+        : ILeaderboardLivetimingSqlRepository
     {
         private const string InsertStatement = @"INSERT INTO pitwall_leaderboard.metric_leaderboard_livetiming(
                         source_pilot_name, 
@@ -23,18 +24,11 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
                         @metric_car_class, 
                         @metric_position)";
 
-        private readonly ILeaderboardConnectionString _connectionString;
-
-        public LeaderboardLivetimingSqlRepository(ILeaderboardConnectionString connectionString)
-        {
-            _connectionString = connectionString;
-        }
-
         public void Update(ILeaderboardModel model)
         {
             var actualTick = DateTime.Now.Ticks;
 
-            using (MySqlConnection connection = new MySqlConnection(_connectionString.ToString()))
+            using (MySqlConnection connection = new MySqlConnection(connectionString.ToString()))
             {
                 connection.Open();
 
