@@ -23,6 +23,11 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             leaderboardCarNumberRepository.Update(leaderboardModel);
 
             leaderboardLivetiming.Update(leaderboardModel);
+
+            foreach (var entry in leaderboardModel)
+            {
+                
+            }
         }
     }
 }
