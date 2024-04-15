@@ -8,6 +8,7 @@
       <Value>PitWallDataGatheringApi.Models.Tests\PitWallDataGatheringApi.Models.Tests.csproj</Value>
       <Value>PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj</Value>
       <Value>PitWallDataGatheringApi.Services.Tests\PitWallDataGatheringApi.Services.Tests.csproj</Value>
+      <Value>PitWallDataGatheringApi.Repositories.Integration.Tests\PitWallDataGatheringApi.Repositories.Integration.Tests.csproj</Value>
     </MetricsExclusionList>
     <RdiConfigured>True</RdiConfigured>
     <SolutionConfigured>True</SolutionConfigured>
