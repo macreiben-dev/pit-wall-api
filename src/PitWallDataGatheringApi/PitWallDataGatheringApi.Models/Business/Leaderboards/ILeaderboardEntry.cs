@@ -16,5 +16,9 @@
         int Position { get; }
         
         bool InPitLane { get; }
+
+        string PilotName { get; }
+
+        public string CarName { get; }
     }
 }

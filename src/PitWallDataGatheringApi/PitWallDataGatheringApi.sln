@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Rep
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PitwallDataGatheringApi.Tests.Common", "PitwallDataGatheringApi.Tests.Common\PitwallDataGatheringApi.Tests.Common.csproj", "{6ED8376A-D99C-4A94-9952-4C7855336B1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

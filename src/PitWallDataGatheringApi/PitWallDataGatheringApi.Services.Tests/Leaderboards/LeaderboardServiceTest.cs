@@ -1,5 +1,8 @@
 ﻿using NFluent;
 using NSubstitute;
+using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Repositories;
+using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 using PitWallDataGatheringApi.Services.Leaderboards;
 
@@ -7,20 +10,22 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 {
     public partial class LeaderboardServiceTest
     {
-        private ILeaderboardRepository _repo;
-        private ILeaderboardLivetimingSqlRepository _liveRepo;
+        private readonly ILeaderboardRepository _repo;
+        private readonly ILeaderboardLivetimingSqlRepository _liveRepo;
+        private readonly ILeaderboardPitlaneRepository _pitlaneRepo;
 
         public LeaderboardServiceTest()
         {
-
             _repo = Substitute.For<ILeaderboardRepository>();
 
             _liveRepo = Substitute.For<ILeaderboardLivetimingSqlRepository>();
+
+            _pitlaneRepo = Substitute.For<ILeaderboardPitlaneRepository>();
         }
 
         private ILeaderBoardService GetTarget()
         {
-            return new LeaderboardService(_repo, _liveRepo);
+            return new LeaderboardService(_liveRepo, _pitlaneRepo);
         }
 
         [Fact]
@@ -50,8 +55,68 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             target.Update(model);
 
             // ASSERT
-            _repo.Received(1)
+            _liveRepo.Received(1)
                 .Update(model);
+        }
+
+        [Fact]
+        public void GIVEN_leaderboard_entry_AND_inPitlane_THEN_pitlane_gauge_one()
+        {
+            FakeLeaderboardModel model = new FakeLeaderboardModel()
+                .AddEntry(new FakeBusinessEntry()
+                {
+                    CarClass = "GTE",
+                    CarNumber = "53",
+                    LastPitLap = 12,
+                    Position = 13,
+                    PilotName = "some_other_pilot",
+                    CarName = "some_other_carname",
+                    InPitLane = true
+                })
+                .WithCar("some_car")
+                .WithPilot("some_pilot");
+
+            // ACT
+            var target = GetTarget();
+
+            target.Update(model);
+
+            // ASSERT
+            _pitlaneRepo.Received(1)
+                .Update(new MetricData<double?>(
+                    1.0,
+                    "some_other_pilot",
+                    "some_other_carname"));
+        }
+        
+        [Fact]
+        public void GIVEN_leaderboard_entry_AND_notPitlane_THEN_pitlane_gauge_zero()
+        {
+            FakeLeaderboardModel model = new FakeLeaderboardModel()
+                .AddEntry(new FakeBusinessEntry()
+                {
+                    CarClass = "GTE",
+                    CarNumber = "53",
+                    LastPitLap = 12,
+                    Position = 13,
+                    PilotName = "some_other_pilot",
+                    CarName = "some_other_carname",
+                    InPitLane = false
+                })
+                .WithCar("some_car")
+                .WithPilot("some_pilot");
+
+            // ACT
+            var target = GetTarget();
+
+            target.Update(model);
+
+            // ASSERT
+            _pitlaneRepo.Received(1)
+                .Update(new MetricData<double?>(
+                    0.0,
+                    "some_other_pilot",
+                    "some_other_carname"));
         }
     }
 }

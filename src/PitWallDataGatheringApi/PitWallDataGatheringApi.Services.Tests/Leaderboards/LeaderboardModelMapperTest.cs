@@ -128,5 +128,25 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
             Check.That(actual.First().InPitLane).IsTrue();
         }
+
+        [Fact]
+        public void GIVEN_retrieved_carName_THEN_map()
+        {
+            _source.Entries.First().CarName = "some_carname";
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().CarName).IsEqualTo("some_carname");
+        }
+        
+        [Fact]
+        public void GIVEN_retrieved_carName_null_THEN_map_notAvailable()
+        {
+            _source.Entries.First().CarName = null;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().CarName).IsEqualTo("NA");
+        }
     }
 }

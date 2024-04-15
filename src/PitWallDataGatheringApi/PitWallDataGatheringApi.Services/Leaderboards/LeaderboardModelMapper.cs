@@ -23,7 +23,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                 {
                     LastPitLap = item.LastPitLap,
                     CarClass = item.CarClass ?? NotAvailable,
-                    CarNumber = item.CarNumber ?? "NA",
+                    CarNumber = item.CarNumber ?? NotAvailable,
+                    CarName = item.CarName ?? NotAvailable,
                     Position = item.Position,
                     InPitLane = item.InPitLane
                 };

@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using NFluent;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
+using PitwallDataGatheringApi.Tests.BusinessCommon.Business;
 
 namespace PitWallDataGatheringApi.Repositories.Integration.Tests.Gauges.Sql
 {

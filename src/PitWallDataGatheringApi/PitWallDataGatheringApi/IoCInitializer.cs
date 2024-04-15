@@ -7,6 +7,7 @@ using PitWallDataGatheringApi.Services.Telemetries;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
+using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Reads;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Initializations;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
@@ -48,6 +49,7 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
             services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
             services.AddSingleton<ILeaderboardLivetimingSqlRepository, LeaderboardLivetimingSqlRepository>();
+            services.AddSingleton<ILeaderboardPitlaneRepository, LeaderboardPitlaneRepository>();
 
             services.AddSingleton<IReadLeaderboardRepository, ReadLeaderboardRepository>();
 
