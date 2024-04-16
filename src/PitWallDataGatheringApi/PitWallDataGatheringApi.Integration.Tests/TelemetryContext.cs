@@ -19,8 +19,6 @@ namespace PitWallDataGatheringApi.Integration.Tests
 
         public string? PilotName { get; set; }
 
-        public object OriginalValue { get; set; }
-
         public object Expected { get; set; }
 
         public Action<TelemetryModel> SetFieldValue { get; set; }

@@ -16,7 +16,7 @@ internal static class InstantMetricReadTestHelpers
         return model;
     }
 
-    public static async Task<string> ReadInstantQueryResult(
+    public static async Task<string?> ReadInstantQueryResult(
         string metric, 
         string label, 
         string labelValue, 
@@ -28,7 +28,7 @@ internal static class InstantMetricReadTestHelpers
             timeSerieUri);
     }
 
-    private static async Task<string> ReadInstantQueryResult(string queryPath, string timeSerieUri)
+    private static async Task<string?> ReadInstantQueryResult(string queryPath, string timeSerieUri)
     {
         HttpClient client = new HttpClient();
 
@@ -55,7 +55,7 @@ internal static class InstantMetricReadTestHelpers
             throw new NoDataFoundException(timeSerieUri, queryPath);
         }
 
-        string intermediary = json["data"]["result"][0]["value"][1].ToString();
+        string? intermediary = json["data"]?["result"]?[0]?["value"][1]?.ToString();
         return intermediary;
     }
 
