@@ -1,4 +1,6 @@
-﻿namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
+﻿using PitWallDataGatheringApi.Integration.Tests.Leaderboards.ApiModel;
+
+namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 {
     public sealed class LeaderboardEntryBuilder
     {
