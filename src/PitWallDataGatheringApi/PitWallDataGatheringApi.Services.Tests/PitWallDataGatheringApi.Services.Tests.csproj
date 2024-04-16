@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PitWallDataGatheringApi.Services\PitWallDataGatheringApi.Services.csproj" />
+    <ProjectReference Include="..\PitwallDataGatheringApi.Tests.Common\PitwallDataGatheringApi.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>

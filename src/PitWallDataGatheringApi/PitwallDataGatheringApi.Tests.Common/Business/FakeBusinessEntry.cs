@@ -22,6 +22,11 @@ public class FakeBusinessEntry : ILeaderboardEntry
     public int Position { get; set; }
 
     public bool InPitLane { get; set; }
+    
+    public bool InPitBox { get; set; }
+    
     public string PilotName { get; set; }
+    
     public string CarName { get; set; }
+
 }

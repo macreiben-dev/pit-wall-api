@@ -26,7 +26,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                     CarNumber = item.CarNumber ?? NotAvailable,
                     CarName = item.CarName ?? NotAvailable,
                     Position = item.Position,
-                    InPitLane = item.InPitLane
+                    InPitLane = item.InPitLane,
+                    InPitBox = item.InPitBox,
                 };
 
                 output.Add(entry);

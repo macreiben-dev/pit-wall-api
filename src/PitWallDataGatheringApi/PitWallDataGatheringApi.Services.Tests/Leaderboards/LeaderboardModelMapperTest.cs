@@ -148,5 +148,15 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
             Check.That(actual.First().CarName).IsEqualTo("NA");
         }
+        
+        [Fact]
+        public void GIVEN_inPitBox_THEN_map()
+        {
+            _source.Entries.First().InPitBox = true;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().InPitBox).IsTrue();
+        }
     }
 }

@@ -20,5 +20,6 @@
         string PilotName { get; }
 
         public string CarName { get; }
+        bool InPitBox { get; set; }
     }
 }
