@@ -35,12 +35,9 @@ namespace PitWallDataGatheringApi.Repositories.Gauges
             IEnumerable<string> labels)
         {
             /**
-             * TODO: use SQL gauge not a prom gauge
+             * The leaderboard is inserted in a SQL database but some of the data is
+             * also inserted in a Prometheus gauge.
              */
-
-            /**
-             * Enforce serieNameFormat check with regex
-             * */
 
             string formatedPositionInRace = FormatWithPositionOneLeadingZero(positionInRace);
 
@@ -77,7 +74,17 @@ namespace PitWallDataGatheringApi.Repositories.Gauges
 
             _logger.LogInformation($"Prom gauge created - [{serieName}] - [{concatedLabels}] - [{description}]");
 
-            return _allGauges[serieName];
+            try {
+                return _allGauges[serieName];
+            }
+            catch (KeyNotFoundException e)
+            {
+                _logger.LogError(e, $"Unable to find gauge {serieName}");
+
+                var allGauges = _allGauges.Select(c => c.Key);
+                
+                throw GaugeNotFoundInDictionaryException(e, allGauges, serieName);
+            }
         }
 
         public IEnumerable<ISerieDocumentation> ListCreated()
