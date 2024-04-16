@@ -25,7 +25,7 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             
             leaderboardLivetiming.Update(leaderboardModel);
 
-            foreach (ILeaderboardEntry entry in leaderboardModel)
+            foreach (var entry in leaderboardModel)
             {
                 pitlaneRepository.Update(new MetricData<double?>(
                     entry.InPitLane ?  1.0 : 0.0, 
