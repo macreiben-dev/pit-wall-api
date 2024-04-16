@@ -3,6 +3,7 @@ using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes;
 using System.Data;
+using PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuilders;
 
 namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
 {
