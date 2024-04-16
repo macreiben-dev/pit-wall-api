@@ -14,6 +14,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         private readonly ILeaderboardRepository _repo;
         private readonly ILeaderboardLivetimingSqlRepository _liveRepo;
         private readonly ILeaderboardPitlaneRepository _pitlaneRepo;
+        private readonly ILeaderboardInPitBoxRepository _inPitBox;
 
         private const string SomeOtherPilot = "some_other_pilot";
         private const string SomeOtherCarname = "some_other_carname";
@@ -27,11 +28,13 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             _liveRepo = Substitute.For<ILeaderboardLivetimingSqlRepository>();
 
             _pitlaneRepo = Substitute.For<ILeaderboardPitlaneRepository>();
+
+            _inPitBox = Substitute.For<ILeaderboardInPitBoxRepository>();
         }
 
         private ILeaderBoardService GetTarget()
         {
-            return new LeaderboardService(_liveRepo, _pitlaneRepo);
+            return new LeaderboardService(_liveRepo, _pitlaneRepo, _inPitBox);
         }
 
         [Fact]
@@ -107,6 +110,27 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                     SomeOtherCarname));
         }
         
+        [Fact]
+        public void GIVEN_leaderboard_entry_AND_inPitBox_THEN_inPitBox_gauge_one()
+        {
+            FakeLeaderboardModel model = new FakeLeaderboardModel()
+                .AddEntry(BuildEntryInPitlane()
+                    .WithIsInPitBox())
+                .WithCar("some_car")
+                .WithPilot("some_pilot");
+
+            // ACT
+            var target = GetTarget();
+
+            target.Update(model);
+
+            // ASSERT
+            _inPitBox.Received(1)
+                .Update(new MetricData<double?>(
+                    1.0,
+                    "some_other_pilot",
+                    SomeOtherCarname));
+        }
         
         private FakeBusinessEntry BuildEntryInPitlane()
         {

@@ -45,11 +45,7 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
             services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
 
-            services.AddSingleton<ILeaderBoardService, LeaderboardService>();
-            services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
-            services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
-            services.AddSingleton<ILeaderboardLivetimingSqlRepository, LeaderboardLivetimingSqlRepository>();
-            services.AddSingleton<ILeaderboardPitlaneRepository, LeaderboardPitlaneRepository>();
+            RegisterLeaderboardParts(services);
 
             services.AddSingleton<IReadLeaderboardRepository, ReadLeaderboardRepository>();
 
@@ -60,6 +56,16 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<ILeaderboardConnectionString, LeaderboardConnectionString>();
 
             services.AddSingleton<ILeaderboardDatabaseInitializer, LeaderboardDatabaseInitializer>();
+        }
+
+        private static void RegisterLeaderboardParts(IServiceCollection services)
+        {
+            services.AddSingleton<ILeaderBoardService, LeaderboardService>();
+            services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
+            services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
+            services.AddSingleton<ILeaderboardLivetimingSqlRepository, LeaderboardLivetimingSqlRepository>();
+            services.AddSingleton<ILeaderboardPitlaneRepository, LeaderboardPitlaneRepository>();
+            services.AddSingleton<ILeaderboardInPitBoxRepository, LeaderboardInPitBoxRepository>();
         }
     }
 }

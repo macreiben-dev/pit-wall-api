@@ -29,4 +29,20 @@ public class FakeBusinessEntry : ILeaderboardEntry
     
     public string CarName { get; set; }
 
+    public FakeBusinessEntry WithIsInPitLane(bool isInPitLane)
+    {
+        InPitLane = isInPitLane;
+        return this;
+    }
+    
+    public FakeBusinessEntry WithIsInPitBox()
+    {
+        InPitBox = true;
+        return this;
+    }
+    public FakeBusinessEntry WithNotInPitBox()
+    {
+        InPitBox = false;
+        return this;
+    }
 }

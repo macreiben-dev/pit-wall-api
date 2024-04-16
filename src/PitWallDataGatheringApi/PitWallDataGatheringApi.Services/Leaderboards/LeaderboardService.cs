@@ -8,8 +8,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
 {
     public sealed class LeaderboardService(
         ILeaderboardLivetimingSqlRepository leaderboardLivetiming,
-        ILeaderboardPitlaneRepository pitlaneRepository)
-        : ILeaderBoardService
+        ILeaderboardPitlaneRepository pitlaneRepository,
+        ILeaderboardInPitBoxRepository pitBoxRepository) : ILeaderBoardService
     {
         public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
         {
@@ -28,11 +28,20 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             foreach (var entry in leaderboardModel)
             {
                 pitlaneRepository.Update(new MetricData<double?>(
-                    entry.InPitLane ?  1.0 : 0.0, 
+                    BoolToMetricValue(entry.InPitLane), 
                     new PilotName(entry.PilotName), 
                     new CarName(entry.CarName)));
+
+                pitBoxRepository.Update(new MetricData<double?>(
+                    BoolToMetricValue(entry.InPitBox),
+                    new PilotName(entry.PilotName),
+                    new CarName(entry.CarName)));
             }
-            
+        }
+
+        private static double BoolToMetricValue(bool entryInPitBox)
+        {
+            return entryInPitBox ? 1.0 : 0.0;
         }
     }
 }
