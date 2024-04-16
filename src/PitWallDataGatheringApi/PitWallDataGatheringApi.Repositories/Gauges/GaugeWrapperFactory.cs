@@ -9,6 +9,8 @@ namespace PitWallDataGatheringApi.Repositories.Gauges
         private ILogger<GaugeWrapperFactory> _logger;
         private readonly ILogger<GaugeWrapper> _gaugeLogger;
 
+        private static readonly object LockObject = new();
+        
         public GaugeWrapperFactory(ILogger<GaugeWrapperFactory> logger, ILogger<GaugeWrapper> gaugeLogger)
         {
             _logger = logger;
@@ -61,29 +63,34 @@ namespace PitWallDataGatheringApi.Repositories.Gauges
 
         private IGauge CreateGauge(string serieName, string description, IEnumerable<string> labels)
         {
-            if (_allGauges.TryGetValue(serieName, out IGauge? result))
+            lock (LockObject)
             {
-                return result;
-            }
 
-            var actualSerie = new GaugeWrapper(serieName, description, labels, _gaugeLogger);
+                if (_allGauges.TryGetValue(serieName, out IGauge? result))
+                {
+                    return result;
+                }
 
-            _allGauges.Add(serieName, actualSerie);
+                var actualSerie = new GaugeWrapper(serieName, description, labels, _gaugeLogger);
 
-            string concatedLabels = string.Join(",", labels);
+                _allGauges.Add(serieName, actualSerie);
 
-            _logger.LogInformation($"Prom gauge created - [{serieName}] - [{concatedLabels}] - [{description}]");
+                string concatedLabels = string.Join(",", labels);
 
-            try {
-                return _allGauges[serieName];
-            }
-            catch (KeyNotFoundException e)
-            {
-                _logger.LogError(e, $"Unable to find gauge {serieName}");
+                _logger.LogInformation($"Prom gauge created - [{serieName}] - [{concatedLabels}] - [{description}]");
 
-                var allGauges = _allGauges.Select(c => c.Key);
-                
-                throw GaugeNotFoundInDictionaryException(e, allGauges, serieName);
+                try
+                {
+                    return _allGauges[serieName];
+                }
+                catch (KeyNotFoundException e)
+                {
+                    _logger.LogError(e, $"Unable to find gauge {serieName}");
+
+                    var allGauges = _allGauges.Select(c => c.Key);
+
+                    throw new GaugeNotFoundInDictionaryException(e, allGauges, serieName);
+                }
             }
         }
 
