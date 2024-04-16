@@ -1,9 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using PitWallDataGatheringApi.Models;
+﻿using System.Data;
+using MySql.Data.MySqlClient;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
-using System.Data;
 
-namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
+namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuilders
 {
     public class DbLiveTimingCommandBuilder
     {
@@ -17,10 +16,8 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
 
         private string? _carClass;
         private string? _carNumber;
-        private int? _position;
-        private long? _data_tick;
 
-        private IDbCommand _command;
+        private readonly IDbCommand _command;
 
         public DbLiveTimingCommandBuilder(ISourceInfos model,
             long actualTick,
@@ -28,7 +25,6 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
             MySqlConnection connection,
             string sql)
         {
-
             _command = BuildCommand(model, position, actualTick, connection, sql);
         }
 
@@ -65,8 +61,6 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
 
         public DbLiveTimingCommandBuilder WithPosition(int position)
         {
-            _position = position;
-
             return this;
         }
 

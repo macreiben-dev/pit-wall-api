@@ -12,9 +12,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.CommandBuildes
         private const string ParameterMetricName = "metric_name";
         private const string ParameterMetricValue = "metric_value";
 
-        private IDbCommand _command;
-        private string _format;
-        private int _positionValue;
+        private readonly IDbCommand _command;
         private MetricNameFromPositionBuilder _metricNameFromPosition;
         private string _metricValue;
 
