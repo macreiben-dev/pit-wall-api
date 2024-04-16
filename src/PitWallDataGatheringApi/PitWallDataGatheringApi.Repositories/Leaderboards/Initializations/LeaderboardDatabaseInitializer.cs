@@ -62,7 +62,15 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
             }
 
             {
-                var sql = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming ADD INDEX idx_metric_leaderboard_data_query (data_tick, source_pilot_name, source_car_name);";
+                var sql = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming " +
+                          "DROP INDEX idx_metric_leaderboard_data_query;";
+
+                Task.WaitAll(connection.ExecuteAsync(sql));
+            }
+            
+            {
+                var sql = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming " +
+                          "ADD INDEX idx_metric_leaderboard_data_query (data_tick, source_pilot_name, source_car_name);";
 
                 Task.WaitAll(connection.ExecuteAsync(sql));
             }

@@ -8,8 +8,8 @@ services:
       - 10100:9090
     restart: unless-stopped
     volumes:
-      - ./prometheus:/etc/prometheus
-      - /mnt/pitwall/prometheus:/prometheus
+      - ./prometheus:/etc/prometheus:rw
+#      - /mnt/pitwall/prometheus:/prometheus:rw
   grafana:
     image: grafana/grafana
     container_name: grafana
