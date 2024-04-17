@@ -7,7 +7,6 @@ using PitWallDataGatheringApi.Controllers.v1;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
 using PitWallDataGatheringApi.Repositories;
-using PitWallDataGatheringApi.Repositories.Leaderboards.Reads;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using ApiModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
