@@ -4,6 +4,7 @@
       <FixtureTestSelector>
         <FixtureName>PitWallDataGatheringApi.Repositories.Integration.Tests.UnitTest1</FixtureName>
       </FixtureTestSelector>
+      <AllTestsSelector />
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>
