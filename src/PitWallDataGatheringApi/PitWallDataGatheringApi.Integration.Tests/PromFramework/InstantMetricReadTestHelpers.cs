@@ -6,6 +6,32 @@ using NFluent;
 
 namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
 
+public struct ServerAddress
+{
+    public ServerAddress(string serverAddress)
+    {
+        Uri = new Uri(serverAddress);
+    }
+    
+    public Uri Uri { get; }
+}
+
+public struct MetricRequest
+{
+    public MetricRequest(string metricName, string label, string labelValue)
+    {
+        MetricName = metricName;
+        Label = label;
+        LabelValue = labelValue;
+    }
+
+    public string LabelValue { get; }
+
+    public string Label { get;  }
+
+    public string MetricName { get; }
+}
+
 internal static class InstantMetricReadTestHelpers
 {
     public static async Task<string?> ReadInstantQueryResult(
@@ -17,14 +43,39 @@ internal static class InstantMetricReadTestHelpers
         var queryPath = $"api/v1/query?query={metric}{{{label}=%22{labelValue}%22}}";
 
         return await ReadInstantQueryResult(queryPath,
-            prometheusServerAddress);
+            prometheusServerAddress, new Uri(prometheusServerAddress));
     }
 
-    private static async Task<string?> ReadInstantQueryResult(string queryPath, string timeSerieUri)
+    public static async Task<HttpResponseMessage> SendToApi(
+        object model, 
+        string prometheusServerAddress, 
+        string requestUri)
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri(prometheusServerAddress);
+
+        JsonSerializerSettings settings = new JsonSerializerSettings();
+        settings.Formatting = Formatting.Indented;
+
+        string jsonData = JsonConvert.SerializeObject(model, settings);
+
+        StringContent content = new StringContent(
+            jsonData,
+            Encoding.UTF8,
+            "application/json");
+
+        var response = await client.PostAsync(requestUri, content);
+        return response;
+    }
+    
+    private static async Task<string?> ReadInstantQueryResult(
+        string queryPath, 
+        string timeSerieUri,
+        Uri clientBaseAddress)
     {
         HttpClient client = new HttpClient();
 
-        client.BaseAddress = new Uri(timeSerieUri);
+        client.BaseAddress = clientBaseAddress;
 
         var result = await client.GetAsync(queryPath);
 
@@ -51,22 +102,4 @@ internal static class InstantMetricReadTestHelpers
         return intermediary;
     }
 
-    public static async Task<HttpResponseMessage> SendToApi(object model, string targetApi, string requestUri)
-    {
-        HttpClient client = new HttpClient();
-        client.BaseAddress = new Uri(targetApi);
-
-        JsonSerializerSettings settings = new JsonSerializerSettings();
-        settings.Formatting = Formatting.Indented;
-
-        string jsonData = JsonConvert.SerializeObject(model, settings);
-
-        StringContent content = new StringContent(
-            jsonData,
-            Encoding.UTF8,
-            "application/json");
-
-        var response = await client.PostAsync(requestUri, content);
-        return response;
-    }
 }
