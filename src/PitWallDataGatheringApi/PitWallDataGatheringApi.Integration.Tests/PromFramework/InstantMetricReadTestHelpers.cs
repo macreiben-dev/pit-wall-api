@@ -3,30 +3,21 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NFluent;
-using PitWallDataGatheringApi.Models.Apis.v1;
 
 namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
 
 internal static class InstantMetricReadTestHelpers
 {
-
-    private static TelemetryModel CreateApiModel()
-    {
-        TelemetryModel model = new TelemetryModel();
-        model.SimerKey = "some_test_looking_value23";
-        return model;
-    }
-
     public static async Task<string?> ReadInstantQueryResult(
         string metric, 
         string label, 
         string labelValue, 
-        string timeSerieUri)
+        string prometheusServerAddress)
     {
         var queryPath = $"api/v1/query?query={metric}{{{label}=%22{labelValue}%22}}";
 
         return await ReadInstantQueryResult(queryPath,
-            timeSerieUri);
+            prometheusServerAddress);
     }
 
     private static async Task<string?> ReadInstantQueryResult(string queryPath, string timeSerieUri)
