@@ -38,14 +38,6 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                     BoolToMetricValue(entry.InPitBox),
                     new PilotName(entry.PilotName),
                     new CarName(entry.CarName)));
-
-                logger.LogInformation($"Entry {nameof(entry.PilotName)}:[{entry.PilotName}] " +
-                                      $"- {nameof(entry.CarName)}:[{entry.CarName}] " +
-                                      $"- {nameof(entry.InPitLane)}:[{entry.InPitLane}]");
-                
-                logger.LogInformation($"Entry {nameof(entry.PilotName)}:[{entry.PilotName}] " +
-                                      $"- {nameof(entry.CarName)}:[{entry.CarName}] " +
-                                      $"- {nameof(entry.InPitLane)}:[{entry.InPitBox}]");
             }
         }
 
