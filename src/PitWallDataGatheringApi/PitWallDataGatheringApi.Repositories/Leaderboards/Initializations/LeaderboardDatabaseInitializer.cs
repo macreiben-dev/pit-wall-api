@@ -62,10 +62,17 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
             }
 
             {
-                var sql = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming " +
-                          "DROP INDEX idx_metric_leaderboard_data_query;";
+                try
+                {
+                    var sql = "ALTER TABLE pitwall_leaderboard.metric_leaderboard_livetiming " +
+                              "DROP INDEX idx_metric_leaderboard_data_query;";
 
-                Task.WaitAll(connection.ExecuteAsync(sql));
+                    Task.WaitAll(connection.ExecuteAsync(sql));
+                }
+                catch
+                {
+                    _logger.LogInformation("Unable to drop index. Index may not exists.");
+                }
             }
             
             {
@@ -73,6 +80,8 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
                           "ADD INDEX idx_metric_leaderboard_data_query (data_tick, source_pilot_name, source_car_name);";
 
                 Task.WaitAll(connection.ExecuteAsync(sql));
+                
+                _logger.LogInformation("Index idx_metric_leaderboard_data_query create.");
             }
             _logger.LogInformation("Creating Leaderboard Tables ... DONE");
         }
