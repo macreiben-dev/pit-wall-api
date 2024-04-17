@@ -67,7 +67,7 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
             {
                 actual = connection.Query<LeaderboardReadData>(@$"
                             SELECT * 
-                            FROM metric_leaderboard 
+                            FROM metric_leaderboard_livetiming 
                             WHERE 1=1 
                             AND metric_name IN (
                                 '{Position1CarClass}', 
