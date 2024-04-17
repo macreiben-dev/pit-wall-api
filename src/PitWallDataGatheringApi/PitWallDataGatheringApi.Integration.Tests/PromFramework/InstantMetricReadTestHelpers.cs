@@ -6,32 +6,6 @@ using NFluent;
 
 namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
 
-public struct ServerAddress
-{
-    public ServerAddress(string serverAddress)
-    {
-        Uri = new Uri(serverAddress);
-    }
-    
-    public Uri Uri { get; }
-}
-
-public struct MetricRequest
-{
-    public MetricRequest(string metricName, string label, string labelValue)
-    {
-        MetricName = metricName;
-        Label = label;
-        LabelValue = labelValue;
-    }
-
-    public string LabelValue { get; }
-
-    public string Label { get;  }
-
-    public string MetricName { get; }
-}
-
 internal static class InstantMetricReadTestHelpers
 {
     public static async Task<string?> ReadInstantQueryResult(

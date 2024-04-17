@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Net;
 using NFluent;
 using PitWallDataGatheringApi.Integration.Tests.Leaderboards.ApiModel;
+using PitWallDataGatheringApi.Integration.Tests.PromFramework;
+using LeaderboardModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards;
 
@@ -17,8 +19,12 @@ public class InstantMetricReadLeaderboard
     {
         return new Models.Apis.v1.Leaderboards.LeaderboardModel();
     }
-    
-    public static void GIVEN_metric_THEN_read_from_timeSerie(Models.Apis.v1.Leaderboards.LeaderboardModel model, string targetApi, string timeSerieUri)
+
+    public static void GIVEN_metric_THEN_read_from_timeSerie(LeaderboardModel model,
+        string timeSerieUri,
+        string metricName,
+        string expected,
+        LabelValues labelValues)
     {
 
         Trace.WriteLine(nameof(GIVEN_metric_THEN_read_from_timeSerie) + " : " + model);
@@ -27,7 +33,7 @@ public class InstantMetricReadLeaderboard
         {
             Task<HttpResponseMessage> curent = InstantMetricReadTestHelpers.SendToApi(
                 model,
-                targetApi,
+                TargetApi,
                 "/api/v1/Leaderboard");
 
             Task.WaitAll(curent);
@@ -45,25 +51,21 @@ public class InstantMetricReadLeaderboard
         Thread.Sleep(5000);
 
         {
-            /**
-             * Idea: Use retry every seconds for 5 seconds method
-             * */
-
             Task<string?> readPilot = InstantMetricReadTestHelpers.ReadInstantQueryResult(
-                testContext.MetricName,
+                metricName,
                 PilotLabel,
-                testContext.PilotName,
+                labelValues.Pilot.ToString(),
                 timeSerieUri);
 
             Task<string?> readCar = InstantMetricReadTestHelpers.ReadInstantQueryResult(
-                testContext.MetricName,
+                metricName,
                 CarLabel,
-                testContext.CarName,
+                labelValues.Car.ToString(),
                 timeSerieUri);
 
-            TestHelper.ExecuteAndAssert(readPilot, testContext.Expected);
+            TestHelper.ExecuteAndAssert(readPilot, expected);
 
-            TestHelper.ExecuteAndAssert(readCar, testContext.Expected);
+            TestHelper.ExecuteAndAssert(readCar, expected);
         }
     }
 }

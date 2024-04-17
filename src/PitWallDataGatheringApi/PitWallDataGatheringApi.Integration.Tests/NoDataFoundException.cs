@@ -13,5 +13,11 @@ namespace PitWallDataGatheringApi.Integration.Tests
             TimeSerieUri = timeSerieUri;
             QueryPath = queryPath;
         }
+        
+        public NoDataFoundException(Uri timeSerieUri, string queryPath)
+        {
+            TimeSerieUri = timeSerieUri.ToString();
+            QueryPath = queryPath;
+        }
     }
 }

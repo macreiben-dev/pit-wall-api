@@ -52,6 +52,12 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
             Check.That(actual.metric_value).IsEqualTo(CarNumber_01);
         }
 
+        [Fact]
+        public void Explore()
+        {
+            
+        }
+        
         private async Task<IEnumerable<LeaderboardReadData>> PostMetricAndReturnInsertedData(LeaderboardModelBuilder leaderboardModelBuilder)
         {
             using (HttpClient client = new HttpClient())
