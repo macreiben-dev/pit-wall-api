@@ -11,10 +11,13 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
         private const string JohnDoe = "John Doe";
 
         private const string IsInPitlaneSerieName = "pitwall_leaderboard_isinpitlane";
+        private const string IsInPitboxSerieName = "pitwall_leaderboard_isinpitbox";
+
         private const string SimerKey = "some_test_looking_value23";
 
-        private const string CarNumber13 = "#0013 pilot sending data to leaderboard";
+        private const string CarNumber00 = "#0000 pilot sending data to leaderboard";
 
+        private const string CarNumber13 = "#0013 testing car leaderboard";
         private const string CarNumber12 = "#0012 testing car leaderboard";
         private const string CarNumber11 = "#0011 testing car leaderboard";
 
@@ -35,7 +38,7 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
         public async void GIVEN_in_pitlane_THEN_matchedCarName_returns_1()
         {
             LeaderboardModel source = new LeaderboardModel(
-                CarNumber13, 
+                CarNumber00, 
                 JohnDoe, 
                 SimerKey);
 
@@ -60,7 +63,7 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
         [Fact]
         public async void GIVEN_not_in_pitlane_THEN_matchedCarName_returns_0()
         {
-            LeaderboardModel source = new LeaderboardModel(CarNumber13, JohnDoe, SimerKey);
+            LeaderboardModel source = new LeaderboardModel(CarNumber00, JohnDoe, SimerKey);
 
             source.Entries.Add(new LeaderboardEntry()
             {
@@ -80,6 +83,58 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
             Check.That(result).IsEqualTo("0");
         }
 
+        [Fact]
+        public async void GIVEN_in_pitbox_THEN_matchedCarName_returns_1()
+        {
+            LeaderboardModel source = new LeaderboardModel(
+                CarNumber00, 
+                JohnDoe, 
+                SimerKey);
+
+            source.Entries.Add(new LeaderboardEntry()
+            {
+                InPitBox = true,
+                CarName = CarNumber13,
+            });
+
+            await _apiRepository.SendToApi(source, _leaderboardUri);
+
+            Wait();
+
+            var result = await _promRepository.ReadInstantQueryResult(
+                IsInPitboxSerieName,
+                "Car",
+                CarNumber13);
+
+            Check.That(result).IsEqualTo("1");
+        }
+        
+        [Fact]
+        public async void GIVEN_not_in_pitbox_THEN_matchedCarName_returns_0()
+        {
+            LeaderboardModel source = new LeaderboardModel(
+                CarNumber00, 
+                JohnDoe, 
+                SimerKey);
+
+            source.Entries.Add(new LeaderboardEntry()
+            {
+                InPitBox = false,
+                CarName = CarNumber13,
+            });
+
+            await _apiRepository.SendToApi(source, _leaderboardUri);
+
+            Wait();
+
+            var result = await _promRepository.ReadInstantQueryResult(
+                IsInPitboxSerieName,
+                "Car",
+                CarNumber13);
+
+            Check.That(result).IsEqualTo("0");
+        }
+        
         private static void Wait()
         {
             Thread.Sleep(5000);

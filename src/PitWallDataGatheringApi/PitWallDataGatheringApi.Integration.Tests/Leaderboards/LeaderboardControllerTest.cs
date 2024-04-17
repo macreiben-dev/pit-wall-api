@@ -13,14 +13,14 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
         private const string AudiR8LMS = "Audi R8 LMS";
         private const string JohnDoe = "John Doe";
 
-        private const string Position1_CarClass = "pitwall_leaderboard_position01_carclass";
-        private const string Position1_CarNumber = "pitwall_leaderboard_position01_carnumber";
+        private const string Position1CarClass = "pitwall_leaderboard_position01_carclass";
+        private const string Position1CarNumber = "pitwall_leaderboard_position01_carnumber";
         private const string SimerKey = "some_test_looking_value23";
 
-        private const string CarClass_GT3 = "GT3-metrics";
-        private const string CarNumber_01 = "1";
-        private const int Position_01 = 1;
-        private const int LastPitLap_10 = 10;
+        private const string CarClassGt3 = "GT3-metrics";
+        private const string CarNumber01 = "1";
+        private const int Position01 = 1;
+        private const int LastPitLap10 = 10;
 
         private IEnumerable<LeaderboardReadData> _actual;
 
@@ -39,23 +39,17 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
         [Fact]
         public async void GIVEN_pitwall_leaderboard_THEN_persisted_metric_carClass_is_valid()
         {
-            var actual = _actual.First(c => c.metric_name == Position1_CarClass);
+            var actual = _actual.First(c => c.metric_name == Position1CarClass);
 
-            Check.That(actual.metric_value).IsEqualTo(CarClass_GT3);
+            Check.That(actual.metric_value).IsEqualTo(CarClassGt3);
         }
 
         [Fact]
         public async void GIVEN_pitwall_leaderboard_THEN_persisted_metric_carNumber_isValid()
         {
-            var actual = _actual.First(c => c.metric_name == Position1_CarNumber);
+            var actual = _actual.First(c => c.metric_name == Position1CarNumber);
 
-            Check.That(actual.metric_value).IsEqualTo(CarNumber_01);
-        }
-
-        [Fact]
-        public void Explore()
-        {
-            
+            Check.That(actual.metric_value).IsEqualTo(CarNumber01);
         }
         
         private async Task<IEnumerable<LeaderboardReadData>> PostMetricAndReturnInsertedData(LeaderboardModelBuilder leaderboardModelBuilder)
@@ -76,8 +70,8 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
                             FROM metric_leaderboard 
                             WHERE 1=1 
                             AND metric_name IN (
-                                '{Position1_CarClass}', 
-                                '{Position1_CarNumber}')
+                                '{Position1CarClass}', 
+                                '{Position1CarNumber}')
                             AND pilot_name = '{JohnDoe}'
                             AND car_name = '{AudiR8LMS}'    
                             ");
@@ -94,10 +88,10 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
             }
 
             var entryBuilder = new LeaderboardEntryBuilder()
-                 .WithLastPitLap(LastPitLap_10)
-                 .WithCarClass(CarClass_GT3)
-                 .WithCarNumber(CarNumber_01)
-                 .WithPosition(Position_01);
+                 .WithLastPitLap(LastPitLap10)
+                 .WithCarClass(CarClassGt3)
+                 .WithCarNumber(CarNumber01)
+                 .WithPosition(Position01);
 
             var leaderboardModelBuilder = new LeaderboardModelBuilder(
                     AudiR8LMS,
