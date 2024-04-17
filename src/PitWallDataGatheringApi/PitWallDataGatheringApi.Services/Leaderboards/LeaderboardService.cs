@@ -1,4 +1,5 @@
-﻿using PitWallDataGatheringApi.Models;
+﻿using Microsoft.Extensions.Logging;
+using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Models.Business.Leaderboards;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
@@ -9,7 +10,8 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
     public sealed class LeaderboardService(
         ILeaderboardLivetimingSqlRepository leaderboardLivetiming,
         ILeaderboardPitlaneRepository pitlaneRepository,
-        ILeaderboardInPitBoxRepository pitBoxRepository) : ILeaderBoardService
+        ILeaderboardInPitBoxRepository pitBoxRepository, 
+        ILogger<LeaderboardService> logger) : ILeaderBoardService
     {
         public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
         {
@@ -36,6 +38,14 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                     BoolToMetricValue(entry.InPitBox),
                     new PilotName(entry.PilotName),
                     new CarName(entry.CarName)));
+
+                logger.LogInformation($"Entry {nameof(entry.PilotName)}:[{entry.PilotName}] " +
+                                      $"- {nameof(entry.CarName)}:[{entry.CarName}] " +
+                                      $"- {nameof(entry.InPitLane)}:[{entry.InPitLane}]");
+                
+                logger.LogInformation($"Entry {nameof(entry.PilotName)}:[{entry.PilotName}] " +
+                                      $"- {nameof(entry.CarName)}:[{entry.CarName}] " +
+                                      $"- {nameof(entry.InPitLane)}:[{entry.InPitBox}]");
             }
         }
 

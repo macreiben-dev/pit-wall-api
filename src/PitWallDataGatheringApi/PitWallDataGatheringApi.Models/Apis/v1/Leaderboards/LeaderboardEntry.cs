@@ -33,6 +33,7 @@
         public string? CarClass { get; set; }
 
         public string? CarNumber { get; set; }
+        
         public string? CarName { get; set; }
 
         public double? LastLapInSeconds { get; set; }

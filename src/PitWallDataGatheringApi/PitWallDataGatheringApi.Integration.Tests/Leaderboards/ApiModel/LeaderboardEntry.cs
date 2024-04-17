@@ -13,5 +13,7 @@
         public bool InPitBox { get; set; }
         
         public bool InPitLane { get; set; }
+        
+        public string? CarName { get; set; }
     }
 }

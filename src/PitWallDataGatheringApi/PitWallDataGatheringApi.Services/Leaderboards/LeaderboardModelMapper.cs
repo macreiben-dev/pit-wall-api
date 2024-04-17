@@ -25,6 +25,7 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
                     CarClass = item.CarClass ?? NotAvailable,
                     CarNumber = item.CarNumber ?? NotAvailable,
                     CarName = item.CarName ?? NotAvailable,
+                    PilotName = NotAvailable,
                     Position = item.Position,
                     InPitLane = item.InPitLane,
                     InPitBox = item.InPitBox,

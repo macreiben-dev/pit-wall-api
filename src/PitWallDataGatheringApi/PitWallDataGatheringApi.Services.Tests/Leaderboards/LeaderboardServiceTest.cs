@@ -1,6 +1,6 @@
-﻿using NFluent;
+﻿using Microsoft.Extensions.Logging;
+using NFluent;
 using NSubstitute;
-using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
@@ -15,6 +15,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         private readonly ILeaderboardLivetimingSqlRepository _liveRepo;
         private readonly ILeaderboardPitlaneRepository _pitlaneRepo;
         private readonly ILeaderboardInPitBoxRepository _inPitBox;
+        private readonly ILogger<LeaderboardService> _logger;
 
         private const string SomeOtherPilot = "some_other_pilot";
         private const string SomeOtherCarname = "some_other_carname";
@@ -30,11 +31,13 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             _pitlaneRepo = Substitute.For<ILeaderboardPitlaneRepository>();
 
             _inPitBox = Substitute.For<ILeaderboardInPitBoxRepository>();
+
+            _logger = Substitute.For<ILogger<LeaderboardService>>();
         }
 
         private ILeaderBoardService GetTarget()
         {
-            return new LeaderboardService(_liveRepo, _pitlaneRepo, _inPitBox);
+            return new LeaderboardService(_liveRepo, _pitlaneRepo, _inPitBox, _logger);
         }
 
         [Fact]
@@ -109,7 +112,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                     "some_other_pilot",
                     SomeOtherCarname));
         }
-        
+
         [Fact]
         public void GIVEN_leaderboard_entry_AND_inPitBox_THEN_inPitBox_gauge_one()
         {
@@ -131,7 +134,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                     "some_other_pilot",
                     SomeOtherCarname));
         }
-        
+
         private FakeBusinessEntry BuildEntryInPitlane()
         {
             return new FakeBusinessEntry()
@@ -145,7 +148,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 InPitLane = true
             };
         }
-        
+
         private FakeBusinessEntry BuildEntryNotInPitlane()
         {
             return new FakeBusinessEntry()
@@ -159,6 +162,5 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 InPitLane = false
             };
         }
-
     }
 }
