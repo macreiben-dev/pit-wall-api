@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System.Net;
+using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NFluent;
-using PitWallDataGatheringApi.Integration.Tests;
 using PitWallDataGatheringApi.Models.Apis.v1;
-using System.Net;
-using System.Text;
+
+namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
 
 internal static class InstantMetricReadTestHelpers
 {
