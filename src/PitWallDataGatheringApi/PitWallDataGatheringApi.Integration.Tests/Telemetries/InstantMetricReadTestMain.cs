@@ -2,7 +2,7 @@
 using PitWallDataGatheringApi.Models.Apis.v1;
 using System.Diagnostics;
 using System.Net;
-using PitWallDataGatheringApi.Integration.Tests.PromFramework;
+using PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Telemetries
 {

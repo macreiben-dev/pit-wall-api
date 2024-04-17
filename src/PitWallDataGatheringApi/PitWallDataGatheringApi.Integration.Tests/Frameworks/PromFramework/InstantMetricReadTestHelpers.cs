@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NFluent;
 
-namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
+namespace PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 
 internal static class InstantMetricReadTestHelpers
 {

@@ -18,10 +18,10 @@ namespace PitWallDataGatheringApi.Tests.Controllers
 {
     public class LeaderboardControllerTest
     {
-        private ILeaderboardModelMapper _mapper;
-        private ISimerKeyRepository _simerKeyReposity;
-        private ILeaderBoardService _service;
-        private IAuthenticatePayloadService _authenticatePayload;
+        private readonly ILeaderboardModelMapper _mapper;
+        private readonly ISimerKeyRepository _simerKeyReposity;
+        private readonly ILeaderBoardService _service;
+        private readonly IAuthenticatePayloadService _authenticatePayload;
 
         public LeaderboardControllerTest()
         {

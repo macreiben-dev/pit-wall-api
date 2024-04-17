@@ -1,12 +1,9 @@
 ﻿using System.Net;
-using System.Security.Policy;
-using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NFluent;
-using PitWallDataGatheringApi.Integration.Tests.Frameworks;
 
-namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
+namespace PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 
 internal class PrometheusMetricRepository(ServerAddress serverAddress)
 {

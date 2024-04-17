@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Net;
 using NFluent;
+using PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 using PitWallDataGatheringApi.Integration.Tests.Leaderboards.ApiModel;
-using PitWallDataGatheringApi.Integration.Tests.PromFramework;
 using LeaderboardModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards;

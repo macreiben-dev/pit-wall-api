@@ -1,6 +1,5 @@
 using System.Text;
 using Newtonsoft.Json;
-using PitWallDataGatheringApi.Integration.Tests.PromFramework;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Frameworks.ApiFramework;
 

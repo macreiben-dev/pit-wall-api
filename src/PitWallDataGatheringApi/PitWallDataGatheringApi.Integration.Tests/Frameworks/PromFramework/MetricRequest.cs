@@ -1,4 +1,4 @@
-namespace PitWallDataGatheringApi.Integration.Tests.PromFramework;
+namespace PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 
 public struct MetricRequest
 {

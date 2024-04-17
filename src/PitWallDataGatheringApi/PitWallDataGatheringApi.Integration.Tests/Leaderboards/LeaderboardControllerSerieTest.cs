@@ -1,8 +1,8 @@
 ﻿using NFluent;
 using PitWallDataGatheringApi.Integration.Tests.Frameworks;
 using PitWallDataGatheringApi.Integration.Tests.Frameworks.ApiFramework;
+using PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 using PitWallDataGatheringApi.Integration.Tests.Leaderboards.ApiModel;
-using PitWallDataGatheringApi.Integration.Tests.PromFramework;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 {
