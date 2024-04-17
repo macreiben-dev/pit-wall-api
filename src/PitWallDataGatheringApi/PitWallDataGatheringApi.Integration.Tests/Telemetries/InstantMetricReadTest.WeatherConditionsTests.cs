@@ -6,7 +6,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
     {
         // =============
 
-        public class WeatherConsitionsTests
+        public class WeatherConditionsTests
         {
             private const string CarName = "CarWeather";
 
