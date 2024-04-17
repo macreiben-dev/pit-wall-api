@@ -1,15 +1,15 @@
 services:
+  # ========================================
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
-      - 10100:9090
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus:rw
-#      - /mnt/pitwall/prometheus:/prometheus:rw
+  #      - /mnt/pitwall/prometheus:/prometheus:rw
+  # ========================================
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -21,6 +21,7 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
+  # ========================================   
   sqldatabase:
     image: mysql
     command: --default-authentication-plugin caching_sha2_password
@@ -31,11 +32,13 @@ services:
       - /mnt/databases/mysql:/var/lib/mysql
     ports:
       - 3306:3306
+  # ========================================   
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+  # ========================================
   vortex:
     image: pitwalldatagatheringapi:latest
     container_name: pitwalldatagatheringapi

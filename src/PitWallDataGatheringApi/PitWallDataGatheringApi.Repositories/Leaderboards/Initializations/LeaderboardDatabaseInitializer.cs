@@ -33,19 +33,6 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
             // ===
 
             _logger.LogInformation("Creating Leaderboard Tables ...");
-            {
-                var sql = @"
-                CREATE TABLE IF NOT EXISTS pitwall_leaderboard.metric_leaderboard(
-                    pilot_name VARCHAR(50),
-                    car_name VARCHAR(50),
-                    data_tick BIGINT,
-                    metric_name VARCHAR(100),
-                    metric_value VARCHAR(100),
-                    PRIMARY KEY(data_tick, pilot_name, car_name, metric_name)
-                );";
-
-                Task.WaitAll(connection.ExecuteAsync(sql));
-            }
 
             {
                 var sql = @"

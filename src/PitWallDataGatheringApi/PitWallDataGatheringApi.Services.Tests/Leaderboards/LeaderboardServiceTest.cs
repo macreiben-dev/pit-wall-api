@@ -9,23 +9,19 @@ using PitwallDataGatheringApi.Tests.BusinessCommon.Business;
 
 namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 {
-    public partial class LeaderboardServiceTest
+    public class LeaderboardServiceTest
     {
-        private readonly ILeaderboardRepository _repo;
         private readonly ILeaderboardLivetimingSqlRepository _liveRepo;
         private readonly ILeaderboardPitlaneRepository _pitlaneRepo;
         private readonly ILeaderboardInPitBoxRepository _inPitBox;
         private readonly ILogger<LeaderboardService> _logger;
 
-        private const string SomeOtherPilot = "some_other_pilot";
-        private const string SomeOtherCarname = "some_other_carname";
-        private const string CarClassGTE = "GTE";
+        private const string SomeOtherCarName = "some_other_carname";
+        private const string CarClassGte = "GTE";
         private const string CarNumber53 = "53";
 
         public LeaderboardServiceTest()
         {
-            _repo = Substitute.For<ILeaderboardRepository>();
-
             _liveRepo = Substitute.For<ILeaderboardLivetimingSqlRepository>();
 
             _pitlaneRepo = Substitute.For<ILeaderboardPitlaneRepository>();
@@ -53,7 +49,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             FakeLeaderboardModel model = new FakeLeaderboardModel()
                 .AddEntry(new FakeBusinessEntry()
                 {
-                    CarClass = CarClassGTE,
+                    CarClass = CarClassGte,
                     CarNumber = CarNumber53,
                     LastPitLap = 12,
                     Position = 13
@@ -89,7 +85,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 .Update(new MetricData<double?>(
                     1.0,
                     "some_other_pilot",
-                    SomeOtherCarname));
+                    SomeOtherCarName));
         }
 
         [Fact]
@@ -110,7 +106,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 .Update(new MetricData<double?>(
                     0.0,
                     "some_other_pilot",
-                    SomeOtherCarname));
+                    SomeOtherCarName));
         }
 
         [Fact]
@@ -132,19 +128,27 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 .Update(new MetricData<double?>(
                     1.0,
                     "some_other_pilot",
-                    SomeOtherCarname));
+                    SomeOtherCarName));
         }
 
+        [Fact]
+        public void GIVEN_clear_is_called_THEN_clear_called_on_repo()
+        {
+            GetTarget().ClearLiveTiming();
+            
+            _liveRepo.Received(1).Clear();
+        }
+        
         private FakeBusinessEntry BuildEntryInPitlane()
         {
             return new FakeBusinessEntry()
             {
-                CarClass = CarClassGTE,
+                CarClass = CarClassGte,
                 CarNumber = CarNumber53,
                 LastPitLap = 12,
                 Position = 13,
                 PilotName = "some_other_pilot",
-                CarName = SomeOtherCarname,
+                CarName = SomeOtherCarName,
                 InPitLane = true
             };
         }
@@ -153,12 +157,12 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         {
             return new FakeBusinessEntry()
             {
-                CarClass = CarClassGTE,
+                CarClass = CarClassGte,
                 CarNumber = CarNumber53,
                 LastPitLap = 12,
                 Position = 13,
                 PilotName = "some_other_pilot",
-                CarName = SomeOtherCarname,
+                CarName = SomeOtherCarName,
                 InPitLane = false
             };
         }

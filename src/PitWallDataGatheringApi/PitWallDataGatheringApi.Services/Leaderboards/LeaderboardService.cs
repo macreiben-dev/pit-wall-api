@@ -18,6 +18,11 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             throw new NotImplementedException();
         }
 
+        public void ClearLiveTiming()
+        {
+            leaderboardLivetiming.Clear();
+        }
+
         public void Update(ILeaderboardModel leaderboardModel)
         {
             if(leaderboardModel == null)

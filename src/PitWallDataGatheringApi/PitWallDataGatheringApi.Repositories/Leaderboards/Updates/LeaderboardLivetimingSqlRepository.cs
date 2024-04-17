@@ -29,30 +29,41 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
         {
             var actualTick = DateTime.Now.Ticks;
 
-            using (MySqlConnection connection = new MySqlConnection(connectionString.ToString()))
+            using MySqlConnection connection = new MySqlConnection(connectionString.ToString());
+            connection.Open();
+
+            using var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted);
+            foreach (var entry in model)
             {
-                connection.Open();
+                var commandBuilder = new DbLiveTimingCommandBuilder(
+                        model,
+                        actualTick,
+                        entry.Position,
+                        connection,
+                        InsertStatement);
 
-                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadUncommitted))
-                {
-                    foreach (var entry in model)
-                    {
-                        {
-                            var commandBuilder = new DbLiveTimingCommandBuilder(model, actualTick, entry.Position, connection, InsertStatement);
+                commandBuilder
+                    .WithCarNumber(entry.CarNumber)
+                    .WithCarClass(entry.CarClass);
 
-                            commandBuilder
-                                .WithCarNumber(entry.CarNumber)
-                                .WithCarClass(entry.CarClass);
-
-                            commandBuilder
-                                .AsCommand()
-                                .ExecuteNonQuery();
-                        }
-                    }
-
-                    transaction.Commit();
-                }
+                commandBuilder
+                        .AsCommand()
+                        .ExecuteNonQuery();
             }
+
+            transaction.Commit();
+        }
+
+        public void Clear()
+        {
+            using MySqlConnection connection = new MySqlConnection(connectionString.ToString());
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            
+            command.CommandText = "DELETE FROM pitwall_leaderboard.metric_leaderboard_livetiming";
+
+            command.ExecuteNonQuery();
         }
     }
 }

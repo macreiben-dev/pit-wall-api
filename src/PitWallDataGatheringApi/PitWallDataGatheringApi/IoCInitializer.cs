@@ -8,7 +8,6 @@ using PitWallDataGatheringApi.Services.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Gauges;
 using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards.Reads;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Initializations;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
@@ -47,8 +46,6 @@ namespace PitWallDataGatheringApi
 
             RegisterLeaderboardParts(services);
 
-            services.AddSingleton<IReadLeaderboardRepository, ReadLeaderboardRepository>();
-
             services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
 
             services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
@@ -62,7 +59,6 @@ namespace PitWallDataGatheringApi
         {
             services.AddSingleton<ILeaderBoardService, LeaderboardService>();
             services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
-            services.AddSingleton<ILeaderboardRepository, LeaderboardSqlRepository>();
             services.AddSingleton<ILeaderboardLivetimingSqlRepository, LeaderboardLivetimingSqlRepository>();
             services.AddSingleton<ILeaderboardPitlaneRepository, LeaderboardPitlaneRepository>();
             services.AddSingleton<ILeaderboardInPitBoxRepository, LeaderboardInPitBoxRepository>();

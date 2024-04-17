@@ -38,10 +38,19 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 
             return this;
         }
+        
+        public LeaderboardEntryBuilder WithCarName(string carName)
+        {
+            _leaderboardEntry.CarName = carName;
 
+            return this;
+        }
+        
         public LeaderboardEntry Build()
         {
             return _leaderboardEntry;
         }
+
+
     }
 }

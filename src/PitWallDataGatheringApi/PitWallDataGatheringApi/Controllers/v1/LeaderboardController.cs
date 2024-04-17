@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards.Reads;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Services.Leaderboards;
 
@@ -12,8 +11,7 @@ namespace PitWallDataGatheringApi.Controllers.v1
     public class LeaderboardController(
         ILeaderboardModelMapper mapper,
         IAuthenticatePayloadService authenticatePayload,
-        ILeaderBoardService service,
-        IReadLeaderboardRepository readLeaderboardRepository)
+        ILeaderBoardService service)
         : ControllerBase
     {
         [HttpPost]
@@ -42,10 +40,21 @@ namespace PitWallDataGatheringApi.Controllers.v1
             return Ok();
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<ILeaderboardReadEntry>> Get(string pilotName, string carName)
+        [HttpDelete]
+        public ActionResult ClearLiveTiming(Driver driver)
         {
-            return Ok(readLeaderboardRepository.Get(pilotName, carName));
+            var badRequestMessages = authenticatePayload.ValidatePayload(driver);
+
+            var requestMessages = badRequestMessages as string[] ?? badRequestMessages.ToArray();
+                
+            if (requestMessages.Length != 0)
+            {
+                return BadRequest(new ErrorMessages(driver, requestMessages));
+            }
+
+            service.ClearLiveTiming();
+
+            return Ok();
         }
     }
 }
