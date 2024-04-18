@@ -18,7 +18,10 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
         public LeaderboardModelMapperTest()
         {
-            ApiLeaderboardModel source = new ApiLeaderboardModel();
+            ApiLeaderboardModel source = new ApiLeaderboardModel()
+            {
+                SimerKey = "SomeKey"
+            };
 
             source.PilotName = PilotName;
 

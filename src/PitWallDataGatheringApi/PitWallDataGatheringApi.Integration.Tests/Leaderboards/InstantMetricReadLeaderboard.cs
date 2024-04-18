@@ -2,24 +2,16 @@ using System.Diagnostics;
 using System.Net;
 using NFluent;
 using PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
-using PitWallDataGatheringApi.Integration.Tests.Leaderboards.ApiModel;
 using LeaderboardModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards;
 
 public class InstantMetricReadLeaderboard
 {
-    private const string TimeSerieUri = "http://localhost:10100";
     private const string TargetApi = "http://localhost:32773";
-    private const string SimerKey = "some_test_looking_value23";
     private const string PilotLabel = "Pilot";
     private const string CarLabel = "Car";
-
-    public static Models.Apis.v1.Leaderboards.LeaderboardModel LeaderboardModel()
-    {
-        return new Models.Apis.v1.Leaderboards.LeaderboardModel();
-    }
-
+    
     public static void GIVEN_metric_THEN_read_from_timeSerie(LeaderboardModel model,
         string timeSerieUri,
         string metricName,

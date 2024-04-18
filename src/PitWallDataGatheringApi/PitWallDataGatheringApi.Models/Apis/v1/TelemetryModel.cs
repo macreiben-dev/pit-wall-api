@@ -5,6 +5,7 @@ public sealed class TelemetryModel : ICallerInfos
     public TelemetryModel()
     {
         TyresWear = new TyresWear();
+        SimerKey = String.Empty;
     }
 
     public string? PilotName { get; set; }
