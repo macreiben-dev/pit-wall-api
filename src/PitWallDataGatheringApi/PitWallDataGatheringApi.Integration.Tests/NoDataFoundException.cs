@@ -13,17 +13,11 @@ namespace PitWallDataGatheringApi.Integration.Tests
             TimeSerieUri = timeSerieUri;
             QueryPath = queryPath;
         }
-
-        public NoDataFoundException(string? message) : base(message)
+        
+        public NoDataFoundException(Uri timeSerieUri, string queryPath)
         {
-        }
-
-        public NoDataFoundException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
-
-        protected NoDataFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+            TimeSerieUri = timeSerieUri.ToString();
+            QueryPath = queryPath;
         }
     }
 }

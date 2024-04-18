@@ -1,15 +1,26 @@
-﻿using PitWallDataGatheringApi.Models.Business.Leaderboards;
+﻿using Microsoft.Extensions.Logging;
+using PitWallDataGatheringApi.Models;
+using PitWallDataGatheringApi.Models.Business.Leaderboards;
+using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
 namespace PitWallDataGatheringApi.Services.Leaderboards
 {
-    public sealed class LeaderboardService : ILeaderBoardService
+    public sealed class LeaderboardService(
+        ILeaderboardLivetimingSqlRepository leaderboardLivetiming,
+        ILeaderboardPitlaneRepository pitlaneRepository,
+        ILeaderboardInPitBoxRepository pitBoxRepository, 
+        ILogger<LeaderboardService> logger) : ILeaderBoardService
     {
-        private ILeaderboardCarNumberRepository _carNumberRepo;
-
-        public LeaderboardService(ILeaderboardCarNumberRepository leaderboardCarNumberRepository)
+        public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
         {
-            _carNumberRepo = leaderboardCarNumberRepository;
+            throw new NotImplementedException();
+        }
+
+        public void ClearLiveTiming()
+        {
+            leaderboardLivetiming.Clear();
         }
 
         public void Update(ILeaderboardModel leaderboardModel)
@@ -18,14 +29,26 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
             {
                 throw new ArgumentNullException(nameof(leaderboardModel));
             }
+            
+            leaderboardLivetiming.Update(leaderboardModel);
 
-            foreach(var entry in leaderboardModel)
+            foreach (var entry in leaderboardModel)
             {
-                _carNumberRepo.Update(
-                    entry, 
-                    leaderboardModel.PilotName, 
-                    leaderboardModel.CarName);
+                pitlaneRepository.Update(new MetricData<double?>(
+                    BoolToMetricValue(entry.InPitLane), 
+                    new PilotName(entry.PilotName), 
+                    new CarName(entry.CarName)));
+
+                pitBoxRepository.Update(new MetricData<double?>(
+                    BoolToMetricValue(entry.InPitBox),
+                    new PilotName(entry.PilotName),
+                    new CarName(entry.CarName)));
             }
+        }
+
+        private static double BoolToMetricValue(bool entryInPitBox)
+        {
+            return entryInPitBox ? 1.0 : 0.0;
         }
     }
 }

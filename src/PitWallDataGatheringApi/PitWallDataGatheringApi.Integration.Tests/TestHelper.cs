@@ -20,18 +20,18 @@ namespace PitWallDataGatheringApi.Integration.Tests
             Trace.WriteLine(formated.ToString());
         }
 
-        public static void ExecuteAndAssert(Task<string> task1, object expected)
+        public static void ExecuteAndAssert(Task<string?> task1, object expected)
         {
             Task.WaitAll(task1);
 
-            string intermediary = ReadResult(task1);
+            string? intermediary = ReadResult(task1);
 
             var actual = Double.Parse(intermediary, CultureInfo.InvariantCulture);
 
             Check.That(actual).IsEqualTo(expected);
         }
 
-        private static string ReadResult(Task<string> result)
+        private static string? ReadResult(Task<string?> result)
         {
             if (result.Exception != null)
             {
@@ -45,7 +45,7 @@ namespace PitWallDataGatheringApi.Integration.Tests
                 throw result.Exception;
             }
 
-            string intermediary = result.Result;
+            string? intermediary = result.Result;
 
             return intermediary;
         }

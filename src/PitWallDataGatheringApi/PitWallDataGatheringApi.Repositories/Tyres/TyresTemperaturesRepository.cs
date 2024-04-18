@@ -1,5 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.Gauges;
+using PitWallDataGatheringApi.Repositories.Gauges.Prom;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories.Tyres
@@ -19,10 +20,10 @@ namespace PitWallDataGatheringApi.Repositories.Tyres
 
         public TyresTemperaturesRepository(IGaugeFactory gaugeFactory)
         {
-            _gaugeFrontLeft = gaugeFactory.Create(GaugeNameFrontLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
-            _gaugeRearLeft = gaugeFactory.Create(GaugeNameRearLeft, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
-            _gaugeFrontRight = gaugeFactory.Create(GaugeNameFrontRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
-            _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsuis.", ConstantLabels.Labels);
+            _gaugeFrontLeft = gaugeFactory.Create(GaugeNameFrontLeft, "Front left tyre temperature in celsius.", ConstantLabels.Labels);
+            _gaugeRearLeft = gaugeFactory.Create(GaugeNameRearLeft, "Front left tyre temperature in celsius.", ConstantLabels.Labels);
+            _gaugeFrontRight = gaugeFactory.Create(GaugeNameFrontRight, "Front left tyre temperature in celsius.", ConstantLabels.Labels);
+            _gaugeRearRight = gaugeFactory.Create(GaugeNameRearRight, "Front left tyre temperature in celsius.", ConstantLabels.Labels);
         }
 
         public void UpdateFrontLeft(double? data, string pilotName, CarName carName)

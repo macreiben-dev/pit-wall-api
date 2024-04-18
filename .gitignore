@@ -3,3 +3,5 @@ bin/
 obj/
 *.user
 *.cache
+nCrunchTemp_*/
+.idea/

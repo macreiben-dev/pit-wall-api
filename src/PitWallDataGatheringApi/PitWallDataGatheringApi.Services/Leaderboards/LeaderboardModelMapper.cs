@@ -7,22 +7,28 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
 {
     public class LeaderboardModelMapper : ILeaderboardModelMapper
     {
+        private const string NotAvailable = "NA";
+
         public IBusinessLeaderBoardModel Map(LeaderboardModel source)
         {
-            BusinessLeaderBoardModel output = new BusinessLeaderBoardModel();
+            BusinessLeaderBoardModel output = new();
 
-            output.PilotName = new Models.PilotName(source.PilotName);
+            output.PilotName = new(source.PilotName);
 
-            output.CarName = new Models.CarName(source.CarName);
+            output.CarName = new(source.CarName);
 
             foreach (var item in source.Entries)
             {
                 var entry = new BusinessLeaderBoardEntry()
                 {
                     LastPitLap = item.LastPitLap,
-                    CarClass = item.CarClass,
-                    CarNumber = item.CarNumber,
+                    CarClass = item.CarClass ?? NotAvailable,
+                    CarNumber = item.CarNumber ?? NotAvailable,
+                    CarName = item.CarName ?? NotAvailable,
+                    PilotName = NotAvailable,
                     Position = item.Position,
+                    InPitLane = item.InPitLane,
+                    InPitBox = item.InPitBox,
                 };
 
                 output.Add(entry);

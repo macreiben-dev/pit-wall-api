@@ -1,8 +1,5 @@
 ﻿using ApiLeaderboardModel = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardModel;
 using ApiLeaderboardEntry = PitWallDataGatheringApi.Models.Apis.v1.Leaderboards.LeaderboardEntry;
-
-using BusinessLeaderboardModel = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardModel;
-using BusinessLeaderboardEntry = PitWallDataGatheringApi.Models.Business.Leaderboards.LeaderboardEntry;
 using NFluent;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using PitWallDataGatheringApi.Models;
@@ -13,7 +10,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
     {
         private const int LastPitLapValue = 4;
         private const string CarClassValue = "GTE";
-        private const int CarNumberValue = 13;
+        private const string CarNumberValue = "13";
         private const int PositionValue = 5;
         private const string PilotName = "somePilotName";
         private const string CarName = "someCarName";
@@ -21,7 +18,10 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
         public LeaderboardModelMapperTest()
         {
-            ApiLeaderboardModel source = new ApiLeaderboardModel();
+            ApiLeaderboardModel source = new ApiLeaderboardModel()
+            {
+                SimerKey = "SomeKey"
+            };
 
             source.PilotName = PilotName;
 
@@ -110,6 +110,56 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             var intermediary = actual.FirstOrDefault(c => c.Position == PositionValue);
 
             Check.That(intermediary).IsNotNull();
+        }
+
+        [Fact]
+        public void GIVEN_carClass_isNull_THEN_map_NA()
+        {
+            _source.Entries.First().CarClass = null;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().CarClass).IsEqualTo("NA");
+        }
+
+        [Fact]
+        public void GIVEN_inPitlane_is_true_THEN_map()
+        {
+            _source.Entries.First().InPitLane = true;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().InPitLane).IsTrue();
+        }
+
+        [Fact]
+        public void GIVEN_retrieved_carName_THEN_map()
+        {
+            _source.Entries.First().CarName = "some_carname";
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().CarName).IsEqualTo("some_carname");
+        }
+        
+        [Fact]
+        public void GIVEN_retrieved_carName_null_THEN_map_notAvailable()
+        {
+            _source.Entries.First().CarName = null;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().CarName).IsEqualTo("NA");
+        }
+        
+        [Fact]
+        public void GIVEN_inPitBox_THEN_map()
+        {
+            _source.Entries.First().InPitBox = true;
+
+            var actual = GetTarget().Map(_source);
+
+            Check.That(actual.First().InPitBox).IsTrue();
         }
     }
 }

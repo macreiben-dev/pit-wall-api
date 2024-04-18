@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using NFluent;
 using NSubstitute;
-using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.Gauges;
+using PitWallDataGatheringApi.Repositories.Gauges.Prom;
 
 namespace PitWallDataGatheringApi.Tests.Repositories.Prometheus
 {

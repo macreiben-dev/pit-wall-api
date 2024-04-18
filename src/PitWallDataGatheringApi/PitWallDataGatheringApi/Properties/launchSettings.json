@@ -5,7 +5,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "VortexSimerKey": "some_test_looking_value23",
+        "DatabaseLeaderboardDatabase": "Server=localhost;User=root;Password=password;ConvertZeroDateTime=True;"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7107;http://localhost:5134"

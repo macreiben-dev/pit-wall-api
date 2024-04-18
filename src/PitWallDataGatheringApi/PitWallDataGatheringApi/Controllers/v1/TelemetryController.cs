@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Writers;
 using PitWallDataGatheringApi.Models.Apis.v1;
-using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Services.Telemetries;
 using IBusinessTelemetryModel = PitWallDataGatheringApi.Models.Business.ITelemetryModel;

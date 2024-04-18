@@ -1,5 +1,6 @@
 ﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Repositories.Prom;
+using PitWallDataGatheringApi.Repositories.Gauges;
+using PitWallDataGatheringApi.Repositories.Gauges.Prom;
 
 namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
 {
@@ -9,19 +10,13 @@ namespace PitWallDataGatheringApi.Repositories.VehicleConsumptions
         private readonly IGauge _gauge;
 
         private string Description => "Computed - last lap consumption.";
-
-
-        public ComputedLastLapConsumptionRepository(IGaugeFactory _gaugeFactory)
+        
+        public ComputedLastLapConsumptionRepository(IGaugeFactory gaugeFactory)
         {
-            _gauge = _gaugeFactory.Create(
+            _gauge = gaugeFactory.Create(
               LocalSerieName,
               Description,
               ConstantLabels.Labels);
-        }
-
-        public void Update(double? data, string pilotName, CarName carName)
-        {
-            Update(new MetricData<double?>(data, new PilotName(pilotName), carName));
         }
 
         public void Update(MetricData<double?> metric)

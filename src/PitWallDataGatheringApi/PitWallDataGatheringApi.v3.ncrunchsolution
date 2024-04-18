@@ -1,20 +1,23 @@
 ﻿<SolutionConfiguration>
   <Settings>
     <AllowParallelTestExecution>True</AllowParallelTestExecution>
+    <EnableRDI>True</EnableRDI>
     <MetricsExclusionList>
       <Value>PitWallDataGatheringApi.Tests\PitWallDataGatheringApi.Tests.csproj</Value>
       <Value>PitWallDataGatheringApi.Repositories.Tests\PitWallDataGatheringApi.Repositories.Tests.csproj</Value>
       <Value>PitWallDataGatheringApi.Models.Tests\PitWallDataGatheringApi.Models.Tests.csproj</Value>
       <Value>PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj</Value>
       <Value>PitWallDataGatheringApi.Services.Tests\PitWallDataGatheringApi.Services.Tests.csproj</Value>
+      <Value>PitWallDataGatheringApi.Repositories.Integration.Tests\PitWallDataGatheringApi.Repositories.Integration.Tests.csproj</Value>
     </MetricsExclusionList>
+    <RdiConfigured>True</RdiConfigured>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>
   <EngineModes>
     <EngineMode>
-      <Name>Integration on demands impacted auto</Name>
+      <Name>Impacted, no integration tests</Name>
       <Settings>
-        <TestsToExecuteAutomatically>ProjectNameDoesNotMatchRegex '*Integration.Tests'</TestsToExecuteAutomatically>
+        <TestsToExecuteAutomatically>(ProjectNameDoesNotMatchRegex '*Integration\\.Tests$' AND IsImpacted)</TestsToExecuteAutomatically>
       </Settings>
     </EngineMode>
   </EngineModes>

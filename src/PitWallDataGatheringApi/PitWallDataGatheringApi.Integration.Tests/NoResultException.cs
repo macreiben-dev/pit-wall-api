@@ -9,6 +9,12 @@
             this.TimeSerieUri = timeSerieUri;
             this.QueryPath = queryPath;
         }
+        
+        public NoResultException(Uri timeSerieUri, string queryPath) : base($"No data for [{timeSerieUri}] - [{queryPath}]")
+        {
+            this.TimeSerieUri = timeSerieUri.ToString();
+            this.QueryPath = queryPath;
+        }
         public string TimeSerieUri { get; }
         public string QueryPath { get; }
     }

@@ -1,28 +1,29 @@
 ﻿namespace PitWallDataGatheringApi.Models.Apis.v1.Leaderboards
 {
-    /*
-GarySwallowDataPlugin.Leaderboard.Position10.DriverName
+    /**
+     * Actual name in the acquisition plugin example:
+        GarySwallowDataPlugin.Leaderboard.Position10.DriverName
 
-GarySwallowDataPlugin.Leaderboard.Position10.CarClass
-GarySwallowDataPlugin.Leaderboard.Position10.CarNumber
+        GarySwallowDataPlugin.Leaderboard.Position10.CarClass
+        GarySwallowDataPlugin.Leaderboard.Position10.CarNumber
 
-GarySwallowDataPlugin.Leaderboard.Position10.LastLap
-GarySwallowDataPlugin.Leaderboard.Position10.LastPitLap
+        GarySwallowDataPlugin.Leaderboard.Position10.LastLap
+        GarySwallowDataPlugin.Leaderboard.Position10.LastPitLap
 
-GarySwallowDataPlugin.Leaderboard.Position10.LastSector1
-GarySwallowDataPlugin.Leaderboard.Position10.LastSector2
-GarySwallowDataPlugin.Leaderboard.Position10.LastSector3
+        GarySwallowDataPlugin.Leaderboard.Position10.LastSector1
+        GarySwallowDataPlugin.Leaderboard.Position10.LastSector2
+        GarySwallowDataPlugin.Leaderboard.Position10.LastSector3
 
-GarySwallowDataPlugin.Leaderboard.Position10.DQ
-GarySwallowDataPlugin.Leaderboard.Position10.DNF
+        GarySwallowDataPlugin.Leaderboard.Position10.DQ
+        GarySwallowDataPlugin.Leaderboard.Position10.DNF
 
-GarySwallowDataPlugin.Leaderboard.Position10.IntervalGap
+        GarySwallowDataPlugin.Leaderboard.Position10.IntervalGap
 
-GarySwallowDataPlugin.Leaderboard.Position01.PitCount
+        GarySwallowDataPlugin.Leaderboard.Position01.PitCount
 
-GarySwallowDataPlugin.Leaderboard.Position10.InGarage
-GarySwallowDataPlugin.Leaderboard.Position10.InPitBox
-GarySwallowDataPlugin.Leaderboard.Position10.InPitLane
+        GarySwallowDataPlugin.Leaderboard.Position10.InGarage
+        GarySwallowDataPlugin.Leaderboard.Position10.InPitBox
+        GarySwallowDataPlugin.Leaderboard.Position10.InPitLane
      * */
 
     public sealed class LeaderboardEntry
@@ -31,7 +32,8 @@ GarySwallowDataPlugin.Leaderboard.Position10.InPitLane
 
         public string? CarClass { get; set; }
 
-        public int CarNumber { get; set; }
+        public string? CarNumber { get; set; }
+        
         public string? CarName { get; set; }
 
         public double? LastLapInSeconds { get; set; }

@@ -4,7 +4,9 @@
       <NamedTestSelector>
         <TestName>PitWallDataGatheringApi.Integration.Tests.InstantMetricReadTest.GIVEN_metric_THEN_read_from_timeSerie</TestName>
       </NamedTestSelector>
-      <AllTestsSelector />
+      <FixtureTestSelector>
+        <FixtureName>PitWallDataGatheringApi.Integration.Tests.InstantMetricLeaderboardReadTest+WeatherConsitionsTests</FixtureName>
+      </FixtureTestSelector>
     </IgnoredTests>
   </Settings>
 </ProjectConfiguration>

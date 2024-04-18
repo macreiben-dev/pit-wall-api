@@ -18,10 +18,10 @@ namespace PitWallDataGatheringApi.Tests.Controllers
 {
     public class LeaderboardControllerTest
     {
-        private ILeaderboardModelMapper _mapper;
-        private ISimerKeyRepository _simerKeyReposity;
-        private ILeaderBoardService _service;
-        private IAuthenticatePayloadService _authenticatePayload;
+        private readonly ILeaderboardModelMapper _mapper;
+        private readonly ISimerKeyRepository _simerKeyReposity;
+        private readonly ILeaderBoardService _service;
+        private readonly IAuthenticatePayloadService _authenticatePayload;
 
         public LeaderboardControllerTest()
         {
@@ -43,7 +43,10 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         public void Should_post_metrics_without_failing()
         {
             // ARRANGE
-            var original = new ApiModel();
+            var original = new ApiModel()
+            {
+                SimerKey = "OkKey"
+            };
 
             original.PilotName = "Pilot1";
             original.SimerKey = "OkKey";
@@ -70,9 +73,10 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         {
             _simerKeyReposity.Key.Returns("other");
 
-            var original = new LeaderboardModel();
-
-            original.SimerKey = "Key1";
+            var original = new LeaderboardModel()
+            {
+                SimerKey = "Key1"
+            };
 
             _authenticatePayload.ValidatePayload(Arg.Is<ICallerInfos>(arg => arg.SimerKey == "Key1"))
               .Throws(new PostMetricDeniedException(original));
@@ -91,9 +95,11 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         {
             _simerKeyReposity.Key.Returns("Key1");
 
-            var original = new LeaderboardModel();
-
-            original.SimerKey = "Key1";
+            var original = new LeaderboardModel()
+            {
+                SimerKey = "Key1"
+            };
+            
             original.PilotName = null;
 
             _authenticatePayload.ValidatePayload(
@@ -123,7 +129,10 @@ namespace PitWallDataGatheringApi.Tests.Controllers
         {
             _simerKeyReposity.Key.Returns("Key1");
 
-            var original = new LeaderboardModel();
+            var original = new LeaderboardModel()
+            {
+                SimerKey = "Key1"
+            };
 
             original.SimerKey = "Key1";
             original.PilotName = "somePilot";

@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json;
-using NFluent;
+﻿using NFluent;
 using PitWallDataGatheringApi.Models.Apis.v1;
 using System.Diagnostics;
-using System.Globalization;
 using System.Net;
+using PitWallDataGatheringApi.Integration.Tests.Frameworks.PromFramework;
 
 namespace PitWallDataGatheringApi.Integration.Tests.Telemetries
 {
@@ -49,13 +48,13 @@ namespace PitWallDataGatheringApi.Integration.Tests.Telemetries
                  * Idea: Use retry every seconds for 5 seconds method
                  * */
 
-                Task<string> readPilot = InstantMetricReadTestHelpers.ReadInstantQueryResult(
+                Task<string?> readPilot = InstantMetricReadTestHelpers.ReadInstantQueryResult(
                    testContext.MetricName,
                    PilotLabel,
                    testContext.PilotName,
                    timeSerieUri);
 
-                Task<string> readCar = InstantMetricReadTestHelpers.ReadInstantQueryResult(
+                Task<string?> readCar = InstantMetricReadTestHelpers.ReadInstantQueryResult(
                    testContext.MetricName,
                    "Car",
                    testContext.CarName,

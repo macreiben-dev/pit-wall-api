@@ -8,34 +8,24 @@ namespace PitWallDataGatheringApi.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class LeaderboardController : ControllerBase
+    public class LeaderboardController(
+        ILeaderboardModelMapper mapper,
+        IAuthenticatePayloadService authenticatePayload,
+        ILeaderBoardService service)
+        : ControllerBase
     {
-        private ILeaderboardModelMapper _mapper;
-        private IAuthenticatePayloadService _authenticatePayload;
-        private ILeaderBoardService _service;
-
-        public LeaderboardController(
-            ILeaderboardModelMapper mapper,
-            IAuthenticatePayloadService authenticatePayload, 
-            ILeaderBoardService service)
-        {
-            _mapper = mapper;
-
-            _authenticatePayload = authenticatePayload;
-
-            _service = service;
-        }
-
         [HttpPost]
         public ActionResult Post(LeaderboardModel model)
         {
             try
             {
-                var badRequestMessages = _authenticatePayload.ValidatePayload(model);
+                var badRequestMessages = authenticatePayload.ValidatePayload(model);
 
-                if (badRequestMessages.Any())
+                var requestMessages = badRequestMessages as string[] ?? badRequestMessages.ToArray();
+                
+                if (requestMessages.Length != 0)
                 {
-                    return BadRequest(new ErrorMessages(model, badRequestMessages));
+                    return BadRequest(new ErrorMessages(model, requestMessages));
                 }
             }
             catch (PostMetricDeniedException ex)
@@ -43,9 +33,26 @@ namespace PitWallDataGatheringApi.Controllers.v1
                 return Unauthorized(ex.Message);
             }
 
-            var actual = _mapper.Map(model);
+            var actual = mapper.Map(model);
 
-            _service.Update(actual);
+            service.Update(actual);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public ActionResult ClearLiveTiming(Driver driver)
+        {
+            var badRequestMessages = authenticatePayload.ValidatePayload(driver);
+
+            var requestMessages = badRequestMessages as string[] ?? badRequestMessages.ToArray();
+                
+            if (requestMessages.Length != 0)
+            {
+                return BadRequest(new ErrorMessages(driver, requestMessages));
+            }
+
+            service.ClearLiveTiming();
 
             return Ok();
         }

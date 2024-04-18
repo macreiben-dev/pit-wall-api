@@ -3,10 +3,13 @@ using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Repositories.WeatherConditions;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
-using PitWallDataGatheringApi.Repositories.Prom;
 using PitWallDataGatheringApi.Services.Telemetries;
 using PitWallDataGatheringApi.Services.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Gauges;
+using PitWallDataGatheringApi.Repositories.Gauges.Sql;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Initializations;
+using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 
 namespace PitWallDataGatheringApi
 {
@@ -41,13 +44,24 @@ namespace PitWallDataGatheringApi
             services.AddSingleton<IPitwallTelemetryService, PitwallTelemetryService>();
             services.AddSingleton<ITelemetryModelMapper, TelemetryModelMapper>();
 
-            services.AddSingleton<ILeaderBoardService, LeaderboardService>();
-            services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
-            services.AddSingleton<ILeaderboardCarNumberRepository, LeaderboardCarNumberRepository>();
+            RegisterLeaderboardParts(services);
 
             services.AddSingleton<IAuthenticatePayloadService, AuthenticatePayloadService>();
 
             services.AddSingleton<ISimerKeyRepository, SimerKeyRepository>();
+
+            services.AddSingleton<ILeaderboardConnectionString, LeaderboardConnectionString>();
+
+            services.AddSingleton<ILeaderboardDatabaseInitializer, LeaderboardDatabaseInitializer>();
+        }
+
+        private static void RegisterLeaderboardParts(IServiceCollection services)
+        {
+            services.AddSingleton<ILeaderBoardService, LeaderboardService>();
+            services.AddSingleton<ILeaderboardModelMapper, LeaderboardModelMapper>();
+            services.AddSingleton<ILeaderboardLivetimingSqlRepository, LeaderboardLivetimingSqlRepository>();
+            services.AddSingleton<ILeaderboardPitlaneRepository, LeaderboardPitlaneRepository>();
+            services.AddSingleton<ILeaderboardInPitBoxRepository, LeaderboardInPitBoxRepository>();
         }
     }
 }

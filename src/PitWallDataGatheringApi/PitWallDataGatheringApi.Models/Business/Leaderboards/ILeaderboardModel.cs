@@ -1,9 +1,6 @@
 ﻿namespace PitWallDataGatheringApi.Models.Business.Leaderboards
 {
-    public interface ILeaderboardModel : IEnumerable<ILeaderboardEntry>
+    public interface ILeaderboardModel : IEnumerable<ILeaderboardEntry>, ISourceInfos
     {
-        PilotName PilotName { get; }
-
-        CarName CarName { get; }
     }
 }

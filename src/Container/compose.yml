@@ -1,15 +1,17 @@
 services:
+  # ========================================
   prometheus:
     image: prom/prometheus
     container_name: prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
-      - 10100:9090
     restart: unless-stopped
     volumes:
-      - ./prometheus:/etc/prometheus
-      - prom_data:/prometheus
+      - ./prometheus:/etc/prometheus:rw
+  #      - /mnt/pitwall/prometheus:/prometheus:rw
+    ports:
+      - 10100:9090
+  # ========================================
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -21,15 +23,32 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
       - ./grafana:/etc/grafana/provisioning/datasources
+  # ========================================   
+  sqldatabase:
+    image: mysql
+    command: --default-authentication-plugin caching_sha2_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - /mnt/databases/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+  # ========================================   
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+  # ========================================
   vortex:
     image: pitwalldatagatheringapi:latest
     container_name: pitwalldatagatheringapi
     environment:
       - VortexSimerKey=some_test_looking_value23
+      - DatabaseLeaderboardDatabase=Server=sqldatabase;User=root;Password=password;ConvertZeroDateTime=True;
       - ASPNETCORE_HTTP_PORTS=80
       # - ASPNETCORE_HTTPS_PORTS=443
     ports:
       - 32773:80
-     # - 32772:443
-volumes:
-  prom_data:
+    # - 32772:443

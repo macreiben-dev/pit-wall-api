@@ -11,8 +11,15 @@
             get;
         }
 
-        int CarNumber { get; }
+        string CarNumber { get; }
 
         int Position { get; }
+        
+        bool InPitLane { get; }
+
+        string PilotName { get; }
+
+        public string CarName { get; }
+        bool InPitBox { get; set; }
     }
 }

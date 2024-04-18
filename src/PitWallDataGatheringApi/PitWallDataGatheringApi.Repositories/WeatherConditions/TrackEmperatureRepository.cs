@@ -1,5 +1,5 @@
-﻿using PitWallDataGatheringApi.Models;
-using PitWallDataGatheringApi.Repositories.Prom;
+﻿using PitWallDataGatheringApi.Repositories.Gauges;
+using PitWallDataGatheringApi.Repositories.Gauges.Prom;
 using PitWallDataGatheringApi.Repositories.VehicleConsumptions;
 
 namespace PitWallDataGatheringApi.Repositories.WeatherConditions
