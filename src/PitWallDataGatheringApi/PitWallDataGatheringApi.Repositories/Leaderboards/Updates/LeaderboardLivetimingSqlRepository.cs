@@ -27,7 +27,7 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Updates
 
         public void Update(ILeaderboardModel model)
         {
-            var actualTick = DateTime.Now.Ticks;
+            var actualTick = DateTime.UtcNow.Ticks;
 
             using MySqlConnection connection = new MySqlConnection(connectionString.ToString());
             connection.Open();
