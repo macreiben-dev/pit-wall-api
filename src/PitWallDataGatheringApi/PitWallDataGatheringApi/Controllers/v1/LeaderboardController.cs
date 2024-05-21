@@ -3,6 +3,7 @@ using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Services.Leaderboards;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {
@@ -15,6 +16,11 @@ namespace PitWallDataGatheringApi.Controllers.v1
         : ControllerBase
     {
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Post a new leaderboard metric",
+            Description = "Post a new leaderboard metric, require a valid SimerKey")]
+        [SwaggerResponse(401, "SimerKey is invalid.")]
+        [SwaggerResponse(400, "Sent payload is invalid.")]
         public ActionResult Post(LeaderboardModel model)
         {
             try
