@@ -2,7 +2,7 @@
 
 namespace PitWallDataGatheringApi.Models.Apis.v1.Leaderboards
 {
-    [SwaggerSchema(Required = ["Description"])]
+    [SwaggerSchema(Required = ["Description"], Description = "The leaderboard model.")]
     public sealed class LeaderboardModel : ICallerInfos
     {
         [SwaggerSchema("The source pilot name.")]

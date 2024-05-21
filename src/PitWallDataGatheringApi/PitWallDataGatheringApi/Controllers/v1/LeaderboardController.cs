@@ -19,8 +19,8 @@ namespace PitWallDataGatheringApi.Controllers.v1
         [SwaggerOperation(
             Summary = "Post a new leaderboard metric",
             Description = "Post a new leaderboard metric, require a valid SimerKey")]
-        [SwaggerResponse(401, "SimerKey is invalid.")]
-        [SwaggerResponse(400, "Sent payload is invalid.")]
+        [SwaggerResponse(401, "SimerKey is invalid.", typeof(ErrorMessages))]
+        [SwaggerResponse(400, "Sent payload is invalid.", typeof(string))]
         public ActionResult Post(LeaderboardModel model)
         {
             try
@@ -47,7 +47,10 @@ namespace PitWallDataGatheringApi.Controllers.v1
         }
 
         [HttpDelete]
-        public ActionResult ClearLiveTiming(Driver driver)
+        [SwaggerOperation(
+            Summary = "Clear leaderboard metrics.",
+            Description = "Delete all leaderboard metrics, require a valid SimerKey")]
+        public ActionResult Delete(Driver driver)
         {
             var badRequestMessages = authenticatePayload.ValidatePayload(driver);
 
