@@ -3,6 +3,7 @@ using PitWallDataGatheringApi.Models.Apis.v1;
 using PitWallDataGatheringApi.Models.Apis.v1.Leaderboards;
 using PitWallDataGatheringApi.Services;
 using PitWallDataGatheringApi.Services.Leaderboards;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PitWallDataGatheringApi.Controllers.v1
 {
@@ -15,6 +16,11 @@ namespace PitWallDataGatheringApi.Controllers.v1
         : ControllerBase
     {
         [HttpPost]
+        [SwaggerOperation(
+            Summary = "Post a new leaderboard metric",
+            Description = "Post a new leaderboard metric, require a valid SimerKey")]
+        [SwaggerResponse(401, "SimerKey is invalid.", typeof(ErrorMessages))]
+        [SwaggerResponse(400, "Sent payload is invalid.", typeof(string))]
         public ActionResult Post(LeaderboardModel model)
         {
             try
@@ -41,7 +47,10 @@ namespace PitWallDataGatheringApi.Controllers.v1
         }
 
         [HttpDelete]
-        public ActionResult ClearLiveTiming(Driver driver)
+        [SwaggerOperation(
+            Summary = "Clear leaderboard metrics.",
+            Description = "Delete all leaderboard metrics, require a valid SimerKey")]
+        public ActionResult Delete(Driver driver)
         {
             var badRequestMessages = authenticatePayload.ValidatePayload(driver);
 
