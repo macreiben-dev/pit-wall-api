@@ -34,15 +34,21 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
 
             foreach (var entry in leaderboardModel)
             {
-                pitlaneRepository.Update(new MetricData<double?>(
+                pitlaneRepository.Update(new MetricDataWithSource<double?>(
                     BoolToMetricValue(entry.InPitLane), 
                     new PilotName(entry.PilotName), 
-                    new CarName(entry.CarName)));
+                    new CarName(entry.CarName),
+                    leaderboardModel.PilotName,
+                    leaderboardModel.CarName)
+                );
 
-                pitBoxRepository.Update(new MetricData<double?>(
+                pitBoxRepository.Update(new MetricDataWithSource<double?>(
                     BoolToMetricValue(entry.InPitBox),
                     new PilotName(entry.PilotName),
-                    new CarName(entry.CarName)));
+                    new CarName(entry.CarName),
+                    leaderboardModel.PilotName,
+                    leaderboardModel.CarName)
+                );
             }
         }
 
