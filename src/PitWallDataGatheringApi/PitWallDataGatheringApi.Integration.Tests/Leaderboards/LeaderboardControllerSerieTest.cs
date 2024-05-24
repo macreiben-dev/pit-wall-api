@@ -103,8 +103,8 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 
             var result = await _promRepository.ReadInstantQueryResult(
                 IsInPitboxSerieName,
-                "Car",
-                CarNumber13);
+                "SourceCar",
+                CarNumber00);
 
             Check.That(result).IsEqualTo("1");
         }
@@ -129,8 +129,8 @@ namespace PitWallDataGatheringApi.Integration.Tests.Leaderboards
 
             var result = await _promRepository.ReadInstantQueryResult(
                 IsInPitboxSerieName,
-                "Car",
-                CarNumber13);
+                "SourceCar",
+                CarNumber00);
 
             Check.That(result).IsEqualTo("0");
         }
