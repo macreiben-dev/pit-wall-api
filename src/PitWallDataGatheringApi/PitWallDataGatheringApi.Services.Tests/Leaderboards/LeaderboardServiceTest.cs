@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using NFluent;
 using NSubstitute;
+using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
 using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
@@ -16,9 +17,13 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         private readonly ILeaderboardInPitBoxRepository _inPitBox;
         private readonly ILogger<LeaderboardService> _logger;
 
-        private const string SomeOtherCarName = "some_other_carname";
+        private const string LeaderboardEntryPilotName = "some_other_pilotname";
+        private const string LeaderboardEntryCarName = "some_other_carname";
         private const string CarClassGte = "GTE";
         private const string CarNumber53 = "53";
+        
+        private const string SourceCarName = "source_carname";  
+        private const string SourcePilotName = "source_pilotname";  
 
         public LeaderboardServiceTest()
         {
@@ -72,8 +77,8 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         {
             FakeLeaderboardModel model = new FakeLeaderboardModel()
                 .AddEntry(BuildEntryInPitlane())
-                .WithCar("some_car")
-                .WithPilot("some_pilot");
+                .WithCar(SourceCarName)
+                .WithPilot(SourcePilotName);
 
             // ACT
             var target = GetTarget();
@@ -82,10 +87,12 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
             // ASSERT
             _pitlaneRepo.Received(1)
-                .Update(new MetricData<double?>(
+                .Update(new MetricDataWithSource<double?>(
                     1.0,
-                    "some_other_pilot",
-                    SomeOtherCarName));
+                    new PilotName(LeaderboardEntryPilotName),
+                    new CarName(LeaderboardEntryCarName),
+                    new PilotName(SourcePilotName),
+                    new CarName(SourceCarName)));
         }
 
         [Fact]
@@ -93,8 +100,8 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         {
             FakeLeaderboardModel model = new FakeLeaderboardModel()
                 .AddEntry(BuildEntryNotInPitlane())
-                .WithCar("some_car")
-                .WithPilot("some_pilot");
+                .WithCar(SourceCarName)
+                .WithPilot(SourcePilotName);
 
             // ACT
             var target = GetTarget();
@@ -103,10 +110,13 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
             // ASSERT
             _pitlaneRepo.Received(1)
-                .Update(new MetricData<double?>(
+                .Update(new MetricDataWithSource<double?>(
                     0.0,
-                    "some_other_pilot",
-                    SomeOtherCarName));
+                    new PilotName(LeaderboardEntryPilotName),
+                    new CarName(LeaderboardEntryCarName),
+                    new PilotName(SourcePilotName),
+                    new CarName(SourceCarName))
+                );
         }
 
         [Fact]
@@ -115,8 +125,8 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
             FakeLeaderboardModel model = new FakeLeaderboardModel()
                 .AddEntry(BuildEntryInPitlane()
                     .WithIsInPitBox())
-                .WithCar("some_car")
-                .WithPilot("some_pilot");
+                .WithCar(SourceCarName)
+                .WithPilot(SourcePilotName);
 
             // ACT
             var target = GetTarget();
@@ -125,10 +135,12 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
             // ASSERT
             _inPitBox.Received(1)
-                .Update(new MetricData<double?>(
+                .Update(new MetricDataWithSource<double?>(
                     1.0,
-                    "some_other_pilot",
-                    SomeOtherCarName));
+                    new PilotName(LeaderboardEntryPilotName),
+                    new CarName(LeaderboardEntryCarName),
+                    new PilotName(SourcePilotName),
+                    new CarName(SourceCarName)));
         }
 
         [Fact]
@@ -147,8 +159,8 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 CarNumber = CarNumber53,
                 LastPitLap = 12,
                 Position = 13,
-                PilotName = "some_other_pilot",
-                CarName = SomeOtherCarName,
+                PilotName = LeaderboardEntryPilotName,
+                CarName = LeaderboardEntryCarName,
                 InPitLane = true
             };
         }
@@ -161,8 +173,8 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                 CarNumber = CarNumber53,
                 LastPitLap = 12,
                 Position = 13,
-                PilotName = "some_other_pilot",
-                CarName = SomeOtherCarName,
+                PilotName = LeaderboardEntryPilotName,
+                CarName = LeaderboardEntryCarName,
                 InPitLane = false
             };
         }

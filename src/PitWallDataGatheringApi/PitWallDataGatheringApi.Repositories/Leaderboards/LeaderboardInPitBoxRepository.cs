@@ -10,9 +10,12 @@ public class LeaderboardInPitBoxRepository : ILeaderboardInPitBoxRepository
 
     public LeaderboardInPitBoxRepository(IGaugeFactory gaugeFactory)
     {
-        _gauge = gaugeFactory.Create(GaugeName, "Leaderboard 'is in pitbox flag'.", ConstantLabels.Labels);
+        _gauge = gaugeFactory.Create(
+            GaugeName, 
+            "Leaderboard 'is in pitbox flag'.", 
+            ConstantLabels.Labels.Concat(ConstantsLeaderboardLabels.Labels));
     }
-    public void Update(MetricData<double?> metric)
+    public void Update(MetricDataWithSource<double?> metric)
     {
         MetricDataToGauge.Execute(_gauge, metric);
     }
