@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\azure-pipelines.yml = ..\..\azure-pipelines.yml
 		..\Container\compose.yml = ..\Container\compose.yml
 		..\..\README.md = ..\..\README.md
+		ci-tests.runsettings = ci-tests.runsettings
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Integration.Tests", "PitWallDataGatheringApi.Integration.Tests\PitWallDataGatheringApi.Integration.Tests.csproj", "{9D914C92-ED59-481A-9114-06C849A33B3C}"
@@ -29,8 +30,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Models.Tests", "PitWallDataGatheringApi.Models.Tests\PitWallDataGatheringApi.Models.Tests.csproj", "{4C8248FA-0B12-4D00-8B1E-113942520405}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{800D3DA2-3631-4B83-BDA0-0099497C9043}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PitWallDataGatheringApi.Repositories.Integration.Tests", "PitWallDataGatheringApi.Repositories.Integration.Tests\PitWallDataGatheringApi.Repositories.Integration.Tests.csproj", "{886D859F-6C2F-4002-B0DA-44AFE3E38176}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}"
 EndProject
@@ -78,10 +77,6 @@ Global
 		{4C8248FA-0B12-4D00-8B1E-113942520405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C8248FA-0B12-4D00-8B1E-113942520405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C8248FA-0B12-4D00-8B1E-113942520405}.Release|Any CPU.Build.0 = Release|Any CPU
-		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{886D859F-6C2F-4002-B0DA-44AFE3E38176}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ED8376A-D99C-4A94-9952-4C7855336B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -96,7 +91,6 @@ Global
 		{9D914C92-ED59-481A-9114-06C849A33B3C} = {78DB5AE6-B19B-4DE8-BC33-4C2C2C9B34D4}
 		{D2C8222F-B531-40A4-A43A-A1F4543557EB} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 		{1C844491-3CE5-4D9B-89E7-86BE8C27CE9E} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
-		{886D859F-6C2F-4002-B0DA-44AFE3E38176} = {800D3DA2-3631-4B83-BDA0-0099497C9043}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6974FC9E-EA8C-4D88-A746-EA0D485A72F0}

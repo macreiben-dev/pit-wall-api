@@ -23,45 +23,11 @@ namespace PitWallDataGatheringApi.Controllers.v1
         [SwaggerResponse(400, "Sent payload is invalid.", typeof(string))]
         public ActionResult Post(LeaderboardModel model)
         {
-            try
-            {
-                var badRequestMessages = authenticatePayload.ValidatePayload(model);
-
-                var requestMessages = badRequestMessages as string[] ?? badRequestMessages.ToArray();
-                
-                if (requestMessages.Length != 0)
-                {
-                    return BadRequest(new ErrorMessages(model, requestMessages));
-                }
-            }
-            catch (PostMetricDeniedException ex)
-            {
-                return Unauthorized(ex.Message);
-            }
-
-            var actual = mapper.Map(model);
-
-            service.Update(actual);
-
-            return Ok();
-        }
-
-        [HttpDelete]
-        [SwaggerOperation(
-            Summary = "Clear leaderboard metrics.",
-            Description = "Delete all leaderboard metrics, require a valid SimerKey")]
-        public ActionResult Delete(Driver driver)
-        {
-            var badRequestMessages = authenticatePayload.ValidatePayload(driver);
-
-            var requestMessages = badRequestMessages as string[] ?? badRequestMessages.ToArray();
-                
-            if (requestMessages.Length != 0)
-            {
-                return BadRequest(new ErrorMessages(driver, requestMessages));
-            }
-
-            service.ClearLiveTiming();
+            /**
+             * Does nothing anymore, left for compatibility reason with the old API
+             *
+             * To be removed in v2.
+             */
 
             return Ok();
         }

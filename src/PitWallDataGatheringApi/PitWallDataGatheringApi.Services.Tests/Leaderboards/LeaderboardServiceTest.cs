@@ -4,7 +4,6 @@ using NSubstitute;
 using PitWallDataGatheringApi.Models;
 using PitWallDataGatheringApi.Repositories;
 using PitWallDataGatheringApi.Repositories.Leaderboards;
-using PitWallDataGatheringApi.Repositories.Leaderboards.Updates;
 using PitWallDataGatheringApi.Services.Leaderboards;
 using PitwallDataGatheringApi.Tests.BusinessCommon.Business;
 
@@ -12,7 +11,6 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 {
     public class LeaderboardServiceTest
     {
-        private readonly ILeaderboardLivetimingSqlRepository _liveRepo;
         private readonly ILeaderboardPitlaneRepository _pitlaneRepo;
         private readonly ILeaderboardInPitBoxRepository _inPitBox;
         private readonly ILogger<LeaderboardService> _logger;
@@ -27,8 +25,6 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
         public LeaderboardServiceTest()
         {
-            _liveRepo = Substitute.For<ILeaderboardLivetimingSqlRepository>();
-
             _pitlaneRepo = Substitute.For<ILeaderboardPitlaneRepository>();
 
             _inPitBox = Substitute.For<ILeaderboardInPitBoxRepository>();
@@ -38,7 +34,7 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
 
         private ILeaderBoardService GetTarget()
         {
-            return new LeaderboardService(_liveRepo, _pitlaneRepo, _inPitBox, _logger);
+            return new LeaderboardService(_pitlaneRepo, _inPitBox, _logger);
         }
 
         [Fact]
@@ -46,30 +42,6 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
         {
             Check.ThatCode(() => GetTarget().Update(null))
                 .Throws<ArgumentNullException>();
-        }
-
-        [Fact]
-        public void GIVEN_model_with_oneEntry_THEN_persistData()
-        {
-            FakeLeaderboardModel model = new FakeLeaderboardModel()
-                .AddEntry(new FakeBusinessEntry()
-                {
-                    CarClass = CarClassGte,
-                    CarNumber = CarNumber53,
-                    LastPitLap = 12,
-                    Position = 13
-                })
-                .WithCar("some_car")
-                .WithPilot("some_pilot");
-
-            // ACT
-            var target = GetTarget();
-
-            target.Update(model);
-
-            // ASSERT
-            _liveRepo.Received(1)
-                .Update(model);
         }
 
         [Fact]
@@ -141,14 +113,6 @@ namespace PitWallDataGatheringApi.Services.Tests.Leaderboards
                     new CarName(LeaderboardEntryCarName),
                     new PilotName(SourcePilotName),
                     new CarName(SourceCarName)));
-        }
-
-        [Fact]
-        public void GIVEN_clear_is_called_THEN_clear_called_on_repo()
-        {
-            GetTarget().ClearLiveTiming();
-            
-            _liveRepo.Received(1).Clear();
         }
         
         private FakeBusinessEntry BuildEntryInPitlane()
