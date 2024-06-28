@@ -45,25 +45,5 @@ namespace PitWallDataGatheringApi.Controllers.v1
 
             return Ok();
         }
-
-        [HttpDelete]
-        [SwaggerOperation(
-            Summary = "Clear leaderboard metrics.",
-            Description = "Delete all leaderboard metrics, require a valid SimerKey")]
-        public ActionResult Delete(Driver driver)
-        {
-            var badRequestMessages = authenticatePayload.ValidatePayload(driver);
-
-            var requestMessages = badRequestMessages as string[] ?? badRequestMessages.ToArray();
-                
-            if (requestMessages.Length != 0)
-            {
-                return BadRequest(new ErrorMessages(driver, requestMessages));
-            }
-
-            service.ClearLiveTiming();
-
-            return Ok();
-        }
     }
 }

@@ -7,6 +7,5 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
         void Update(ILeaderboardModel leaderboardModel);
 
         IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName);
-        void ClearLiveTiming();
     }
 }
