@@ -22,31 +22,11 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
 
             using var connection = new MySqlConnection(_connectionString.ToString());
 
-            {
-                var sql = @"CREATE DATABASE IF NOT EXISTS `pitwall_leaderboard`;";
-
-                Task.WaitAll(connection.ExecuteAsync(sql));
-            }
-
-            _logger.LogInformation("Creating Leaderboard Database ... DONE");
+            CreateDatabaseIfNotExists(connection);
 
             // ===
 
-            _logger.LogInformation("Creating Leaderboard Tables ...");
-
-            {
-                var sql = @"
-                CREATE TABLE IF NOT EXISTS pitwall_leaderboard.metric_leaderboard_livetiming(
-                    source_pilot_name VARCHAR(50) NOT NULL,
-                    source_car_name VARCHAR(50) NOT NULL,
-                    data_tick BIGINT NOT NULL,
-                    metric_car_class VARCHAR(50) NULL,
-                    metric_car_number VARCHAR(50) NULL,
-                    metric_position VARCHAR(2) NULL
-                );";
-
-                Task.WaitAll(connection.ExecuteAsync(sql));
-            }
+            CreateLeaderBoardTableIfNotExists(connection);
 
             {
                 try
@@ -71,6 +51,38 @@ namespace PitWallDataGatheringApi.Repositories.Leaderboards.Initializations
                 _logger.LogInformation("Index idx_metric_leaderboard_data_query create.");
             }
             _logger.LogInformation("Creating Leaderboard Tables ... DONE");
+        }
+
+        private void CreateLeaderBoardTableIfNotExists(MySqlConnection connection)
+        {
+            _logger.LogInformation("Creating Leaderboard Tables ...");
+
+            {
+                var sql = @"
+                CREATE TABLE IF NOT EXISTS pitwall_leaderboard.metric_leaderboard_livetiming(
+                    source_pilot_name VARCHAR(50) NOT NULL,
+                    source_car_name VARCHAR(50) NOT NULL,
+                    data_tick BIGINT NOT NULL,
+                    metric_car_class VARCHAR(50) NULL,
+                    metric_car_number VARCHAR(50) NULL,
+                    metric_position VARCHAR(2) NULL
+                );";
+
+                Task.WaitAll(connection.ExecuteAsync(sql));
+            }
+            
+            _logger.LogInformation("Creating Leaderboard Tables ... DONE!");
+        }
+
+        private void CreateDatabaseIfNotExists(MySqlConnection connection)
+        {
+            {
+                var sql = @"CREATE DATABASE IF NOT EXISTS `pitwall_leaderboard`;";
+
+                Task.WaitAll(connection.ExecuteAsync(sql));
+            }
+
+            _logger.LogInformation("Creating Leaderboard Database ... DONE");
         }
     }
 }
