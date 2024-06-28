@@ -12,22 +12,12 @@
         <Configuration>
           <CodeCoverage>
             <ModulePaths>
-             <Include>
-                <ModulePath>**\*.Tests.dll</ModulePath>
-                <ModulePath>!.*Integration\.Tests.*</ModulePath>
-             </Include>
               <Exclude>
                 <ModulePath>.*Integration\.Tests.*</ModulePath>
                 <!-- Exclude the integration tests assembly from code coverage -->
-                <ModulePath>**\.Tests.*</ModulePath>
+                <ModulePath>**\.Tests.dll</ModulePath>
               </Exclude>
             </ModulePaths>
-
-            <!-- We recommend you do not change the following values: -->
-            <UseVerifiableInstrumentation>True</UseVerifiableInstrumentation>
-            <AllowLowIntegrityProcesses>True</AllowLowIntegrityProcesses>
-            <CollectFromChildProcesses>True</CollectFromChildProcesses>
-            <CollectAspDotNet>False</CollectAspDotNet>
           </CodeCoverage>
         </Configuration>
       </DataCollector>
