@@ -15,7 +15,7 @@
               <Exclude>
                 <ModulePath>.*Integration\.Tests.*</ModulePath>
                 <!-- Exclude the integration tests assembly from code coverage -->
-                <ModulePath>**\*.Tests.dll</ModulePath>
+                <ModulePath>\.Tests.dll$</ModulePath>
               </Exclude>
             </ModulePaths>
           </CodeCoverage>
