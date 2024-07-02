@@ -15,6 +15,7 @@ namespace PitWallDataGatheringApi.Controllers.v1
         ILeaderBoardService service)
         : ControllerBase
     {
+        
         [HttpPost]
         [SwaggerOperation(
             Summary = "Post a new leaderboard metric",
@@ -23,12 +24,24 @@ namespace PitWallDataGatheringApi.Controllers.v1
         [SwaggerResponse(400, "Sent payload is invalid.", typeof(string))]
         public ActionResult Post(LeaderboardModel model)
         {
-            /**
-             * Does nothing anymore, left for compatibility reason with the old API
-             *
-             * To be removed in v2.
-             */
+            try
+            {
+                var badRequestMessages = authenticatePayload.ValidatePayload(model);
 
+                if (badRequestMessages.Any())
+                {
+                    return BadRequest(new ErrorMessages(model, badRequestMessages));
+                }
+            }
+            catch (PostMetricDeniedException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+
+            var mapped = mapper.Map(model);
+            
+            service.Update(mapped);
+            
             return Ok();
         }
     }

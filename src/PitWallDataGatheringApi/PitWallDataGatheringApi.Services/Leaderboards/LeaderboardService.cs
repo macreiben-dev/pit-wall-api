@@ -11,11 +11,6 @@ namespace PitWallDataGatheringApi.Services.Leaderboards
         ILeaderboardInPitBoxRepository pitBoxRepository,
         ILogger<LeaderboardService> logger) : ILeaderBoardService
     {
-        public IEnumerable<ILeaderboardReadEntry> Get(string pilotName, string carName)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(ILeaderboardModel leaderboardModel)
         {
             if(leaderboardModel == null)
